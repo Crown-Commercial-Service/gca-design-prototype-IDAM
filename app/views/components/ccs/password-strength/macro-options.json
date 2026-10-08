@@ -1,0 +1,46 @@
+[
+    {
+        "name": "passwordId",
+        "type": "string",
+        "required": true,
+        "description": "The ID for the password element that will be checked against"
+    },
+    {
+        "name": "tests",
+        "type": "array",
+        "required": true,
+        "description": "An array of",
+        "params": [
+            {
+                "name": "type",
+                "type": "string",
+                "required": true,
+                "description": "The type of the test, one of: length, symbol, number, uppercase, lowercase"
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "required": false,
+                "description": "This is required if type is length and is the required length of the password.\nThis is required if type is symbol and is the list of allowed symbols.\n"
+            },
+            {
+                "name": "text",
+                "type": "string",
+                "required": false,
+                "description": "Optional text for the test. If not given then a default will be used"
+            }
+        ]
+    },
+    {
+        "name": "classes",
+        "type": "string",
+        "required": false,
+        "description": "Classes to add to the header password strength list."
+    },
+    {
+        "name": "attributes",
+        "type": "object",
+        "required": false,
+        "description": "HTML attributes (for example data attributes) to add to the password strength list."
+    }
+]

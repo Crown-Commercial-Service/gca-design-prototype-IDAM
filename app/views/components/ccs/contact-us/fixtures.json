@@ -1,0 +1,75 @@
+{
+    "component": "contact-us",
+    "fixtures": [
+        {
+            "name": "default",
+            "options": {
+                "contactUsLink": {
+                    "href": "/contact-us"
+                }
+            },
+            "hidden": false,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-contact-us\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-full\">\n        <p class=\"ccs-contact-us-body\">\n          <strong class=\"ccs-contact-us-body__problems\">\n            Having problems with this service?\n          </strong>\n          <a class=\"govuk-link\" href=\"/contact-us\" rel=\"noreferrer noopener\" target=\"_blank\">\n            Contact us (opens in a new tab)\n          </a>\n          for support.\n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with custom text",
+            "options": {
+                "havingProblemsText": "Are you having problems?",
+                "contactUsLink": {
+                    "href": "/contact-us-now",
+                    "text": "Go on, contact us (opens in new tab)"
+                },
+                "contactUsText": "you know you want to."
+            },
+            "hidden": false,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-contact-us\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-full\">\n        <p class=\"ccs-contact-us-body\">\n          <strong class=\"ccs-contact-us-body__problems\">\n            Are you having problems?\n          </strong>\n          <a class=\"govuk-link\" href=\"/contact-us-now\" rel=\"noreferrer noopener\" target=\"_blank\">\n            Go on, contact us (opens in new tab)\n          </a>\n          you know you want to.\n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with no contact us text",
+            "options": {
+                "contactUsLink": {
+                    "href": "/contact-us-now"
+                },
+                "contactUsText": ""
+            },
+            "hidden": false,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-contact-us\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-full\">\n        <p class=\"ccs-contact-us-body\">\n          <strong class=\"ccs-contact-us-body__problems\">\n            Having problems with this service?\n          </strong>\n          <a class=\"govuk-link\" href=\"/contact-us-now\" rel=\"noreferrer noopener\" target=\"_blank\">\n            Contact us (opens in a new tab)\n          </a>\n          \n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "attributes",
+            "options": {
+                "contactUsLink": {
+                    "href": "/contact-us"
+                },
+                "attributes": {
+                    "data-test-attribute": "value",
+                    "data-test-attribute-2": "value-2"
+                }
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-contact-us\" data-test-attribute=\"value\" data-test-attribute-2=\"value-2\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-full\">\n        <p class=\"ccs-contact-us-body\">\n          <strong class=\"ccs-contact-us-body__problems\">\n            Having problems with this service?\n          </strong>\n          <a class=\"govuk-link\" href=\"/contact-us\" rel=\"noreferrer noopener\" target=\"_blank\">\n            Contact us (opens in a new tab)\n          </a>\n          for support.\n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "classes",
+            "options": {
+                "contactUsLink": {
+                    "href": "/contact-us"
+                },
+                "classes": "app-contact-us--custom-modifier"
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-contact-us app-contact-us--custom-modifier\">\n  <div class=\"govuk-width-container\">\n    <div class=\"govuk-grid-row\">\n      <div class=\"govuk-grid-column-full\">\n        <p class=\"ccs-contact-us-body\">\n          <strong class=\"ccs-contact-us-body__problems\">\n            Having problems with this service?\n          </strong>\n          <a class=\"govuk-link\" href=\"/contact-us\" rel=\"noreferrer noopener\" target=\"_blank\">\n            Contact us (opens in a new tab)\n          </a>\n          for support.\n        </p>\n      </div>\n    </div>\n  </div>\n</div>"
+        }
+    ],
+    "previewLayout": "full-width"
+}

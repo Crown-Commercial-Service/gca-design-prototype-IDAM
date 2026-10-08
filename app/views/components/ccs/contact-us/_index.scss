@@ -1,0 +1,19 @@
+@include ccs-exports("ccs/component/contact-us") {
+  $ccs-ccs-contact-us-background-color: govuk-functional-colour(template-background);
+ 
+  .ccs-contact-us {
+    padding: govuk-spacing(1);
+    background-color: $ccs-ccs-contact-us-background-color;
+  }
+
+  .ccs-contact-us-body {
+    @extend %govuk-body-s;
+    margin-bottom: govuk-spacing(0);
+  }
+
+  .ccs-contact-us-body__problems {
+    @include govuk-typography-weight-bold($important: true);
+  }
+}
+
+/*# sourceMappingURL=_index.scss.map */

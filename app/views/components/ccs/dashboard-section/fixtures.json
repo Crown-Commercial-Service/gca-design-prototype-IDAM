@@ -1,0 +1,215 @@
+{
+    "component": "dashboard-section",
+    "fixtures": [
+        {
+            "name": "default",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations"
+                    },
+                    {
+                        "titleText": "View your saved searches",
+                        "href": "/view-your-saved-searches",
+                        "descriptionText": "Open your dashboard to view your previously saved searches"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Dashboard panels without a title",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/view-your-saved-searches\">\n      View your saved searches\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Open your dashboard to view your previously saved searches\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with title text",
+            "options": {
+                "titleText": "Framework dashboard",
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations"
+                    },
+                    {
+                        "titleText": "View your saved searches",
+                        "href": "/view-your-saved-searches",
+                        "descriptionText": "Open your dashboard to view your previously saved searches"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Dashboard panels with a title",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n        <h2 class=\"ccs-dashboard-section__heading govuk-heading-m\">\n          Framework dashboard\n        </h2>\n        <hr class=\"ccs-dashboard-section__heading-section-break govuk-section-break govuk-section-break--visible\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/view-your-saved-searches\">\n      View your saved searches\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Open your dashboard to view your previously saved searches\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with one long panel",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Panel one",
+                        "href": "/panel-one",
+                        "descriptionText": "This is the description for panel one"
+                    },
+                    {
+                        "titleText": "Panel two",
+                        "href": "/panel-two",
+                        "descriptionText": "This is the description for panel two and it is a very long description that goes over many many lines"
+                    },
+                    {
+                        "titleText": "Panel three",
+                        "href": "/panel-three",
+                        "descriptionText": "This is the description for panel three"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Shows that the panels will flex to be the same length when one description is longer than the others",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/panel-one\">\n      Panel one\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      This is the description for panel one\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/panel-two\">\n      Panel two\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      This is the description for panel two and it is a very long description that goes over many many lines\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/panel-three\">\n      Panel three\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      This is the description for panel three\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with dashboard width two-thirds",
+            "options": {
+                "width": "two-thirds",
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations"
+                    },
+                    {
+                        "titleText": "View your saved searches",
+                        "href": "/view-your-saved-searches",
+                        "descriptionText": "Open your dashboard to view your previously saved searches"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Shows the panels shrink when the dashboard section is smaller",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-two-thirds\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/view-your-saved-searches\">\n      View your saved searches\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Open your dashboard to view your previously saved searches\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with a panel width two-thirds",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations",
+                        "width": "two-thirds"
+                    },
+                    {
+                        "titleText": "View your saved searches",
+                        "href": "/view-your-saved-searches",
+                        "descriptionText": "Open your dashboard to view your previously saved searches"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Shows with one panel larger than the other",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-two-thirds \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/view-your-saved-searches\">\n      View your saved searches\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Open your dashboard to view your previously saved searches\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "with panel widths one-half",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations",
+                        "width": "one-half"
+                    },
+                    {
+                        "titleText": "View your saved searches",
+                        "href": "/view-your-saved-searches",
+                        "descriptionText": "Open your dashboard to view your previously saved searches",
+                        "width": "one-half"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Shows two wide panels",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-half \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-half \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/view-your-saved-searches\">\n      View your saved searches\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Open your dashboard to view your previously saved searches\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "attributes",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations"
+                    }
+                ],
+                "attributes": {
+                    "data-test-attribute": "value",
+                    "data-test-attribute-2": "value-2"
+                }
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \" data-test-attribute=\"value\" data-test-attribute-2=\"value-2\">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "classes",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations"
+                    }
+                ],
+                "classes": "app-dashboard-section--custom-modifier"
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section app-dashboard-section--custom-modifier\">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "panel item with attributes",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations",
+                        "attributes": {
+                            "data-test-attribute": "value",
+                            "data-test-attribute-2": "value-2"
+                        }
+                    }
+                ]
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third \" data-test-attribute=\"value\" data-test-attribute-2=\"value-2\">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        },
+        {
+            "name": "panel item with classes",
+            "options": {
+                "panels": [
+                    {
+                        "titleText": "Search for suppliers",
+                        "href": "/search-for-suppliers",
+                        "descriptionText": "Find a shortlist of suppliers who can provide services to your locations",
+                        "classes": "app-dashboard-section-panel--custom-modifier"
+                    }
+                ]
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<div class=\"ccs-dashboard-section \">\n  <div class=\"govuk-grid-row\">\n    <div class=\"govuk-grid-column-full\">\n      <div class=\"govuk-grid-row ccs-dashboard-section__container\">\n  <div class=\"ccs-dashboard-section__panel govuk-grid-column-one-third app-dashboard-section-panel--custom-modifier\">\n    <a class=\"ccs-dashboard-section__panel-title\" href=\"/search-for-suppliers\">\n      Search for suppliers\n    </a>\n    <p class=\"ccs-dashboard-section__panel-description\">\n      Find a shortlist of suppliers who can provide services to your locations\n    </p>\n  </div>\n      </div>\n    </div>\n  </div>\n</div>"
+        }
+    ]
+}

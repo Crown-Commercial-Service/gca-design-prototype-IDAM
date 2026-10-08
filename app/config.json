@@ -1,0 +1,9 @@
+{
+  "serviceName": "GCA Service Login",
+  "useServiceNavigation": false,
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

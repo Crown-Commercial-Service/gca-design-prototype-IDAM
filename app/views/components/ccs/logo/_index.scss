@@ -1,0 +1,66 @@
+@include ccs-exports("ccs/component/logo") {
+  .ccs-logo {
+    display: inline-block;
+
+    // Prevent readability backplate from obscuring underline in Windows High
+    // Contrast Mode
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      color: linktext;
+    }
+  }
+
+  .ccs-logo__svg {
+    position: relative;
+    top: -1px;
+    margin-right: 1px;
+    fill: currentcolor;
+    vertical-align: top;
+  }
+
+  .ccs-logo__svg--linear {
+    display: none;
+  }
+
+  .ccs-logo__fallback-image {
+    width: 36px;
+    height: 32px;
+    border: 0;
+    vertical-align: bottom;
+  }
+
+  .ccs-logo__text-graphic {
+    fill: inherit;
+    font-family: HelveticaNeue, arial, sans-serif;
+    font-size: 49px;
+    font-variant: normal;
+    font-weight: normal;
+    -inkscape-font-specification: helveticaneue;
+    writing-mode: lr-tb;
+    fill-opacity: 1;
+    fill-rule: nonzero;
+    stroke: none
+  }
+
+  @media print {
+    // Hide the inverted crown when printing in browsers that don't support SVG.
+    .ccs-logo__fallback-image {
+      display: none;
+    }
+  }
+
+  // Only show linear logo in the header
+  .ccs-header {
+    @media #{govuk-from-breakpoint(tablet)} {
+      .ccs-logo__svg--stacked {
+        display: none;
+      }
+  
+      .ccs-logo__svg--linear {
+        display: block;
+      }
+    }
+  }
+}
+
+/*# sourceMappingURL=_index.scss.map */

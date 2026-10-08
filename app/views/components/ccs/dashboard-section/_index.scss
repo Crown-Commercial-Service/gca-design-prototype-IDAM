@@ -1,0 +1,54 @@
+@include ccs-exports("ccs/component/dashboard-section") {
+  $ccs-dashboard-panel-border-colour: ccs-colour("green", $variant: "tint-25");
+  $ccs-dashboard-panel-background-colour: govuk-colour("white");
+
+  .ccs-dashboard-section__container {
+    @extend %govuk-body-m;
+
+    @media #{govuk-from-breakpoint(tablet)} {
+      display: flex;
+    }
+  }
+
+  .ccs-dashboard-section__heading {
+    margin-top: govuk-spacing(5);
+    margin-bottom: govuk-spacing(1);
+  }
+
+  .ccs-dashboard-section__heading-section-break {
+    margin-bottom: govuk-spacing(5);
+    border-bottom-color: $ccs-dashboard-panel-border-colour;
+  }
+
+  .ccs-dashboard-section__panel {
+    margin-bottom: 30px;
+    margin-left: 15px;
+    padding: 10px;
+    border: 1px $ccs-dashboard-panel-border-colour solid;
+    border-top: govuk-spacing(1) $ccs-dashboard-panel-border-colour solid;
+    background: $ccs-dashboard-panel-background-colour;
+
+    @media #{govuk-from-breakpoint(tablet)} {
+      margin-right: 10px;
+      margin-left: 10px;
+
+      &:first-child {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  .ccs-dashboard-section__panel-title {
+    @include govuk-link-common;
+    @include govuk-link-style-no-visited-state;
+    @include govuk-typography-weight-bold;
+
+    text-decoration: none;
+  }
+
+  .ccs-dashboard-section__panel-description {
+    margin-top: 20px;
+  }
+}
+
+/*# sourceMappingURL=_index.scss.map */

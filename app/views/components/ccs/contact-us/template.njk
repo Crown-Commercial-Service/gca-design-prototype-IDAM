@@ -1,0 +1,20 @@
+{% from "govuk/macros/attributes.njk" import govukAttributes %}
+
+<div class="ccs-contact-us{%- if params.classes %} {{ params.classes }}{% endif %}"
+  {{- govukAttributes(params.attributes) }}>
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <p class="ccs-contact-us-body">
+          <strong class="ccs-contact-us-body__problems">
+            {{ params.havingProblemsText | default("Having problems with this service?") }}
+          </strong>
+          <a class="govuk-link" href="{{ params.contactUsLink.href }}" rel="noreferrer noopener" target="_blank">
+            {{ params.contactUsLink.text | default("Contact us (opens in a new tab)")}}
+          </a>
+          {{ params.contactUsText | default("for support.")}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

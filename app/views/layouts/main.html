@@ -1,0 +1,80 @@
+{#
+For guidance on how to use layouts see:
+https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
+#}
+
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% from "/components/ccs/header/macro.njk" import ccsHeader %}
+{% from "/components/ccs/footer/macro.njk" import ccsFooter %}
+
+{% set theme = data.theme | default("CCS") %}
+
+{% block header %}
+  {% if theme == "CCS" %}
+    {{ ccsHeader({
+      homepageUrl: "/"
+    }) }}
+          {{ govukServiceNavigation({
+  serviceName: serviceName,
+  serviceUrl: serviceUrl | default("/")}) }}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+
+{% endblock %}
+
+{% block footer %}
+  {% if GOVUKPrototypeKit.isDevelopment %}
+    {% set footerItems = [
+      {
+        href: "/manage-prototype",
+        text: "Manage your prototype"
+      },
+      {
+        href: "/manage-prototype/clear-data",
+        text: "Clear data"
+      },
+      {
+        href: "/toggle-theme",
+        text: "Use " + ("GOV.UK" if theme == "CCS" else "CCS") + " theme"
+      }
+    ] %}
+  {% else %}
+    {% set footerItems = [
+      {
+        href: "/manage-prototype/clear-data",
+        text: "Clear data"
+      },
+      {
+        href: "/toggle-theme",
+        text: "Use " + ("GOV.UK" if theme == "CCS" else "CCS") + " theme"
+      }
+    ] %}
+  {% endif %}
+
+  {% if theme == "CCS" %}
+    {{ ccsFooter({
+      meta: {
+        items: footerItems,
+        visuallyHiddenTitle: "Prototype links"
+      }
+    }) }}
+  {% else %}
+    {{ govukFooter({
+      meta: {
+        items: footerItems,
+        visuallyHiddenTitle: "Prototype links"
+      }
+    }) }}
+  {% endif %}
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+
+  <script src="/public/javascripts/jquery.min.js"></script>
+  <script type="module">
+    import { initAll } from "/public/javascripts/ccs-frontend.min.js"
+    initAll()
+  </script>
+{% endblock %}

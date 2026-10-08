@@ -1,0 +1,120 @@
+@include ccs-exports("ccs/component/header") {
+  $ccs-header-background: $ccs-brand-colour;
+  $ccs-header-text: govuk-colour("black");
+  $ccs-header-print-colour: govuk-colour("black");
+  $ccs-header-link-underline-thickness: 3px;
+
+  .ccs-header {
+    @include govuk-font($size: 16);
+
+    color: $ccs-header-text;
+    background: $ccs-header-background;
+  }
+
+  .ccs-header__container--full-width {
+    padding: 0 govuk-spacing(3);
+  }
+
+  .ccs-header__container {
+    @include govuk-clearfix;
+    position: relative;
+    padding-top: govuk-spacing(2);
+  }
+
+  .ccs-header__link {
+    // Avoid using the `govuk-link-common` mixin because the links in the header
+    // get a special treatment, because:
+    //
+    // - underlines are only visible on hover
+    // - all links get a 3px underline regardless of text size, as there are
+    //   multiple grouped elements close to one another and having slightly
+    //   different underline widths looks unbalanced
+    @include govuk-typography-common;
+
+    &:link,
+    &:visited {
+      color: govuk-colour("black");
+    }
+
+    border-bottom: solid .125rem transparent;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-thickness: $ccs-header-link-underline-thickness;
+
+      @if $govuk-link-underline-offset {
+        text-underline-offset: $govuk-link-underline-offset;
+      }
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+  }
+
+  .ccs-header__link--homepage {
+    // Font size needs to be set on the link so that the box sizing is correct
+    // in Firefox
+    @include govuk-font($size: false, $weight: bold);
+
+    display: inline-block;
+    margin-right: govuk-spacing(2);
+    font-size: 30px; // We don't have a mixin that produces 30px font size
+    line-height: 1;
+
+    &:link,
+    &:visited {
+      text-decoration: none;
+    }
+
+    &:hover:not(:focus),
+    &:active:not(:focus) {
+      // Negate the added border
+      margin-bottom: -1px;
+      // Omitting colour will use default value of currentColor – if we
+      // specified currentColor explicitly IE8 would ignore this rule.
+      border-bottom: $ccs-header-link-underline-thickness solid;
+    }
+
+    // Remove any borders that show when focused and hovered.
+    &:focus {
+      margin-bottom: 0;
+    }
+  }
+  
+  .ccs-header__logo {
+    @include govuk-responsive-padding(1, "bottom");
+    box-sizing: border-box;
+    padding-right: govuk-spacing(8);
+
+    @media #{govuk-from-breakpoint(desktop)} {
+      width: 25%;
+      padding-right: $govuk-gutter-half;
+      float: left;
+      vertical-align: top;
+    }
+  }
+
+  @media print {
+    .ccs-header {
+      border-bottom-width: 0;
+      color: $ccs-header-print-colour;
+      background: transparent;
+    }
+
+    .ccs-header__link {
+      &:link,
+      &:visited {
+        color: $ccs-header-print-colour;
+      }
+
+      // Do not append link href to GOV.UK link when printing (e.g. '(/)')
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+/*# sourceMappingURL=_index.scss.map */

@@ -1,0 +1,73 @@
+{% from "govuk/macros/attributes.njk" import govukAttributes %}
+{% from "../logo/macro.njk" import ccsLogo -%}
+
+<div class="ccs-footer {%- if params.classes %} {{ params.classes }}{% endif %}"
+  {{- govukAttributes(params.attributes) }}>
+  <div class="govuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
+    {% if params.navigation | length %}
+      <div class="ccs-footer__navigation">
+        {% for nav in params.navigation %}
+          <div class="ccs-footer__section govuk-grid-column-{{ nav.width | default('full') }}">
+            <h2 class="ccs-footer__heading govuk-heading-m">{{ nav.title }}</h2>
+            {% if nav.items | length %}
+              {% set listClasses %}
+                {% if nav.columns %}
+                  ccs-footer__list--columns-{{ nav.columns }}
+                {% endif %}
+              {% endset %}
+              <ul class="ccs-footer__list {{ listClasses | trim }}">
+                {% for item in nav.items %}
+                  {% if item.href and item.text %}
+                    <li class="ccs-footer__list-item">
+                      <a class="ccs-footer__link" href="{{ item.href }}"
+                        {{- govukAttributes(item.attributes) }}>
+                        {{ item.text }}
+                      </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <hr class="ccs-footer__section-break">
+    {% endif %}
+    <div class="ccs-footer__meta">
+      <div class="ccs-footer__meta-item ccs-footer__meta-item--grow">
+        {% if params.meta %}
+          <h2 class="govuk-visually-hidden">{{ params.meta.visuallyHiddenTitle | default("Support links") }}</h2>
+          {% if params.meta.items | length %}
+            <ul class="ccs-footer__inline-list {{ 'ccs-footer__inline-list--bottom' if not params.meta.text and not params.meta.html}}">
+              {% for item in params.meta.items %}
+                <li class="ccs-footer__inline-list-item">
+                  <a class="ccs-footer__link" href="{{ item.href }}"
+                    {{- govukAttributes(item.attributes) }}>
+                    {{ item.text }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {% if params.meta.text or params.meta.html %}
+            <div class="ccs-footer__meta-custom">
+              {{ params.meta.html | safe if params.meta.html else params.meta.text }}
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="ccs-footer__meta-item">
+        <div class="ccs-footer__copyright">
+          <a class="ccs-footer__link"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            <div class="ccs-footer__logo">
+              {{ ccsLogo({showOnlyCrown: true}) }}
+            </div>
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

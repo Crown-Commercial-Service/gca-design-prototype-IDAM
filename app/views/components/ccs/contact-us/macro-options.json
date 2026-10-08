@@ -1,0 +1,46 @@
+[
+    {
+        "name": "havingProblemsText",
+        "type": "string",
+        "required": false,
+        "description": "Having problem text, defaults to \"Having problems with this service?\""
+    },
+    {
+        "name": "contactUsLink",
+        "type": "object",
+        "required": true,
+        "description": "Contact us link options",
+        "params": [
+            {
+                "name": "text",
+                "type": "string",
+                "required": false,
+                "description": "Contact us link text, defaults to \"Contact us (opens in a new tab)\""
+            },
+            {
+                "name": "href",
+                "type": "string",
+                "required": true,
+                "description": "Contact us link"
+            }
+        ]
+    },
+    {
+        "name": "contactUsText",
+        "type": "string",
+        "required": false,
+        "description": "Contact use text, defaults to \"for support.\""
+    },
+    {
+        "name": "classes",
+        "type": "string",
+        "required": false,
+        "description": "Classes to add to contact us component."
+    },
+    {
+        "name": "attributes",
+        "type": "object",
+        "required": false,
+        "description": "HTML attributes (for example data attributes) to add to the contact us component."
+    }
+]

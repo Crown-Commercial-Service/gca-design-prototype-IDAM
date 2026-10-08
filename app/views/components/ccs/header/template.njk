@@ -1,0 +1,13 @@
+{% from "govuk/macros/attributes.njk" import govukAttributes %}
+{% from "../logo/macro.njk" import ccsLogo -%}
+
+<div class="ccs-header {%- if params.classes %} {{ params.classes }}{% endif %}" data-module="ccs-header"
+  {{- govukAttributes(params.attributes) }}>
+  <div class="ccs-header__container {{ params.containerClasses | default('govuk-width-container') }}">
+    <div class="ccs-header__logo">
+      <a href="{{ params.homepageUrl | default('https://www.gca.gov.uk') }}" class="ccs-header__link ccs-header__link--homepage" aria-label="Government Commercial Agency">
+        {{ ccsLogo() }}
+      </a>
+    </div>
+  </div>
+</div>

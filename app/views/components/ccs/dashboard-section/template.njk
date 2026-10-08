@@ -1,0 +1,34 @@
+{% from "govuk/macros/attributes.njk" import govukAttributes %}
+
+{%- macro _panelItem(panel) %}
+  <div class="ccs-dashboard-section__panel govuk-grid-column-{{ panel.width | default("one-third", true) }} {{ panel.classes if panel.classes }}"
+    {{- govukAttributes(panel.attributes) }}>
+    <a class="ccs-dashboard-section__panel-title" href="{{ panel.href }}">
+      {{ panel.titleText }}
+    </a>
+    <p class="ccs-dashboard-section__panel-description">
+      {{ panel.descriptionText }}
+    </p>
+  </div>
+{% endmacro %}
+
+<div class="ccs-dashboard-section {{ params.classes if params.classes }}"
+  {{- govukAttributes(params.attributes) }}>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-{{ params.width | default("full", true) }}">
+      {% if params.titleText %}
+        <h2 class="ccs-dashboard-section__heading govuk-heading-m">
+          {{ params.titleText }}
+        </h2>
+        <hr class="ccs-dashboard-section__heading-section-break govuk-section-break govuk-section-break--visible">
+      {% endif %}
+      <div class="govuk-grid-row ccs-dashboard-section__container">
+        {% for panel in params.panels %}
+          {% if panel %}
+            {{- _panelItem(panel) -}}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

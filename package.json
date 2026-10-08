@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "assets:ccs": "node scripts/copy-ccs-assets.mjs",
+    "dev": "govuk-prototype-kit dev",
+    "serve": "govuk-prototype-kit serve",
+    "start": "govuk-prototype-kit start"
+  },
+  "dependencies": {
+    "@govuk-prototype-kit/common-templates": "3.0.0",
+    "ccs-frontend": "^3.2.0",
+    "govuk-frontend": "6.5.0",
+    "govuk-prototype-kit": "13.20.4",
+    "jquery": "^4.0.0"
+  }
+}

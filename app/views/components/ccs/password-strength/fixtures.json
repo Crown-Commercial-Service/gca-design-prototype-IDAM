@@ -1,0 +1,182 @@
+{
+    "component": "password-strength",
+    "fixtures": [
+        {
+            "name": "default",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "length",
+                        "value": 10
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with length",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"length\" data-test-value=\"10\">\n      at least 10 characters\n    </li>\n</ul>"
+        },
+        {
+            "name": "with symbol test",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "symbol",
+                        "value": "=+\\-^$*.[\\]{}()?\"!@#%&/\\\\,><':;|_~`"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with symbols",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"symbol\" data-test-value=\"=+&#92;-^$*.[&#92;]{}()?&quot;!@#%&amp;/&#92;&#92;,&gt;&lt;&#39;:;|_~`\">\n      at least one symbol (eg ?, !, £, %)\n    </li>\n</ul>"
+        },
+        {
+            "name": "with number test",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "number"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with number",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"number\">\n      at least one number\n    </li>\n</ul>"
+        },
+        {
+            "name": "with uppercase test",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "uppercase"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with uppercase",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"uppercase\">\n      at least one capital letter\n    </li>\n</ul>"
+        },
+        {
+            "name": "with lowercase test",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "lowercase"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with lowercase",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"lowercase\">\n      at least one lowercase letter\n    </li>\n</ul>"
+        },
+        {
+            "name": "with all the tests",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "length",
+                        "value": 10
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "=+\\-^$*.[\\]{}()?\"!@#%&/\\\\,><':;|_~`"
+                    },
+                    {
+                        "type": "number"
+                    },
+                    {
+                        "type": "uppercase"
+                    },
+                    {
+                        "type": "lowercase"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with all the tests",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"length\" data-test-value=\"10\">\n      at least 10 characters\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"symbol\" data-test-value=\"=+&#92;-^$*.[&#92;]{}()?&quot;!@#%&amp;/&#92;&#92;,&gt;&lt;&#39;:;|_~`\">\n      at least one symbol (eg ?, !, £, %)\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"number\">\n      at least one number\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"uppercase\">\n      at least one capital letter\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"lowercase\">\n      at least one lowercase letter\n    </li>\n</ul>"
+        },
+        {
+            "name": "with custom text for all the tests",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "length",
+                        "value": 10,
+                        "text": "Custom text for length"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "=+\\-^$*.[\\]{}()?\"!@#%&/\\\\,><':;|_~`",
+                        "text": "Custom text for symbol"
+                    },
+                    {
+                        "type": "number",
+                        "text": "Custom text for number"
+                    },
+                    {
+                        "type": "uppercase",
+                        "text": "Custom text for uppercase"
+                    },
+                    {
+                        "type": "lowercase",
+                        "text": "Custom text for lowercase"
+                    }
+                ]
+            },
+            "hidden": false,
+            "description": "Password strength with all the tests having custom text",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"length\" data-test-value=\"10\">\n      Custom text for length\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"symbol\" data-test-value=\"=+&#92;-^$*.[&#92;]{}()?&quot;!@#%&amp;/&#92;&#92;,&gt;&lt;&#39;:;|_~`\">\n      Custom text for symbol\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"number\">\n      Custom text for number\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"uppercase\">\n      Custom text for uppercase\n    </li>\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"lowercase\">\n      Custom text for lowercase\n    </li>\n</ul>"
+        },
+        {
+            "name": "attributes",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "length",
+                        "value": 10
+                    }
+                ],
+                "attributes": {
+                    "data-test-attribute": "value",
+                    "data-test-attribute-2": "value-2"
+                }
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength\" data-module=\"ccs-password-strength\" data-target=\"password\" data-test-attribute=\"value\" data-test-attribute-2=\"value-2\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"length\" data-test-value=\"10\">\n      at least 10 characters\n    </li>\n</ul>"
+        },
+        {
+            "name": "classes",
+            "options": {
+                "passwordId": "password",
+                "tests": [
+                    {
+                        "type": "length",
+                        "value": 10
+                    }
+                ],
+                "classes": "app-password-strength--custom-modifier"
+            },
+            "hidden": true,
+            "description": "",
+            "previewLayoutModifiers": [],
+            "html": "<ul class=\"ccs-password-strength app-password-strength--custom-modifier\" data-module=\"ccs-password-strength\" data-target=\"password\">\n\n    <li class=\"ccs-password-strength-test\" data-test-type=\"length\" data-test-value=\"10\">\n      at least 10 characters\n    </li>\n</ul>"
+        }
+    ]
+}

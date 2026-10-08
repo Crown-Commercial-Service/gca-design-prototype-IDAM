@@ -1,0 +1,64 @@
+[
+    {
+        "name": "panels",
+        "type": "array",
+        "required": true,
+        "description": "Array of items that are the panels which are displayed to the user",
+        "params": [
+            {
+                "name": "titleText",
+                "type": "string",
+                "required": true,
+                "description": "Title for the panel"
+            },
+            {
+                "name": "href",
+                "type": "string",
+                "required": true,
+                "description": "The href for the panel"
+            },
+            {
+                "name": "descriptionText",
+                "type": "string",
+                "required": true,
+                "description": "Description for the panel"
+            },
+            {
+                "name": "width",
+                "type": "string",
+                "required": false,
+                "description": "Width of the panel. Defaults to one third width. You can pass any design system grid width here, for example, 'one-third'; 'two-thirds'; 'one-half'."
+            },
+            {
+                "name": "attributes",
+                "type": "object",
+                "required": false,
+                "description": "HTML attributes (for example data attributes) to add to the panel."
+            }
+        ]
+    },
+    {
+        "name": "titleText",
+        "type": "string",
+        "required": false,
+        "description": "Text for the title of the dashbaord section"
+    },
+    {
+        "name": "width",
+        "type": "string",
+        "required": false,
+        "description": "Width of the dashboard section. Defaults to full width. You can pass any design system grid width here, for example, 'one-third'; 'two-thirds'; 'one-half'."
+    },
+    {
+        "name": "classes",
+        "type": "string",
+        "required": false,
+        "description": "Classes to add to the dashboard section container."
+    },
+    {
+        "name": "attributes",
+        "type": "object",
+        "required": false,
+        "description": "HTML attributes (for example data attributes) to add to the dashboard section container."
+    }
+]

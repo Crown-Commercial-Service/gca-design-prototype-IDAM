@@ -1,0 +1,27 @@
+{% from "govuk/macros/attributes.njk" import govukAttributes %}
+
+<ul class="ccs-password-strength {%- if params.classes %} {{ params.classes }}{% endif %}" data-module="ccs-password-strength" data-target="{{ params.passwordId }}"
+  {{- govukAttributes(params.attributes) }}>
+  {% for test in params.tests %}
+    {% set attributes = { 'data-test-type': test.type } %}
+    {% set text = test.text %}
+
+    {% if test.type == "length" %}
+      {% set attributes = { 'data-test-type': test.type, 'data-test-value': test.value } %}
+      {% set text = text | default("at least " ~ test.value ~ " characters") %}
+    {% elif test.type == "symbol" %}
+      {% set attributes = { 'data-test-type': test.type, 'data-test-value': test.value } %}
+      {% set text = text | default("at least one symbol (eg ?, !, £, %)") %}
+    {% elif test.type == "number" %}
+      {% set text = text | default("at least one number") %}
+    {% elif test.type == "uppercase" %}
+      {% set text = text | default("at least one capital letter") %}
+    {% elif test.type == "lowercase" %}
+      {% set text = text | default("at least one lowercase letter") %}
+    {% endif %}
+    <li class="ccs-password-strength-test"
+      {{- govukAttributes(attributes) }}>
+      {{ text }}
+    </li>
+  {% endfor %}
+</ul>
