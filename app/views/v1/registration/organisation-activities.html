@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "What do you want to register your organisation as?" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/register-your-organisation">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "organisationActivities",
+    name: "organisationActivities",
+    fieldset: { legend: { text: pageName, classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    items: [
+      { value: "buyer", text: "Buyer", hint: { text: "An organisation that publishes notices to buy goods, works, services or utilities." } },
+      { value: "supplier", text: "Supplier", hint: { text: "An organisation or sole trader that searches for tenders and bids to supply goods, works, services or utilities." } },
+      { divider: "or" },
+      { value: "both", text: "Both" }
+    ],
+    value: data.organisationActivities
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

@@ -9,6 +9,13 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 
 {% set theme = data.theme | default("CCS") %}
 
+{% block stylesheets %}
+  {{ super() }}
+  {% if theme == "CCS" %}
+    <link href="/public/stylesheets/ccs.css" rel="stylesheet" type="text/css" />
+  {% endif %}
+{% endblock %}
+
 {% block header %}
   {% if theme == "CCS" %}
     {{ ccsHeader({
@@ -21,6 +28,22 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
     {{ super() }}
   {% endif %}
 
+{% endblock %}
+
+{% block beforeContent %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% block pageTopSection %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% block pageContent %}{% endblock %}
+    </div>
+  </div>
 {% endblock %}
 
 {% block footer %}

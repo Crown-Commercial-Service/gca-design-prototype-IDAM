@@ -1,0 +1,16 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Enter the security code from your authenticator app - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/login-second-factor">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({ id: "loginAuthenticatorCode", name: "loginAuthenticatorCode", label: { text: "Enter the security code from your authenticator app", classes: "govuk-label--l", isPageHeading: true }, autocomplete: "one-time-code", inputmode: "numeric", maxlength: 6, attributes: { spellcheck: "false" } }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

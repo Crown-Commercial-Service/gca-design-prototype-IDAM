@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "Is your organisation on any of these registries?" %}
+
+{% block pageTopSection %}
+{% if data.organisationActivities == "buyer" %}
+<a class="govuk-back-link" href="/v1/registration/organisation-activities">Back</a>
+{% else %}
+<a class="govuk-back-link" href="/v1/registration/companies-house-check">Back</a>
+{% endif %}
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">{{pageName}}</h1>
+<p class="govuk-hint">Select one option, you’ll then need to enter the registration number for that registry.</p>
+<!-- <p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/registry-number">Enter a non-UK registry and number</a></p> -->
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "hasOtherRegistry",
+    name: "selectedRegistry",
+    fieldset: { legend: { text: "Is your organisation registered with any of these?", classes: "govuk-visually-hidden" } },
+    items: [
+      { value: "Charity Commission (England and Wales)", text: "Charity Commission (England and Wales)" },
+      { value: "Scottish Charity Register", text: "Scottish Charity Register" },
+      { value: "Charity Commission for Northern Ireland", text: "Charity Commission for Northern Ireland" },
+      { value: "Mutuals Public Register", text: "Mutuals Public Register" },
+      { value: "Guernsey Registry", text: "Guernsey Registry" },
+      { value: "Jersey Financial Services Commission Registry", text: "Jersey Financial Services Commission Registry" },
+      { value: "Isle of Man Companies Registry", text: "Isle of Man Companies Registry" },
+      { value: "NHS Organisation Data Service", text: "NHS Organisation Data Service" },
+      { value: "UK Register of Learning Providers (UKPRN number)", text: "UK Register of Learning Providers (UKPRN number)" },
+      { divider: "or" },
+      { value: "no", text: "None of these", hint: { text: "Your organisation will be assigned a Public Procurement Organisation Number (PPON)." } }
+    ],
+    value: data.selectedRegistry
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

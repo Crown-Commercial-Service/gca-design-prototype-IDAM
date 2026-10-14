@@ -1,0 +1,28 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "Select your buyer organisation type" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-description">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "organisationType",
+    name: "organisationType",
+    fieldset: { legend: { text: "Select your buyer organisation type", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { html: 'Decide on your organisation type, as defined in the <a class="govuk-link" href="https://www.gov.uk/guidance/public-sector-procurement-policy" target="_blank" rel="noreferrer noopener">contracting authority definition guidance (opens in a new tab)</a>.' },
+    items: [
+      { value: "central-government", text: "Central government - UK or devolved administrations", hint: { text: "Public authorities including arm's-length bodies and trading funds" } },
+      { value: "local-government", text: "Regional and local public authority (sub-central) - UK or devolved administrations", hint: { text: "Includes councils, charities, educational institutions, housing associations and blue light organisations" } },
+      { value: "public-body", text: "Public undertaking", hint: { text: "A commercial organisation subject to public oversight, providing utilities to the public. For example, transport networks operating commercially." } },
+      { value: "private-sector", text: "Private utility", hint: { text: "A private company with a special or exclusive right to provide utilities to the public. For example, private companies supplying electricity." } },
+      { value: "other", text: "Other - only applies to non-contracting authorities establishing a dynamic market", hint: { text: "Does not apply to local authority subsidiaries or limited companies connected to a public authority" } }
+    ],
+    value: data.organisationType
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

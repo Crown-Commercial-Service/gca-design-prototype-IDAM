@@ -1,0 +1,47 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Check your phone - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/login-password">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l govuk-!-margin-top-0 govuk-!-margin-bottom-3">Check your phone</h1>
+<div class="govuk-inset-text">
+  We have sent a code to your phone number ending with <span class="govuk-!-font-weight-bold">066</span>
+</div>
+<p class="govuk-body">It might take a few minutes to arrive. The code will expire after 15 minutes.</p>
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({
+    id: "code",
+    name: "code",
+    type: "text",
+    label: { text: "Enter the 6 digit code" },
+    value: data.code,
+    autocomplete: "one-time-code",
+    inputmode: "numeric",
+    classes: "govuk-input--width-10",
+    attributes: { spellcheck: "false" }
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+  <details class="govuk-details" >
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">Problems with the code?</span>
+    </summary>
+    <div class="govuk-details__text">
+      <p class="govuk-body">
+        We can
+        <a href="/{{ version }}/registration/one-login/{{ pageId }}" class="govuk-link" rel="noreferrer noopener">send the code again</a>
+        if the code is not working or you did not receive it.
+      </p>
+      <p class="govuk-body">
+        If you no longer have access to this phone number,
+        <a href="/{{ version }}/registration/one-login/login-second-factor" class="govuk-link" rel="noreferrer noopener">check if you can change how you get security codes</a>.
+      </p>
+    </div>
+  </details>
+</form>
+{% endblock %}

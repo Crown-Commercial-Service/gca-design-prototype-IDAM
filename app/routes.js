@@ -7,6 +7,8 @@ const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
 // Add your routes here
+require('./routes/v1')(router)
+
 router.get('/toggle-theme', (req, res) => {
 	const currentTheme = req.session.data.theme || 'CCS'
 	req.session.data.theme = currentTheme === 'CCS' ? 'GOVUK' : 'CCS'

@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Confirm organisation details" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/companies-house-check">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  <div class="govuk-form-group">
+    <h1 class="govuk-heading-l">Confirm organisation details</h1>
+    <p class="govuk-hint">Check that the name and address match your organisation.</p>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Organisation name</dt>
+        <dd class="govuk-summary-list__value">{{ data.companiesHouseDetails.name }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Registered office address</dt>
+        <dd class="govuk-summary-list__value">
+          {% set registeredOffice = data.companiesHouseDetails.address %}
+          {% if registeredOffice %}
+            {% if registeredOffice.address_line_1 %}{{ registeredOffice.address_line_1 }}<br>{% endif %}
+            {% if registeredOffice.address_line_2 %}{{ registeredOffice.address_line_2 }}<br>{% endif %}
+            {% if registeredOffice.locality %}{{ registeredOffice.locality }}<br>{% endif %}
+            {% if registeredOffice.region %}{{ registeredOffice.region }}<br>{% endif %}
+            {% if registeredOffice.postal_code %}{{ registeredOffice.postal_code }}<br>{% endif %}
+            {% if registeredOffice.country %}{{ registeredOffice.country }}{% endif %}
+          {% else %}
+            Address not available
+          {% endif %}
+        </dd>
+      </div>
+    </dl>
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are these organisation details correct?</legend>
+      <div class="govuk-radios" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="organisationIsCorrect-yes" name="organisationIsCorrect" type="radio" value="yes" {% if data.organisationIsCorrect == "yes" %}checked{% endif %}>
+          <label class="govuk-label govuk-radios__label" for="organisationIsCorrect-yes">Yes</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="organisationIsCorrect-no" name="organisationIsCorrect" type="radio" value="no" {% if data.organisationIsCorrect == "no" %}checked{% endif %}>
+          <label class="govuk-label govuk-radios__label" for="organisationIsCorrect-no">No</label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

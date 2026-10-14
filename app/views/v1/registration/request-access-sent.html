@@ -1,0 +1,8 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Request to access " ~ data.matchingOrganisationName ~ " sent" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">{{ pageName }}</h1>
+<p class="govuk-body">An email has been sent to your organisation administrator requesting access to {{ data.matchingOrganisationName }} on your behalf.</p>
+<p class="govuk-body">You will be notified once your request has been approved or rejected by your organisation administrator.</p>
+{% endblock %}

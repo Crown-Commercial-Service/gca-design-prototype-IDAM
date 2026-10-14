@@ -1,0 +1,28 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "Do any of these devolved nation regulations apply to your organisation?" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-type">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "devolvedRegulations",
+    name: "devolvedRegulations",
+    fieldset: { legend: { text: "Do any of these devolved nation regulations apply to your organisation?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { text: "A contracting authority operating in a devolved nation may be subject to devolved regulations." },
+    items: [
+      { value: "Northern Ireland", text: "Northern Ireland" },
+      { value: "Scotland", text: "Scotland" },
+      { value: "Wales", text: "Wales" },
+      { divider: "or" },
+      { value: "none", text: "None" }
+    ],
+    value: data.devolvedRegulations
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

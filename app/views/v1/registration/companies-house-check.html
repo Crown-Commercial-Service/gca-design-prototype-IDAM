@@ -1,0 +1,44 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% set pageName = "Does your organisation have a Companies House number?" %}
+
+{% set companiesHouseNumberInput %}
+  {{ govukInput({
+    id: "companiesHouseNumber",
+    classes: "govuk-input--width-10",
+    name: "companiesHouseNumber",
+    label: { text: "Companies House number" },
+    value: data.companiesHouseNumber,
+    errorMessage: { text: companiesHouseError.text } if companiesHouseError else null
+  }) }}
+{% endset %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-activities">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+{% if companiesHouseError %}
+  {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: [{ text: companiesHouseError.text, href: "#companiesHouseNumber" }]
+  }) }}
+{% endif %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "hasCompaniesHouseNumber",
+    name: "hasCompaniesHouseNumber",
+    fieldset: { legend: { text: "Does your organisation have a Companies House number?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { html: 'You can <a class="govuk-link" href="https://find-and-update.company-information.service.gov.uk/" target="_blank" rel="noreferrer noopener">find your company number on Companies House (opens in a new tab)</a>. Companies House numbers have 8 characters. For example, 13946975 or 04301762.' },
+    items: [
+      { value: "yes", text: "Yes", conditional: { html: companiesHouseNumberInput } },
+      { value: "no", text: "No" }
+    ],
+    value: data.hasCompaniesHouseNumber
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

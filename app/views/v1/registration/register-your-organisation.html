@@ -1,0 +1,26 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "You are not currently associated with an organisation" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/enter-your-name">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-xl">{{pageName}}</h1>
+<p class="govuk-body">If you wish to register a new organisation, you will need to provide some additional information.</p>
+<p class="govuk-body">You will be required to be the administrator of the organisation you wish to register.</p>
+<p class="govuk-body">If you do not wish to be an administrator for your organisation, you will need to notify someone at your organisation to register first. They will then be able to invite you to act on your organisations behalf</p>
+
+<h2 class="govuk-heading-m">Registering your organisation</h2>
+<p class="govuk-body">The following screens will take you through the process step by step.</p>
+<p class="govuk-body">You’ll need information about your organisation, including:</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+  <li>its Companies House or other registration number, if it has one</li>
+  <li>its address</li>
+  <li>its role in public procurement, such as buyer, supplier or both</li>
+</ul>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

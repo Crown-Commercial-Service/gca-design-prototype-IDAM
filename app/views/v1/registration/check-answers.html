@@ -1,0 +1,163 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Check your answers" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/devolved-regulations">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">Check your answers</h1>
+
+{% if summaryData.firstName or summaryData.lastName %}
+<h2 class="govuk-heading-m">Personal details</h2>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value">{{ summaryData.firstName }}{% if summaryData.firstName and summaryData.lastName %} {% endif %}{{ summaryData.lastName }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/enter-your-name">Change<span class="govuk-visually-hidden"> name</span></a></dd>
+  </div>
+</dl>
+{% endif %}
+
+{% if summaryData.organisationChoice or summaryData.organisationDetailsRoute or summaryData.isOrganisationAdmin or summaryData.organisationActivities or summaryData.devolvedRegulations %}
+<h2 class="govuk-heading-m">Organisation details</h2>
+<dl class="govuk-summary-list">
+  {% if summaryData.organisationChoice %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation choice</dt>
+    <dd class="govuk-summary-list__value">{% if summaryData.organisationChoice == "new" %}Register a new organisation{% else %}Request to join an existing organisation{% endif %}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-select">Change<span class="govuk-visually-hidden"> organisation choice</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.organisationActivities %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation role</dt>
+    <dd class="govuk-summary-list__value">
+      {% if summaryData.organisationActivities == "buyer" %}Buyer
+      {% elif summaryData.organisationActivities == "supplier" %}Supplier
+      {% else %}Buyer and supplier{% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-activities">Change<span class="govuk-visually-hidden"> registration type</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.organisationActivities in ["supplier", "both"] and summaryData.hasCompaniesHouseNumber %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Does your organisation have a Companies House number?</dt>
+    <dd class="govuk-summary-list__value">{{ "Yes" if summaryData.hasCompaniesHouseNumber == "yes" else "No" }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/companies-house-check">Change<span class="govuk-visually-hidden"> Companies House number answer</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.organisationDetailsRoute == "companies-house" and summaryData.organisationIsCorrect == "yes" %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Companies House number</dt>
+    <dd class="govuk-summary-list__value">{{ summaryData.companiesHouseNumber }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/companies-house-check">Change<span class="govuk-visually-hidden"> Companies House number</span></a></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation name</dt>
+    <dd class="govuk-summary-list__value">{{ organisationDisplay.name }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-correct">Change<span class="govuk-visually-hidden"> organisation name</span></a></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation address</dt>
+    <dd class="govuk-summary-list__value">
+      {% for addressLine in organisationDisplay.addressLines %}
+        {{ addressLine }}{% if not loop.last %}<br>{% endif %}
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-correct">Change<span class="govuk-visually-hidden"> organisation address</span></a></dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Are these organisation details correct?</dt>
+    <dd class="govuk-summary-list__value">Yes</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-correct">Change<span class="govuk-visually-hidden"> organisation details confirmation</span></a></dd>
+  </div>
+  {% elif summaryData.organisationDetailsRoute == "manual" %}
+  {% if summaryData.hasCompletedRegistryCheck %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Other organisation register</dt>
+    <dd class="govuk-summary-list__value">{% if summaryData.selectedRegistry == "no" %}None of these{% else %}{{ summaryData.selectedRegistry or "Not selected" }}{% endif %}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/registry-check">Change<span class="govuk-visually-hidden"> organisation register</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.selectedRegistry != "no" and summaryData.selectedRegistry %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Registration number</dt>
+    <dd class="govuk-summary-list__value">{{ summaryData.registryNumber or "Not entered" }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/registry-number">Change<span class="govuk-visually-hidden"> registration number</span></a></dd>
+  </div>
+  {% endif %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation name</dt>
+    <dd class="govuk-summary-list__value">{{ organisationDisplay.name }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-name">Change<span class="govuk-visually-hidden"> organisation name</span></a></dd>
+  </div>
+  {% if summaryData.organisationAddressRoute %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation address</dt>
+    <dd class="govuk-summary-list__value">
+      {% for addressLine in organisationDisplay.addressLines %}
+        {{ addressLine }}{% if not loop.last %}<br>{% endif %}
+      {% endfor %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% if summaryData.organisationAddressRoute == "os-places" %}
+      <a class="govuk-link" href="/{{ version }}/registration/organisation-address-select">Change<span class="govuk-visually-hidden"> organisation address</span></a>
+      {% elif summaryData.organisationAddressRoute == "manual-uk" %}
+      <a class="govuk-link" href="/{{ version }}/registration/organisation-address">Change<span class="govuk-visually-hidden"> organisation address</span></a>
+      {% else %}
+      <a class="govuk-link" href="/{{ version }}/registration/international-organisation-address">Change<span class="govuk-visually-hidden"> organisation address</span></a>
+      {% endif %}
+    </dd>
+  </div>
+  {% endif %}
+  {% endif %}
+  {% if summaryData.isOrganisationAdmin %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Do you want to be the organisation administrator?</dt>
+    <dd class="govuk-summary-list__value">{{ "Yes" if summaryData.isOrganisationAdmin == "yes" else "No" }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-admin">Change<span class="govuk-visually-hidden"> organisation administrator answer</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.organisationDescription and summaryData.organisationActivities in ["supplier", "both"] %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Organisation description</dt>
+    <dd class="govuk-summary-list__value">
+      {% if "sme" in summaryData.organisationDescription %}Small or medium-sized enterprise (SME)<br>{% endif %}
+      {% if "vcse" in summaryData.organisationDescription %}Voluntary, community and social enterprise (VCSE)<br>{% endif %}
+      {% if "supported-employment-provider" in summaryData.organisationDescription %}Supported employment provider<br>{% endif %}
+      {% if "public-service-mutual" in summaryData.organisationDescription %}Public service mutual<br>{% endif %}
+      {% if summaryData.organisationDescription == "none" or "none" in summaryData.organisationDescription %}None of these{% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-description">Change<span class="govuk-visually-hidden"> organisation descriptions</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.organisationType and summaryData.organisationActivities in ["buyer", "both"] %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Buyer description</dt>
+    <dd class="govuk-summary-list__value">
+      {% if summaryData.organisationType == "central-government" %}Central government - UK or devolved administrations
+      {% elif summaryData.organisationType == "local-government" %}Regional and local public authority (sub-central) - UK or devolved administrations
+      {% elif summaryData.organisationType == "public-body" %}Public undertaking
+      {% elif summaryData.organisationType == "private-sector" %}Private utility
+      {% elif summaryData.organisationType == "other" %}Other
+      {% else %}{{ summaryData.organisationType }}{% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/organisation-type">Change<span class="govuk-visually-hidden"> buyer organisation type</span></a></dd>
+  </div>
+  {% endif %}
+  {% if summaryData.devolvedRegulations %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Devolved nation regulations</dt>
+    <dd class="govuk-summary-list__value">{{ "None" if summaryData.devolvedRegulations == "none" else summaryData.devolvedRegulations }}</dd>
+    <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/{{ version }}/registration/devolved-regulations">Change<span class="govuk-visually-hidden"> devolved nation regulations</span></a></dd>
+  </div>
+  {% endif %}
+</dl>
+{% endif %}
+
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Save" }) }}
+</form>
+{% endblock %}

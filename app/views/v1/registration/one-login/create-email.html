@@ -1,0 +1,33 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Enter your email address - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/sign-up-start">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({
+    id: "email",
+    name: "email",
+    type: "email",
+    label: { text: "Enter your email address", classes: "govuk-label--l", isPageHeading: true },
+    value: data.email,
+    autocomplete: "email"
+  }) }}
+
+  <h1 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-3">Agree to the GOV.UK One Login terms and conditions</h1>
+  <p class="govuk-body">
+    By continuing, you confirm that you agree to our
+    <a class="govuk-link" href="https://signin.account.gov.uk/terms-and-conditions" target="_blank" rel="noopener noreferrer">terms and conditions (opens in a new tab)</a>.
+  </p>
+  <p class="govuk-body">
+    To find out how we use your personal information, see our
+    <a class="govuk-link" href="https://signin.account.gov.uk/govuk-one-login-privacy-notice" target="_blank" rel="noopener noreferrer">privacy notice (opens in a new tab)</a>.
+  </p>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

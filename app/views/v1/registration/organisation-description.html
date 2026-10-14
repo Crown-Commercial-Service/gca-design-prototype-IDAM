@@ -1,0 +1,29 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% set pageName = "Which of these describe your organisation?" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-activities">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukCheckboxes({
+    idPrefix: "organisationDescription",
+    name: "organisationDescription",
+    fieldset: { legend: { text: "Which of these describe your organisation?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { text: "Select all that apply" },
+    items: [
+      { value: "sme", text: "Small or medium-sized enterprise (SME)", hint: { text: "Fewer than 250 staff and a turnover of £44 million or less or a balance sheet total of £38 million or less" } },
+      { value: "vcse", text: "Voluntary, community and social enterprise (VCSE)", hint: { text: "A non-governmental organisation that reinvests its profits to support social, environmental or cultural aims." } },
+      { value: "supported-employment-provider", text: "Supported employment provider", hint: { text: "At least 30% of your workforce are disabled or disadvantaged people who receive employment or employment-related support." } },
+      { value: "public-service-mutual", text: "Public service mutual", hint: { text: "An organisation that has left the public sector but continues to deliver public services." } },
+      { divider: "or" },
+      { value: "none", text: "None of these", behaviour: "exclusive" }
+    ],
+    values: data.organisationDescription
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

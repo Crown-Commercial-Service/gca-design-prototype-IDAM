@@ -1,0 +1,42 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}Choose how to get security codes - GOV.UK One Login{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "mfaOptions",
+    name: "mfaOptions",
+    fieldset: {
+      legend: {
+        text: "Choose how to get security codes",
+        classes: "govuk-fieldset__legend--l",
+        isPageHeading: true
+      }
+    },
+    hint: { text: "You’ll need to enter a security code when you sign in to GOV.UK One Login." },
+    items: [
+      { value: "SMS", text: "Text message to a UK mobile phone number" },
+      {
+        value: "AUTH_APP",
+        text: "Authenticator app",
+        hint: { text: "You can use any authenticator app to create security codes when you sign in" }
+      }
+    ],
+    value: data.mfaOptions
+  }) }}
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">What is an authenticator app?</span>
+    </summary>
+    <div class="govuk-details__text">
+      <p class="govuk-body">An authenticator app creates a security code that helps confirm it’s you when you sign in.</p>
+      <p class="govuk-body">You can use an authenticator app on your smartphone, tablet or desktop computer.</p>
+      <p class="govuk-body">Download an authenticator app from your app store or search online for one you can use on your computer.</p>
+    </div>
+  </details>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

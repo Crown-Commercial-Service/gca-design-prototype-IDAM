@@ -1,0 +1,36 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% set pageName = "Select your organisation's address" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-postcode">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+{% if data.organisationAddresses and data.organisationAddresses.length %}
+{% if addressSelectionError %}
+  {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: [{ text: addressSelectionError.text, href: "#selectedOrganisationAddress" }]
+  }) }}
+{% endif %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "selectedOrganisationAddress",
+    name: "selectedOrganisationAddress",
+    fieldset: { legend: { text: "Select your organisation's address", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { html: 'If your address is not listed, <a class="govuk-link" href="/' ~ version ~ '/registration/organisation-address">enter your address manually</a>.' },
+    items: data.organisationAddresses,
+    value: data.selectedOrganisationAddress,
+    errorMessage: { text: addressSelectionError.text } if addressSelectionError else null
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% else %}
+<h1 class="govuk-heading-l">Select your organisation’s address</h1>
+<p class="govuk-body">We could not find any addresses for {{ data.organisationPostcode }}.</p>
+<p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/organisation-address">Enter your organisation’s address manually</a></p>
+{% endif %}
+{% endblock %}

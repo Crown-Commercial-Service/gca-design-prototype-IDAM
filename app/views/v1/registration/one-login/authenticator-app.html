@@ -1,0 +1,69 @@
+{% extends "layouts/one-login.html" %}
+
+{% block pageTitle %}Set up an authenticator app - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/get-security-codes">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l govuk-!-margin-top-0 govuk-!-margin-bottom-3">Set up an authenticator app</h1>
+
+<ol class="govuk-list govuk-list--number">
+  <li>
+    <p class="govuk-body">Open your authenticator app on your smartphone, tablet or computer.</p>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">I don’t have an authenticator app</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">You can download an authenticator app for your smartphone or tablet from your app store.</p>
+        <p class="govuk-body">If you don’t have a smartphone or tablet, search online for an authenticator app for your computer.</p>
+        <p class="govuk-body">You can use any authenticator app.</p>
+      </div>
+    </details>
+  </li>
+  <li>
+    <p class="govuk-body">Use your authenticator app to scan the QR code.</p>
+    <p class="govuk-body">
+      <img id="qr-code" src="/public/images/authenticator-app-qr.png" alt="QR Code Image" width="244" height="244">
+    </p>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">I cannot scan the QR code</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">You can enter the secret key into your authenticator app instead.</p>
+        <p class="govuk-body" id="secret-key">
+          <span class="govuk-!-display-block">Secret key: </span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">522J</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">JV7K</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">GZSG</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">KXST</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">HFTI</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">Y367</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">34IT</span>
+          <span class="govuk-!-font-weight-bold govuk-!-display-inline-block secret-key-fragment">JAQW</span>
+        </p>
+        <p class="govuk-body">Some authenticator apps call the secret key a ‘code’.</p>
+      </div>
+    </details>
+  </li>
+  <li>
+    <p class="govuk-body">The authenticator app will show a security code.</p>
+  </li>
+  <li>
+    <form id="form-tracking" method="post" action="/v1/registration/one-login/authenticator-app" novalidate>
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="authenticatorCode">Enter the code.</label>
+        <div id="authenticatorCode-hint" class="govuk-hint">This is the 6-digit number shown in your authenticator app</div>
+        <input class="govuk-input govuk-input--width-10 govuk-!-font-weight-bold" id="authenticatorCode" name="authenticatorCode" type="text" spellcheck="false" aria-describedby="authenticatorCode-hint" autocomplete="one-time-code" inputmode="numeric">
+      </div>
+      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">Continue</button>
+      <p class="govuk-body">
+        <a href="/v1/registration/one-login/get-security-codes" class="govuk-link" rel="noreferrer">Choose another way to get security codes</a>
+      </p>
+    </form>
+  </li>
+</ol>
+{% endblock %}

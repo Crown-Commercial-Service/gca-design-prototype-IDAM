@@ -1,0 +1,11 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Continue to service" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-xl">Continue to service</h1>
+<p class="govuk-body">Your GOV.UK One Login details have been checked.</p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

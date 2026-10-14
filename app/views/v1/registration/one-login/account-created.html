@@ -1,0 +1,12 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}Your GOV.UK One Login has been created - GOV.UK One Login{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l govuk-!-margin-bottom-3">Your GOV.UK One Login has been created</h1>
+<p class="govuk-body">You can now use your GOV.UK One Login to access government services.</p>
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Continue to service" }) }}
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% set organisationToJoin = data.matchingOrganisationName or "Test AH" %}
+{% set pageName = "Do you want to request to join " ~ organisationToJoin ~ "?" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-select">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "joinOrganisation",
+    name: "joinOrganisation",
+    fieldset: { legend: { text: pageName, classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    items: [{ value: "yes", text: "Yes" }, { value: "no", text: "No" }],
+    value: data.joinOrganisation
+  }) }}
+  {{ govukCheckboxes({
+    idPrefix: "shareDetailsConsent",
+    name: "shareDetailsConsent",
+    items: [{ value: "yes", text: "I understand my name and email address will be shared with this organisation" }],
+    values: data.shareDetailsConsent
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

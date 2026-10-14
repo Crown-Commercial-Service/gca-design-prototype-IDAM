@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Organisation administrator" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-address-select">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  <div class="govuk-form-group">
+    <h1 class="govuk-heading-l">Organisation administrator</h1>
+    <p class="govuk-body">The organisation administrator manages their organisation’s access to this service and who can act on its behalf.</p>
+    <div class="govuk-inset-text">
+      <p class="govuk-body">
+        <strong>{{ organisationDisplay.name }}</strong><br>
+        {% for addressLine in organisationDisplay.addressLines %}
+          {{ addressLine }}{% if not loop.last %}<br>{% endif %}
+        {% endfor %}
+      </p>
+    </div>
+    <fieldset class="govuk-fieldset">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        Do you wish to be the administrator for your organisation?
+      </legend>
+      <div class="govuk-radios" data-module="govuk-radios">
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="isOrganisationAdmin-yes" name="isOrganisationAdmin" type="radio" value="yes" {% if data.isOrganisationAdmin == "yes" %}checked{% endif %}>
+          <label class="govuk-label govuk-radios__label" for="isOrganisationAdmin-yes">Yes</label>
+        </div>
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="isOrganisationAdmin-no" name="isOrganisationAdmin" type="radio" value="no" {% if data.isOrganisationAdmin == "no" %}checked{% endif %}>
+          <label class="govuk-label govuk-radios__label" for="isOrganisationAdmin-no">No</label>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

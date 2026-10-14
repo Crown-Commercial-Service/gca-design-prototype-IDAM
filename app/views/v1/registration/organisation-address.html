@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set pageName = "Enter your organisation's address" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-address-select">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">Enter your organisation's address</h1>
+<p class="govuk-hint">Enter the address where your organisation carries out most of its activities, such as its head office.</p>
+<p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/international-organisation-address">Enter a non-UK address</a></p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukInput({ id: "addressLine1", name: "addressLine1", label: { text: "Address line 1" }, value: data.addressLine1 }) }}
+  {{ govukInput({ id: "addressLine2", name: "addressLine2", label: { text: "Address line 2 (optional)" }, value: data.addressLine2 }) }}
+  {{ govukInput({ id: "addressTown", name: "addressTown", label: { text: "Town or city" }, value: data.addressTown, classes: "govuk-input--width-20" }) }}
+  {{ govukInput({ id: "addressPostcode", name: "addressPostcode", label: { text: "Postcode" }, value: data.addressPostcode, classes: "govuk-input--width-10" }) }}
+  {{ govukButton({ text: "Save" }) }}
+</form>
+{% endblock %}

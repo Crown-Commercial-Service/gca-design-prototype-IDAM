@@ -1,0 +1,49 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Check your email - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/create-email">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l govuk-!-margin-top-0 govuk-!-margin-bottom-3">Check your email</h1>
+<div class="govuk-inset-text">
+  We have sent an email to:
+  {% if data.email %}<span class="govuk-body govuk-!-font-weight-bold permit-reflow">{{ data.email }}</span>{% endif %}
+</div>
+<p class="govuk-body">The email contains a 6 digit security code.</p>
+<p class="govuk-body">Your email might take a few minutes to arrive. If you do not get an email, check your spam folder.</p>
+<p class="govuk-body">The code will expire after one hour.</p>
+
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({
+    id: "emailCode",
+    name: "emailCode",
+    type: "text",
+    label: { text: "Enter the 6 digit code" },
+    value: data.emailCode,
+    autocomplete: "one-time-code",
+    inputmode: "numeric",
+    maxlength: 6,
+    classes: "govuk-input--width-10 govuk-!-font-weight-bold",
+    attributes: { spellcheck: "false" }
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">Problems with the code?</span>
+    </summary>
+    <div class="govuk-details__text">
+      <p class="govuk-body">
+        We can
+        <a href="/{{ version }}/registration/one-login/verify-email" class="govuk-link" rel="noreferrer noopener">send the code again</a>
+        or you can
+        <a href="/{{ version }}/registration/one-login/create-email" class="govuk-link" rel="noreferrer noopener">use a different email address</a>.
+      </p>
+    </div>
+  </details>
+</form>
+{% endblock %}

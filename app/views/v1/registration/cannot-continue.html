@@ -1,0 +1,11 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "You cannot continue" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-xl">You cannot continue</h1>
+<p class="govuk-body">You cannot continue with this registration. Contact your organisation administrator for help.</p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Return to the start" }) }}
+</form>
+{% endblock %}

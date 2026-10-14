@@ -1,0 +1,22 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}Choose how to get a security code - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/login-password">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukRadios({
+    idPrefix: "loginTwoFactorMethod",
+    name: "loginTwoFactorMethod",
+    fieldset: { legend: { text: "Choose how to get a security code", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    items: [{ value: "phone", text: "Text message" }, { value: "authenticator", text: "Authenticator app" }],
+    value: data.loginTwoFactorMethod
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

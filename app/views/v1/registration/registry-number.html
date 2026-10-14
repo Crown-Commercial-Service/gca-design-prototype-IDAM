@@ -1,0 +1,16 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set registryName = data.selectedRegistry if data.selectedRegistry and data.selectedRegistry not in ["no", "yes"] else "registry" %}
+{% set pageName = "Enter your organisation's " ~ registryName ~ " number" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/registry-check">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukInput({ id: "registryNumber", name: "registryNumber", label: { text: pageName, classes: "govuk-label--l", isPageHeading: true }, value: data.registryNumber }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

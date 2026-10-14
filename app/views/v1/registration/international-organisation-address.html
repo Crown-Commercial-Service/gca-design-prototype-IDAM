@@ -1,0 +1,27 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% set pageName = "Enter your organisation's address outside the UK" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/organisation-postcode">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">Enter your organisation's address outside the UK</h1>
+<p class="govuk-hint">Enter the address as it appears in official records.</p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukInput({ id: "internationalAddressLine1", name: "internationalAddressLine1", label: { text: "Address line 1" }, value: data.internationalAddressLine1 }) }}
+  {{ govukInput({ id: "internationalAddressLine2", name: "internationalAddressLine2", label: { text: "Address line 2 (optional)" }, value: data.internationalAddressLine2 }) }}
+  {{ govukInput({ id: "internationalTown", name: "internationalTown", label: { text: "Town or city" }, value: data.internationalTown, classes: "govuk-input--width-20" }) }}
+  {{ govukInput({ id: "internationalPostcode", name: "internationalPostcode", label: { text: "Postal or ZIP code" }, value: data.internationalPostcode, classes: "govuk-input--width-10" }) }}
+  {{ govukSelect({
+    id: "internationalCountry",
+    name: "internationalCountry",
+    label: { text: "Country" },
+    items: countryItems
+  }) }}
+  {{ govukButton({ text: "Save" }) }}
+</form>
+{% endblock %}

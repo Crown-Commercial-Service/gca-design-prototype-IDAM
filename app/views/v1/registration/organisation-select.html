@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "Choose an organisation" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/enter-your-name">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">Choose an organisation</h1>
+{% if data.matchingOrganisationName %}
+<p class="govuk-body">We found a matching organisation.</p>
+{% else %}
+<p class="govuk-hint">We found 10 registered organisations with names that match the name you entered.</p>
+{% endif %}
+<p class="govuk-hint">Choose whether to register a new organisation or request to join an existing one.</p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  <h2 class="govuk-heading-s">Register</h2>
+  {{ govukRadios({
+    idPrefix: "organisationToRegister",
+    name: "organisationChoice",
+    fieldset: { legend: { text: "Register", classes: "govuk-visually-hidden" } },
+    items: [{ value: "new", text: "Test organisation" }],
+    value: data.organisationChoice
+  }) }}
+  <h2 class="govuk-heading-s">Request to join</h2>
+  {% if data.matchingOrganisationName %}
+  {{ govukRadios({
+    idPrefix: "organisationToJoin",
+    name: "organisationChoice",
+    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" } },
+    items: [{ value: "existing", text: data.matchingOrganisationName }],
+    value: data.organisationChoice
+  }) }}
+  {% else %}
+  {{ govukRadios({
+    idPrefix: "organisationToJoin",
+    name: "organisationChoice",
+    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" } },
+    items: [
+      { value: "existing", text: "Test AH" },
+      { value: "existing", text: "Tech8 LTD" },
+      { value: "existing", text: "Andy test" },
+      { value: "existing", text: "Test AH 2" },
+      { value: "existing", text: "Techno Ltd" },
+      { value: "existing", text: "test 2" },
+      { value: "existing", text: "Test_1" },
+      { value: "existing", text: "AGT LTD" },
+      { value: "existing", text: "NK Test" },
+      { value: "existing", text: "test JA" }
+    ],
+    value: data.organisationChoice
+  }) }}
+  {% endif %}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

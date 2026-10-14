@@ -8,6 +8,7 @@
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "3.0.0",
     "ccs-frontend": "^3.2.0",
+    "dotenv": "^16.6.1",
     "govuk-frontend": "6.5.0",
     "govuk-prototype-kit": "13.20.4",
     "jquery": "^4.0.0"

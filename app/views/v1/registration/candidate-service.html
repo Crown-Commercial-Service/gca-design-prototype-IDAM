@@ -1,0 +1,11 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Return to candidate service" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-xl">Return to candidate service</h1>
+<p class="govuk-body">You have completed this part of the journey. You can now return to the candidate service.</p>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+  {{ govukButton({ text: "Return to the candidate service" }) }}
+</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}Create your GOV.UK One Login or sign in - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+{% endblock %}
+
+{% block pageContent %}
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-3">Create your GOV.UK One Login or sign in</h1>
+    <p class="govuk-body">You can use your GOV.UK One Login to access some government services.</p>
+    <p class="govuk-body">In the future, you’ll be able to use it to access all services on GOV.UK.</p>
+    <p class="govuk-body">You’ll need:</p>
+    <ul class="govuk-list govuk-list--bullet govuk-body">
+      <li>an email address</li>
+      <li>a way to get security codes - this can be a UK mobile phone number or an authenticator app</li>
+    </ul>
+    <form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+      {{ govukButton({
+        text: "Create your GOV.UK One Login",
+        name: "accountAction",
+        value: "create-account",
+        classes: "govuk-!-margin-right-3"
+      }) }}
+
+<div>      {{ govukButton({
+        text: "Sign in",
+        name: "accountAction",
+        value: "sign-in",
+        classes: "govuk-button--secondary"
+      }) }}</div>
+    </form>
+    <p class="govuk-body">
+      <a class="govuk-link" href="https://www.gov.uk/using-your-gov-uk-one-login/services" target="_blank" rel="noopener noreferrer">Services you can use with GOV.UK One Login (opens in new tab)</a>
+    </p>
+{% endblock %}

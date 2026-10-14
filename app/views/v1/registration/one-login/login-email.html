@@ -1,0 +1,27 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Enter your email address to sign in to your GOV.UK One Login - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/sign-up-start">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({
+    id: "email",
+    name: "email",
+    type: "email",
+    label: {
+      text: "Enter your email address to sign in to your GOV.UK One Login",
+      classes: "govuk-label--l",
+      isPageHeading: true
+    },
+    value: data.email,
+    autocomplete: "email"
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

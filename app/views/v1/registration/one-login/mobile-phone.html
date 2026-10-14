@@ -1,0 +1,38 @@
+{% extends "layouts/one-login.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block pageTitle %}Enter your mobile phone number - GOV.UK One Login{% endblock %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/one-login/get-security-codes">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l govuk-!-margin-top-0 govuk-!-margin-bottom-3">Enter your mobile phone number</h1>
+<p class="govuk-body">We will send a 6 digit security code to the number you give us.</p>
+<p class="govuk-body">You must use a UK mobile phone number.</p>
+<form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
+  {{ govukInput({
+    id: "phoneNumber",
+    name: "phoneNumber",
+    type: "tel",
+    label: { text: "UK mobile phone number" },
+    value: data.phoneNumber,
+    autocomplete: "tel",
+    classes: "govuk-!-width-two-thirds"
+  }) }}
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">I do not have a UK mobile phone number</span>
+    </summary>
+    <div class="govuk-details__text">
+      <p class="govuk-body">
+        You need to
+        <a href="/{{ version }}/registration/one-login/get-security-codes" class="govuk-link" rel="noreferrer noopener">choose another way to get security codes</a>.
+      </p>
+    </div>
+  </details>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}
