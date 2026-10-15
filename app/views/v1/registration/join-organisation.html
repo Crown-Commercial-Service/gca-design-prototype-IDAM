@@ -14,6 +14,7 @@
   {{ govukRadios({
     idPrefix: "joinOrganisation",
     name: "joinOrganisation",
+    errorMessage: errors.joinOrganisation,
     fieldset: { legend: { text: pageName, classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     items: [{ value: "yes", text: "Yes" }, { value: "no", text: "No" }],
     value: data.joinOrganisation
@@ -21,6 +22,7 @@
   {{ govukCheckboxes({
     idPrefix: "shareDetailsConsent",
     name: "shareDetailsConsent",
+    errorMessage: errors.shareDetailsConsent,
     items: [{ value: "yes", text: "I understand my name and email address will be shared with this organisation" }],
     values: data.shareDetailsConsent
   }) }}

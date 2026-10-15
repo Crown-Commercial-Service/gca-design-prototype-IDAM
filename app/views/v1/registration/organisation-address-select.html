@@ -1,7 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% set pageName = "Select your organisation's address" %}
 
 {% block pageTopSection %}
@@ -10,12 +9,6 @@
 
 {% block pageContent %}
 {% if data.organisationAddresses and data.organisationAddresses.length %}
-{% if addressSelectionError %}
-  {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [{ text: addressSelectionError.text, href: "#selectedOrganisationAddress" }]
-  }) }}
-{% endif %}
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
   {{ govukRadios({
     idPrefix: "selectedOrganisationAddress",
@@ -24,7 +17,7 @@
     hint: { html: 'If your address is not listed, <a class="govuk-link" href="/' ~ version ~ '/registration/organisation-address">enter your address manually</a>.' },
     items: data.organisationAddresses,
     value: data.selectedOrganisationAddress,
-    errorMessage: { text: addressSelectionError.text } if addressSelectionError else null
+    errorMessage: errors.selectedOrganisationAddress
   }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>

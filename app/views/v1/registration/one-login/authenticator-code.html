@@ -10,7 +10,7 @@
 
 {% block pageContent %}
 <form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "loginAuthenticatorCode", name: "loginAuthenticatorCode", label: { text: "Enter the security code from your authenticator app", classes: "govuk-label--l", isPageHeading: true }, autocomplete: "one-time-code", inputmode: "numeric", maxlength: 6, attributes: { spellcheck: "false" } }) }}
+  {{ govukInput({ id: "loginAuthenticatorCode", name: "loginAuthenticatorCode", label: { text: "Enter the security code from your authenticator app", classes: "govuk-label--l", isPageHeading: true }, autocomplete: "one-time-code", inputmode: "numeric", attributes: { spellcheck: "false" } }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "layouts/one-login.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% block pageTitle %}Set up an authenticator app - GOV.UK One Login{% endblock %}
 
@@ -54,11 +55,16 @@
   </li>
   <li>
     <form id="form-tracking" method="post" action="/v1/registration/one-login/authenticator-app" novalidate>
-      <div class="govuk-form-group">
-        <label class="govuk-label" for="authenticatorCode">Enter the code.</label>
-        <div id="authenticatorCode-hint" class="govuk-hint">This is the 6-digit number shown in your authenticator app</div>
-        <input class="govuk-input govuk-input--width-10 govuk-!-font-weight-bold" id="authenticatorCode" name="authenticatorCode" type="text" spellcheck="false" aria-describedby="authenticatorCode-hint" autocomplete="one-time-code" inputmode="numeric">
-      </div>
+      {{ govukInput({
+        id: "authenticatorCode",
+        name: "authenticatorCode",
+        label: { text: "Enter the code" },
+        hint: { text: "This is the 6-digit number shown in your authenticator app" },
+        classes: "govuk-input--width-10 govuk-!-font-weight-bold",
+        autocomplete: "one-time-code",
+        inputmode: "numeric",
+        spellcheck: false
+      }) }}
       <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">Continue</button>
       <p class="govuk-body">
         <a href="/v1/registration/one-login/get-security-codes" class="govuk-link" rel="noreferrer">Choose another way to get security codes</a>

@@ -6,6 +6,14 @@ const { findAddressesByPostcode } = require('../services/os-places')
 const { findCompanyByNumber } = require('../services/companies-house')
 const countries = require('../data/countries')
 const fallbackAddressLines = ['123 Example Street', 'London', 'SW1A 1AA', 'United Kingdom']
+const sensitiveFields = [
+	'password', 'confirm-password', 'loginPassword', 'emailCode', 'code',
+	'authenticatorCode', 'loginTextCode', 'loginAuthenticatorCode'
+]
+const text = value => typeof value === 'string' ? value.trim() : ''
+const selections = value => (value === undefined ? [] : Array.isArray(value) ? value : [value])
+	.filter(item => item !== '_unchecked')
+const isUKPostcode = value => /^(GIR0AA|[A-Z][A-HJ-Y]?\d[A-Z\d]?\d[ABD-HJLNP-UW-Z]{2})$/i.test(value.replace(/\s+/g, ''))
 
 const getData = req => {
 	if (!req.session.data) {
@@ -74,7 +82,7 @@ const getOrganisationDisplay = data => {
 }
 
 const renderPage = (req, res, view, pageId, additionalData = {}) => {
-	const data = getData(req)
+	const data = additionalData.data || getData(req)
 	const phoneEnding = data.phoneNumber
 		? String(data.phoneNumber).slice(-4)
 		: pageId === 'check-your-phone' ? '1234' : ''
@@ -86,6 +94,15 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 		summaryData: data,
 		organisationDisplay: getOrganisationDisplay(data),
 		phoneEnding,
+		errors: {},
+		errorList: [],
+		backUrl: data.matchingOrganisationSource === 'companies-house'
+			? '/v1/registration/companies-house-check'
+			: '/v1/registration/organisation-name',
+		countryItems: [
+			{ value: '', text: 'Choose a country', selected: !data.internationalCountry },
+			...countries.map(country => ({ ...country, selected: country.value === data.internationalCountry }))
+		],
 		...additionalData
 	})
 }
@@ -95,7 +112,30 @@ const redirectAfterPost = (req, res, pageId, nextPage, oneLoginPage = false) => 
 	res.redirect(nextPage === 'home' ? '/v1/registration' : `/v1/registration/${oneLoginPage ? 'one-login/' : ''}${nextPage}`)
 }
 
+const renderValidationErrors = (req, res, pageId, messages, inputIds = {}) => {
+	const errors = {}
+	const errorList = []
+	for (const [field, message] of Object.entries(messages)) {
+		errors[field] = { text: message }
+		errorList.push({ text: message, href: `#${inputIds[field] || field}` })
+	}
+	return renderPage(req, res, `v1/registration/${pageId}`, pageId, { errors, errorList })
+}
+
 module.exports = router => {
+	router.use((req, res, next) => {
+		if (req.method !== 'POST') return next()
+		const match = req.path.match(/^\/v1\/registration\/((?:one-login\/)?[^/]+)\/?$/)
+		if (!match) return next()
+		const data = getData(req)
+		// The Prototype Kit stores POST bodies before these routes run.
+		for (const field of sensitiveFields) {
+			delete data[field]
+			if (res.locals.data) delete res.locals.data[field]
+		}
+		next()
+	})
+
 	router.get('/v1', (req, res) => res.redirect('/v1/registration'))
 
 	router.get('/v1/registration', (req, res) => {
@@ -121,9 +161,6 @@ module.exports = router => {
 	router.post('/v1/registration/one-login/sign-up-start', (req, res) => {
 		const data = getData(req)
 		const accountAction = (req.body || {}).accountAction
-		if (accountAction !== 'sign-in' && accountAction !== 'create-account') {
-			return res.sendStatus(400)
-		}
 		data.accountAction = accountAction
 		redirectAfterPost(req, res, 'sign-up-start', accountAction === 'sign-in' ? 'login-email' : 'create-email', true)
 	})
@@ -221,8 +258,14 @@ module.exports = router => {
 	router.get('/v1/registration/enter-your-name', (req, res) => renderPage(req, res, 'v1/registration/enter-your-name', 'enter-your-name'))
 	router.post('/v1/registration/enter-your-name', (req, res) => {
 		const data = getData(req)
-		data.firstName = (req.body || {}).firstName
-		data.lastName = (req.body || {}).lastName
+		data.firstName = text((req.body || {}).firstName)
+		data.lastName = text((req.body || {}).lastName)
+		const errors = {}
+		if (!data.firstName) errors.firstName = 'Enter your first name'
+		if (!data.lastName) errors.lastName = 'Enter your last name'
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'enter-your-name', errors)
+		}
 		redirectAfterPost(req, res, 'enter-your-name', 'register-your-organisation')
 	})
 
@@ -232,22 +275,33 @@ module.exports = router => {
 		if (data.matchingOrganisationName !== 'Test Limited') {
 			return res.redirect('/v1/registration/register-your-organisation')
 		}
-		renderPage(req, res, 'v1/registration/org-account-already-exists', 'org-account-already-exists', {
-			backUrl: data.matchingOrganisationSource === 'companies-house'
-				? '/v1/registration/companies-house-check'
-				: '/v1/registration/organisation-name'
-		})
+		renderPage(req, res, 'v1/registration/org-account-already-exists', 'org-account-already-exists')
 	})
 	router.post('/v1/registration/org-account-already-exists', (req, res) => {
 		const data = getData(req)
-		data.requestToJoin = (req.body || {}).requestToJoin
-		data.shareDetailsConsent = (req.body || {}).shareDetailsConsent
+		data.requestToJoin = text((req.body || {}).requestToJoin)
+		data.shareDetailsConsent = selections((req.body || {}).shareDetailsConsent).filter(value => value === 'yes')
+		const errors = {}
+		if (!['yes', 'no'].includes(data.requestToJoin)) {
+			errors.requestToJoin = 'Select yes if you want to request to join this organisation'
+		}
+		if (data.requestToJoin === 'yes' && !data.shareDetailsConsent.includes('yes')) {
+			errors.shareDetailsConsent = 'Confirm that you understand your name and email address will be shared with the administrator for this organisation'
+		}
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'org-account-already-exists', errors)
+		}
 		redirectAfterPost(req, res, 'org-account-already-exists', data.requestToJoin === 'yes' ? 'request-access-sent' : 'cannot-continue')
 	})
 	router.get('/v1/registration/request-access-sent', (req, res) => renderPage(req, res, 'v1/registration/request-access-sent', 'request-access-sent'))
 	router.post('/v1/registration/organisation-select', (req, res) => {
 		const data = getData(req)
-		data.organisationChoice = (req.body || {}).organisationChoice
+		data.organisationChoice = text((req.body || {}).organisationChoice)
+		if (!['new', 'existing'].includes(data.organisationChoice)) {
+			return renderValidationErrors(req, res, 'organisation-select', {
+				organisationChoice: 'Select an organisation to register or request to join'
+			}, { organisationChoice: 'organisationToRegister' })
+		}
 		if (data.organisationChoice !== 'existing') {
 			delete data.matchingOrganisationName
 			delete data.matchingOrganisationSource
@@ -270,7 +324,22 @@ module.exports = router => {
 			return res.redirect('/v1/registration/registry-check')
 		}
 		const body = req.body || {}
-		data.hasCompaniesHouseNumber = body.hasCompaniesHouseNumber
+		data.hasCompaniesHouseNumber = text(body.hasCompaniesHouseNumber)
+		data.companiesHouseNumber = text(body.companiesHouseNumber)
+		const errors = {}
+		if (!['yes', 'no'].includes(data.hasCompaniesHouseNumber)) {
+			errors.hasCompaniesHouseNumber = 'Select yes if your organisation has a Companies House number'
+		}
+		if (data.hasCompaniesHouseNumber === 'yes') {
+			if (!data.companiesHouseNumber) {
+				errors.companiesHouseNumber = 'Enter your Companies House number'
+			} else if (!/^[A-Z\d]{8}$/i.test(data.companiesHouseNumber.replace(/\s+/g, ''))) {
+				errors.companiesHouseNumber = 'Enter a Companies House number using 8 letters or numbers'
+			}
+		}
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'companies-house-check', errors)
+		}
 		data.companiesHouseNumber = data.hasCompaniesHouseNumber === 'yes' && typeof body.companiesHouseNumber === 'string'
 			? body.companiesHouseNumber.trim().replace(/\s+/g, '').toUpperCase()
 			: undefined
@@ -299,17 +368,11 @@ module.exports = router => {
 		delete data.internationalCountry
 
 		if (data.hasCompaniesHouseNumber === 'yes') {
-			if (!/^[A-Z0-9]{8}$/.test(data.companiesHouseNumber || '')) {
-				return renderPage(req, res, 'v1/registration/companies-house-check', 'companies-house-check', {
-					companiesHouseError: { text: 'Enter a valid companies house number' }
-				})
-			}
-
 			try {
 				data.companiesHouseDetails = await findCompanyByNumber(data.companiesHouseNumber)
 				if (!data.companiesHouseDetails) {
-					return renderPage(req, res, 'v1/registration/companies-house-check', 'companies-house-check', {
-						companiesHouseError: { text: 'No company details found' }
+					return renderValidationErrors(req, res, 'companies-house-check', {
+						companiesHouseNumber: 'No company found with this Companies House number. Check the number and try again'
 					})
 				}
 				data.organisationDetailsRoute = 'companies-house'
@@ -320,18 +383,11 @@ module.exports = router => {
 				}
 			} catch (error) {
 				console.error('Companies House lookup failed:', error.code || error.message)
-				let message = 'We could not retrieve company details just now. Try again.'
-				if (error.code === 'MISSING_COMPANIES_HOUSE_API_KEY') {
-					message = 'The Companies House lookup is not configured. Check the API key setting and restart the prototype.'
-				} else if (error.code === 'COMPANIES_HOUSE_HTTP_401') {
-					message = 'The Companies House API did not accept the API key. Check the key and restart the prototype.'
-				} else if (error.code === 'COMPANIES_HOUSE_HTTP_403') {
-					message = 'The Companies House API key does not have permission to make this lookup.'
-				} else if (error.code === 'COMPANIES_HOUSE_HTTP_429') {
-					message = 'The Companies House service is receiving too many requests. Try again shortly.'
-				}
+				const message = error.code === 'COMPANIES_HOUSE_HTTP_429'
+					? 'The Companies House service is busy. Try again later.'
+					: 'We could not retrieve company details just now. Try again later.'
 				return renderPage(req, res, 'v1/registration/companies-house-check', 'companies-house-check', {
-					companiesHouseError: { text: message }
+					serviceError: message
 				})
 			}
 		} else {
@@ -345,7 +401,18 @@ module.exports = router => {
 	router.get('/v1/registration/registry-check', (req, res) => renderPage(req, res, 'v1/registration/registry-check', 'registry-check'))
 	router.post('/v1/registration/registry-check', (req, res) => {
 		const data = getData(req)
-		data.selectedRegistry = (req.body || {}).selectedRegistry
+		data.selectedRegistry = text((req.body || {}).selectedRegistry)
+		const registries = [
+			'Charity Commission (England and Wales)', 'Scottish Charity Register',
+			'Charity Commission for Northern Ireland', 'Mutuals Public Register', 'Guernsey Registry',
+			'Jersey Financial Services Commission Registry', 'Isle of Man Companies Registry',
+			'NHS Organisation Data Service', 'UK Register of Learning Providers (UKPRN number)', 'no'
+		]
+		if (!registries.includes(data.selectedRegistry)) {
+			return renderValidationErrors(req, res, 'registry-check', {
+				selectedRegistry: 'Select a registry your organisation is on, or select none of these'
+			}, { selectedRegistry: 'hasOtherRegistry' })
+		}
 		data.hasCompletedRegistryCheck = true
 		if (data.organisationDetailsRoute !== 'companies-house') {
 			data.organisationDetailsRoute = 'manual'
@@ -355,7 +422,14 @@ module.exports = router => {
 
 	router.get('/v1/registration/registry-number', (req, res) => renderPage(req, res, 'v1/registration/registry-number', 'registry-number'))
 	router.post('/v1/registration/registry-number', (req, res) => {
-		getData(req).registryNumber = (req.body || {}).registryNumber
+		const data = getData(req)
+		data.registryNumber = text((req.body || {}).registryNumber)
+		if (!data.registryNumber) {
+			const registryName = data.selectedRegistry && data.selectedRegistry !== 'no' ? data.selectedRegistry : 'registry'
+			return renderValidationErrors(req, res, 'registry-number', {
+				registryNumber: `Enter your organisation's ${registryName} number`
+			})
+		}
 		redirectAfterPost(req, res, 'registry-number', 'organisation-name')
 	})
 
@@ -371,7 +445,12 @@ module.exports = router => {
 		if (data.hasCompaniesHouseNumber !== 'yes' || !data.companiesHouseDetails) {
 			return res.redirect('/v1/registration/companies-house-check')
 		}
-		data.organisationIsCorrect = (req.body || {}).organisationIsCorrect
+		data.organisationIsCorrect = text((req.body || {}).organisationIsCorrect)
+		if (!['yes', 'no'].includes(data.organisationIsCorrect)) {
+			return renderValidationErrors(req, res, 'organisation-correct', {
+				organisationIsCorrect: 'Select yes if these organisation details are correct'
+			}, { organisationIsCorrect: 'organisationIsCorrect-yes' })
+		}
 		if (data.organisationIsCorrect !== 'yes') {
 			delete data.organisationDetailsRoute
 			delete data.hasCompletedRegistryCheck
@@ -390,6 +469,11 @@ module.exports = router => {
 		data.organisationName = typeof (req.body || {}).organisationName === 'string'
 			? req.body.organisationName.trim()
 			: ''
+		if (!data.organisationName) {
+			return renderValidationErrors(req, res, 'organisation-name', {
+				organisationName: "Enter your organisation's name"
+			})
+		}
 		if (data.organisationName.toLowerCase() === 'test limited') {
 			data.matchingOrganisationName = 'Test Limited'
 			data.matchingOrganisationSource = 'organisation-name'
@@ -405,22 +489,18 @@ module.exports = router => {
 		const data = getData(req)
 		const submittedPostcode = (req.body || {}).organisationPostcode
 		data.organisationPostcode = typeof submittedPostcode === 'string' ? submittedPostcode.trim() : ''
+		if (!data.organisationPostcode) {
+			return renderValidationErrors(req, res, 'organisation-postcode', {
+				organisationPostcode: 'Enter a postcode'
+			})
+		}
+		if (!isUKPostcode(data.organisationPostcode)) {
+			return renderValidationErrors(req, res, 'organisation-postcode', {
+				organisationPostcode: 'Enter a full UK postcode'
+			})
+		}
 		data.organisationAddresses = []
 		data.selectedOrganisationAddress = undefined
-		if (!data.organisationPostcode) {
-			return renderPage(req, res, 'v1/registration/organisation-postcode', 'organisation-postcode', {
-				postcodeLookupError: {
-					text: 'Enter a UK postcode to find your organisation’s address.'
-				}
-			})
-		}
-		if (!/^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/.test(data.organisationPostcode)) {
-			return renderPage(req, res, 'v1/registration/organisation-postcode', 'organisation-postcode', {
-				postcodeLookupError: {
-					text: 'Enter a valid UK postcode'
-				}
-			})
-		}
 
 		try {
 			const addresses = await findAddressesByPostcode(data.organisationPostcode)
@@ -429,13 +509,11 @@ module.exports = router => {
 		} catch (error) {
 			console.error('OS Places postcode lookup failed:', error.code || error.message)
 			const message = error.code === 'MISSING_OS_PLACES_CREDENTIALS'
-				? 'Address lookup is not configured. Enter your organisation’s address manually.'
+				? 'Address lookup is not available. Enter your organisation’s address manually.'
 				: 'We could not look up that postcode just now. Try again.'
 			return renderPage(req, res, 'v1/registration/organisation-postcode', 'organisation-postcode', {
-				postcodeLookupError: {
-					text: message,
-					manualLink: true
-				}
+				serviceError: message,
+				showManualAddressLink: true
 			})
 		}
 		redirectAfterPost(req, res, 'organisation-postcode', 'organisation-address-select')
@@ -444,12 +522,13 @@ module.exports = router => {
 	router.get('/v1/registration/organisation-address-select', (req, res) => renderPage(req, res, 'v1/registration/organisation-address-select', 'organisation-address-select'))
 	router.post('/v1/registration/organisation-address-select', (req, res) => {
 		const data = getData(req)
-		const selectedAddress = (req.body || {}).selectedOrganisationAddress
+		const selectedAddress = text((req.body || {}).selectedOrganisationAddress)
+		data.selectedOrganisationAddress = selectedAddress
 		const isAddressFromLookup = Array.isArray(data.organisationAddresses) &&
 			data.organisationAddresses.some(address => address.value === selectedAddress)
 		if (!isAddressFromLookup) {
-			return renderPage(req, res, 'v1/registration/organisation-address-select', 'organisation-address-select', {
-				addressSelectionError: { text: 'Select an address or enter it manually.' }
+			return renderValidationErrors(req, res, 'organisation-address-select', {
+				selectedOrganisationAddress: "Select your organisation's address"
 			})
 		}
 		delete data.addressLine1
@@ -469,10 +548,18 @@ module.exports = router => {
 	router.get('/v1/registration/organisation-address', (req, res) => renderPage(req, res, 'v1/registration/organisation-address', 'organisation-address'))
 	router.post('/v1/registration/organisation-address', (req, res) => {
 		const data = getData(req)
-		data.addressLine1 = (req.body || {}).addressLine1
-		data.addressLine2 = (req.body || {}).addressLine2
-		data.addressTown = (req.body || {}).addressTown
-		data.addressPostcode = (req.body || {}).addressPostcode
+		data.addressLine1 = text((req.body || {}).addressLine1)
+		data.addressLine2 = text((req.body || {}).addressLine2)
+		data.addressTown = text((req.body || {}).addressTown)
+		data.addressPostcode = text((req.body || {}).addressPostcode)
+		const errors = {}
+		if (!data.addressLine1) errors.addressLine1 = 'Enter address line 1, typically the building and street'
+		if (!data.addressTown) errors.addressTown = 'Enter a town or city'
+		if (!data.addressPostcode) errors.addressPostcode = 'Enter a postcode'
+		else if (!isUKPostcode(data.addressPostcode)) errors.addressPostcode = 'Enter a full UK postcode'
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'organisation-address', errors)
+		}
 		data.organisationAddressRoute = 'manual-uk'
 		delete data.internationalAddressLine1
 		delete data.internationalAddressLine2
@@ -489,25 +576,23 @@ module.exports = router => {
 		redirectAfterPost(req, res, 'organisation-address', 'organisation-admin')
 	})
 
-	router.get('/v1/registration/international-organisation-address', (req, res) => {
-		const data = getData(req)
-		renderPage(req, res, 'v1/registration/international-organisation-address', 'international-organisation-address', {
-			countryItems: [
-				{ value: '', text: 'Choose a country', selected: !data.internationalCountry },
-				...countries.map(country => ({
-					...country,
-					selected: country.value === data.internationalCountry
-				}))
-			]
-		})
-	})
+	router.get('/v1/registration/international-organisation-address', (req, res) => renderPage(req, res, 'v1/registration/international-organisation-address', 'international-organisation-address'))
 	router.post('/v1/registration/international-organisation-address', (req, res) => {
 		const data = getData(req)
-		data.internationalAddressLine1 = (req.body || {}).internationalAddressLine1
-		data.internationalAddressLine2 = (req.body || {}).internationalAddressLine2
-		data.internationalTown = (req.body || {}).internationalTown
-		data.internationalPostcode = (req.body || {}).internationalPostcode
-		data.internationalCountry = (req.body || {}).internationalCountry
+		data.internationalAddressLine1 = text((req.body || {}).internationalAddressLine1)
+		data.internationalAddressLine2 = text((req.body || {}).internationalAddressLine2)
+		data.internationalTown = text((req.body || {}).internationalTown)
+		data.internationalPostcode = text((req.body || {}).internationalPostcode)
+		data.internationalCountry = text((req.body || {}).internationalCountry)
+		const errors = {}
+		if (!data.internationalAddressLine1) errors.internationalAddressLine1 = 'Enter address line 1, typically the building and street'
+		if (!data.internationalTown) errors.internationalTown = 'Enter a town or city'
+		if (!countries.some(country => country.value === data.internationalCountry)) {
+			errors.internationalCountry = 'Select a country'
+		}
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'international-organisation-address', errors)
+		}
 		data.organisationAddressRoute = 'manual-international'
 		delete data.addressLine1
 		delete data.addressLine2
@@ -526,7 +611,12 @@ module.exports = router => {
 	router.get('/v1/registration/organisation-admin', (req, res) => renderPage(req, res, 'v1/registration/organisation-admin', 'organisation-admin'))
 	router.post('/v1/registration/organisation-admin', (req, res) => {
 		const data = getData(req)
-		data.isOrganisationAdmin = (req.body || {}).isOrganisationAdmin
+		data.isOrganisationAdmin = text((req.body || {}).isOrganisationAdmin)
+		if (!['yes', 'no'].includes(data.isOrganisationAdmin)) {
+			return renderValidationErrors(req, res, 'organisation-admin', {
+				isOrganisationAdmin: 'Select yes if you want to be the administrator for your organisation'
+			}, { isOrganisationAdmin: 'isOrganisationAdmin-yes' })
+		}
 		const nextPage = data.organisationActivities === 'buyer' ? 'organisation-type' : 'organisation-description'
 		redirectAfterPost(req, res, 'organisation-admin', data.isOrganisationAdmin === 'yes' ? nextPage : 'cannot-continue')
 	})
@@ -534,7 +624,18 @@ module.exports = router => {
 	router.get('/v1/registration/join-organisation', (req, res) => renderPage(req, res, 'v1/registration/join-organisation', 'join-organisation'))
 	router.post('/v1/registration/join-organisation', (req, res) => {
 		const data = getData(req)
-		data.joinOrganisation = (req.body || {}).joinOrganisation
+		data.joinOrganisation = text((req.body || {}).joinOrganisation)
+		data.shareDetailsConsent = selections((req.body || {}).shareDetailsConsent).filter(value => value === 'yes')
+		const errors = {}
+		if (!['yes', 'no'].includes(data.joinOrganisation)) {
+			errors.joinOrganisation = 'Select yes if you want to request to join this organisation'
+		}
+		if (data.joinOrganisation === 'yes' && !data.shareDetailsConsent.includes('yes')) {
+			errors.shareDetailsConsent = 'Confirm that you understand your name and email address will be shared with the administrator for this organisation'
+		}
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'join-organisation', errors)
+		}
 		redirectAfterPost(req, res, 'join-organisation', data.joinOrganisation === 'yes' ? 'invite-sent' : 'cannot-continue')
 	})
 
@@ -549,7 +650,13 @@ module.exports = router => {
 	router.get('/v1/registration/organisation-activities', (req, res) => renderPage(req, res, 'v1/registration/organisation-activities', 'organisation-activities'))
 	router.post('/v1/registration/organisation-activities', (req, res) => {
 		const data = getData(req)
-		const selectedActivities = (req.body || {}).organisationActivities
+		const selectedActivities = text((req.body || {}).organisationActivities)
+		if (!['buyer', 'supplier', 'both'].includes(selectedActivities)) {
+			data.organisationActivities = selectedActivities
+			return renderValidationErrors(req, res, 'organisation-activities', {
+				organisationActivities: 'Select whether you want to register your organisation as a buyer, supplier or both'
+			})
+		}
 		if (selectedActivities !== data.organisationActivities) {
 			delete data.hasCompaniesHouseNumber
 			delete data.companiesHouseNumber
@@ -585,19 +692,43 @@ module.exports = router => {
 	router.get('/v1/registration/organisation-description', (req, res) => renderPage(req, res, 'v1/registration/organisation-description', 'organisation-description'))
 	router.post('/v1/registration/organisation-description', (req, res) => {
 		const data = getData(req)
-		data.organisationDescription = (req.body || {}).organisationDescription
+		const selected = selections((req.body || {}).organisationDescription)
+		const options = ['sme', 'vcse', 'supported-employment-provider', 'public-service-mutual', 'none']
+		data.organisationDescription = selected.filter(value => options.includes(value))
+		if (!selected.length || selected.some(value => !options.includes(value))) {
+			return renderValidationErrors(req, res, 'organisation-description', {
+				organisationDescription: 'Select which descriptions apply to your organisation, or select none of these'
+			})
+		}
+		if (selected.includes('none') && selected.length > 1) {
+			return renderValidationErrors(req, res, 'organisation-description', {
+				organisationDescription: 'Select descriptions that apply to your organisation, or select none of these, not both'
+			})
+		}
 		redirectAfterPost(req, res, 'organisation-description', data.organisationActivities === 'both' ? 'organisation-type' : 'devolved-regulations')
 	})
 
 	router.get('/v1/registration/organisation-type', (req, res) => renderPage(req, res, 'v1/registration/organisation-type', 'organisation-type'))
 	router.post('/v1/registration/organisation-type', (req, res) => {
-		getData(req).organisationType = (req.body || {}).organisationType
+		const data = getData(req)
+		data.organisationType = text((req.body || {}).organisationType)
+		if (!['central-government', 'local-government', 'public-body', 'private-sector', 'other'].includes(data.organisationType)) {
+			return renderValidationErrors(req, res, 'organisation-type', {
+				organisationType: 'Select your buyer organisation type'
+			})
+		}
 		redirectAfterPost(req, res, 'organisation-type', 'devolved-regulations')
 	})
 
 	router.get('/v1/registration/devolved-regulations', (req, res) => renderPage(req, res, 'v1/registration/devolved-regulations', 'devolved-regulations'))
 	router.post('/v1/registration/devolved-regulations', (req, res) => {
-		getData(req).devolvedRegulations = (req.body || {}).devolvedRegulations
+		const data = getData(req)
+		data.devolvedRegulations = text((req.body || {}).devolvedRegulations)
+		if (!['Northern Ireland', 'Scotland', 'Wales', 'none'].includes(data.devolvedRegulations)) {
+			return renderValidationErrors(req, res, 'devolved-regulations', {
+				devolvedRegulations: 'Select which devolved nation regulations apply to your organisation'
+			})
+		}
 		redirectAfterPost(req, res, 'devolved-regulations', 'check-answers')
 	})
 

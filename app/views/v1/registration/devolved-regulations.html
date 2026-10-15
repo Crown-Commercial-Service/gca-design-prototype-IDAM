@@ -12,6 +12,7 @@
   {{ govukRadios({
     idPrefix: "devolvedRegulations",
     name: "devolvedRegulations",
+    errorMessage: errors.devolvedRegulations,
     fieldset: { legend: { text: "Do any of these devolved nation regulations apply to your organisation?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { text: "A contracting authority operating in a devolved nation may be subject to devolved regulations." },
     items: [

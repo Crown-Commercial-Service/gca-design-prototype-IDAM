@@ -19,6 +19,7 @@
   {{ govukRadios({
     idPrefix: "hasOtherRegistry",
     name: "selectedRegistry",
+    errorMessage: errors.selectedRegistry,
     fieldset: { legend: { text: "Is your organisation registered with any of these?", classes: "govuk-visually-hidden" } },
     items: [
       { value: "Charity Commission (England and Wales)", text: "Charity Commission (England and Wales)" },

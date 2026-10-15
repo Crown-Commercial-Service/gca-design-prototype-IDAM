@@ -19,6 +19,7 @@
   <h2 class="govuk-heading-s">Register</h2>
   {{ govukRadios({
     idPrefix: "organisationToRegister",
+    errorMessage: errors.organisationChoice,
     name: "organisationChoice",
     fieldset: { legend: { text: "Register", classes: "govuk-visually-hidden" } },
     items: [{ value: "new", text: "Test organisation" }],
@@ -29,7 +30,7 @@
   {{ govukRadios({
     idPrefix: "organisationToJoin",
     name: "organisationChoice",
-    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" } },
+    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" }, describedBy: "organisationToRegister-error" if errors.organisationChoice else "" },
     items: [{ value: "existing", text: data.matchingOrganisationName }],
     value: data.organisationChoice
   }) }}
@@ -37,7 +38,7 @@
   {{ govukRadios({
     idPrefix: "organisationToJoin",
     name: "organisationChoice",
-    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" } },
+    fieldset: { legend: { text: "Request to join", classes: "govuk-visually-hidden" }, describedBy: "organisationToRegister-error" if errors.organisationChoice else "" },
     items: [
       { value: "existing", text: "Test AH" },
       { value: "existing", text: "Tech8 LTD" },

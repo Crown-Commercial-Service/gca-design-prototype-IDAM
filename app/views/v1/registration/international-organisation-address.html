@@ -12,13 +12,14 @@
 <h1 class="govuk-heading-l">Enter your organisation's address outside the UK</h1>
 <p class="govuk-hint">Enter the address as it appears in official records.</p>
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "internationalAddressLine1", name: "internationalAddressLine1", label: { text: "Address line 1" }, value: data.internationalAddressLine1 }) }}
+  {{ govukInput({ id: "internationalAddressLine1", name: "internationalAddressLine1", label: { text: "Address line 1" }, value: data.internationalAddressLine1, errorMessage: errors.internationalAddressLine1 }) }}
   {{ govukInput({ id: "internationalAddressLine2", name: "internationalAddressLine2", label: { text: "Address line 2 (optional)" }, value: data.internationalAddressLine2 }) }}
-  {{ govukInput({ id: "internationalTown", name: "internationalTown", label: { text: "Town or city" }, value: data.internationalTown, classes: "govuk-input--width-20" }) }}
-  {{ govukInput({ id: "internationalPostcode", name: "internationalPostcode", label: { text: "Postal or ZIP code" }, value: data.internationalPostcode, classes: "govuk-input--width-10" }) }}
+  {{ govukInput({ id: "internationalTown", name: "internationalTown", label: { text: "Town or city" }, value: data.internationalTown, classes: "govuk-input--width-20", errorMessage: errors.internationalTown }) }}
+  {{ govukInput({ id: "internationalPostcode", name: "internationalPostcode", label: { text: "Postal or ZIP code (optional)" }, value: data.internationalPostcode, classes: "govuk-input--width-10" }) }}
   {{ govukSelect({
     id: "internationalCountry",
     name: "internationalCountry",
+    errorMessage: errors.internationalCountry,
     label: { text: "Country" },
     items: countryItems
   }) }}

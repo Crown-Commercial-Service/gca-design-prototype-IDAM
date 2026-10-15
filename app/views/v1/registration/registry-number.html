@@ -10,7 +10,7 @@
 
 {% block pageContent %}
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "registryNumber", name: "registryNumber", label: { text: pageName, classes: "govuk-label--l", isPageHeading: true }, value: data.registryNumber }) }}
+  {{ govukInput({ id: "registryNumber", name: "registryNumber", label: { text: pageName, classes: "govuk-label--l", isPageHeading: true }, value: data.registryNumber, errorMessage: errors.registryNumber }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>
 {% endblock %}

@@ -12,6 +12,7 @@
   {{ govukRadios({
     idPrefix: "organisationType",
     name: "organisationType",
+    errorMessage: errors.organisationType,
     fieldset: { legend: { text: "Select your buyer organisation type", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { html: 'Decide on your organisation type, as defined in the <a class="govuk-link" href="https://www.gov.uk/guidance/public-sector-procurement-policy" target="_blank" rel="noreferrer noopener">contracting authority definition guidance (opens in a new tab)</a>.' },
     items: [

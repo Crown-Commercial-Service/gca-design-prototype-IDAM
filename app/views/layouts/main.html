@@ -9,6 +9,8 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 
 {% set theme = data.theme | default("CCS") %}
 
+{% block pageTitle %}{% if errorList.length %}Error: {% endif %}{% if pageName %}{{ pageName }} - {% endif %}{{ serviceName }} - GOV.UK{% endblock %}
+
 {% block stylesheets %}
   {{ super() }}
   {% if theme == "CCS" %}
@@ -41,6 +43,7 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% include "includes/form-errors.njk" %}
       {% block pageContent %}{% endblock %}
     </div>
   </div>

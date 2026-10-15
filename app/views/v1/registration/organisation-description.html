@@ -12,6 +12,7 @@
   {{ govukCheckboxes({
     idPrefix: "organisationDescription",
     name: "organisationDescription",
+    errorMessage: errors.organisationDescription,
     fieldset: { legend: { text: "Which of these describe your organisation?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { text: "Select all that apply" },
     items: [

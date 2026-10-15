@@ -17,6 +17,7 @@
     </ul>
     <form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
       {{ govukButton({
+        id: "create-account",
         text: "Create your GOV.UK One Login",
         name: "accountAction",
         value: "create-account",

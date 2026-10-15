@@ -12,10 +12,10 @@
 <p class="govuk-hint">Enter the address where your organisation carries out most of its activities, such as its head office.</p>
 <p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/international-organisation-address">Enter a non-UK address</a></p>
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "addressLine1", name: "addressLine1", label: { text: "Address line 1" }, value: data.addressLine1 }) }}
+  {{ govukInput({ id: "addressLine1", name: "addressLine1", label: { text: "Address line 1" }, value: data.addressLine1, errorMessage: errors.addressLine1 }) }}
   {{ govukInput({ id: "addressLine2", name: "addressLine2", label: { text: "Address line 2 (optional)" }, value: data.addressLine2 }) }}
-  {{ govukInput({ id: "addressTown", name: "addressTown", label: { text: "Town or city" }, value: data.addressTown, classes: "govuk-input--width-20" }) }}
-  {{ govukInput({ id: "addressPostcode", name: "addressPostcode", label: { text: "Postcode" }, value: data.addressPostcode, classes: "govuk-input--width-10" }) }}
+  {{ govukInput({ id: "addressTown", name: "addressTown", label: { text: "Town or city" }, value: data.addressTown, classes: "govuk-input--width-20", errorMessage: errors.addressTown }) }}
+  {{ govukInput({ id: "addressPostcode", name: "addressPostcode", label: { text: "Postcode" }, value: data.addressPostcode, classes: "govuk-input--width-10", errorMessage: errors.addressPostcode }) }}
   {{ govukButton({ text: "Save" }) }}
 </form>
 {% endblock %}

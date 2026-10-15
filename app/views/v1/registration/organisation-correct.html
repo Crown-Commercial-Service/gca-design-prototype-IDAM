@@ -1,5 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% set pageName = "Confirm organisation details" %}
 
 {% block pageTopSection %}
@@ -33,19 +34,14 @@
         </dd>
       </div>
     </dl>
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are these organisation details correct?</legend>
-      <div class="govuk-radios" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="organisationIsCorrect-yes" name="organisationIsCorrect" type="radio" value="yes" {% if data.organisationIsCorrect == "yes" %}checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="organisationIsCorrect-yes">Yes</label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="organisationIsCorrect-no" name="organisationIsCorrect" type="radio" value="no" {% if data.organisationIsCorrect == "no" %}checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="organisationIsCorrect-no">No</label>
-        </div>
-      </div>
-    </fieldset>
+    {{ govukRadios({
+      idPrefix: "organisationIsCorrect",
+      name: "organisationIsCorrect",
+      fieldset: { legend: { text: "Are these organisation details correct?", classes: "govuk-fieldset__legend--m" } },
+      items: [{ id: "organisationIsCorrect-yes", value: "yes", text: "Yes" }, { id: "organisationIsCorrect-no", value: "no", text: "No" }],
+      value: data.organisationIsCorrect,
+      errorMessage: errors.organisationIsCorrect
+    }) }}
   </div>
   {{ govukButton({ text: "Continue" }) }}
 </form>

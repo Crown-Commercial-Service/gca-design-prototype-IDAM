@@ -1,7 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% set pageName = "Enter your organisation’s postcode" %}
 
 {% block pageTopSection %}
@@ -9,15 +8,9 @@
 {% endblock %}
 
 {% block pageContent %}
-{% if postcodeLookupError %}
-  {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: [{ text: postcodeLookupError.text, href: "#organisationPostcode" }]
-  }) }}
-{% endif %}
 <h1 class="govuk-heading-l">{{pageName}}</h1>
 <p class="govuk-hint">If your organisation is registered outside the UK, <a class="govuk-link" href="/{{ version }}/registration/international-organisation-address">enter your organisations address manually</a>.</p>
-{% if postcodeLookupError and postcodeLookupError.manualLink %}<p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/organisation-address">Enter your organisation’s address manually</a></p>{% endif %}
+{% if showManualAddressLink %}<p class="govuk-body"><a class="govuk-link" href="/{{ version }}/registration/organisation-address">Enter your organisation’s address manually</a></p>{% endif %}
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
   {{ govukInput({
     id: "organisationPostcode",
@@ -25,7 +18,7 @@
     name: "organisationPostcode",
     label: { text: "UK postcode" },
     value: data.organisationPostcode,
-    errorMessage: { text: postcodeLookupError.text } if postcodeLookupError else null
+    errorMessage: errors.organisationPostcode
   }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>

@@ -13,13 +13,14 @@
   {{ govukInput({
     id: "email",
     name: "email",
+    spellcheck: false,
     type: "email",
     label: { text: "Enter your email address", classes: "govuk-label--l", isPageHeading: true },
     value: data.email,
     autocomplete: "email"
   }) }}
 
-  <h1 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-3">Agree to the GOV.UK One Login terms and conditions</h1>
+  <h2 class="govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-3">Agree to the GOV.UK One Login terms and conditions</h2>
   <p class="govuk-body">
     By continuing, you confirm that you agree to our
     <a class="govuk-link" href="https://signin.account.gov.uk/terms-and-conditions" target="_blank" rel="noopener noreferrer">terms and conditions (opens in a new tab)</a>.

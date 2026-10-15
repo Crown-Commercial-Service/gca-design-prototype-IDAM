@@ -1,0 +1,14 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% if errorList.length %}
+  {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: errorList
+  }) }}
+{% endif %}
+{% if serviceError %}
+  {{ govukNotificationBanner({
+    titleText: "There is a problem with the service",
+    text: serviceError
+  }) }}
+{% endif %}

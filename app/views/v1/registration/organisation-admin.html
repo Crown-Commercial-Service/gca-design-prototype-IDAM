@@ -1,5 +1,6 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% set pageName = "Organisation administrator" %}
 
 {% block pageTopSection %}
@@ -19,21 +20,14 @@
         {% endfor %}
       </p>
     </div>
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-        Do you wish to be the administrator for your organisation?
-      </legend>
-      <div class="govuk-radios" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="isOrganisationAdmin-yes" name="isOrganisationAdmin" type="radio" value="yes" {% if data.isOrganisationAdmin == "yes" %}checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="isOrganisationAdmin-yes">Yes</label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="isOrganisationAdmin-no" name="isOrganisationAdmin" type="radio" value="no" {% if data.isOrganisationAdmin == "no" %}checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="isOrganisationAdmin-no">No</label>
-        </div>
-      </div>
-    </fieldset>
+    {{ govukRadios({
+      idPrefix: "isOrganisationAdmin",
+      name: "isOrganisationAdmin",
+      fieldset: { legend: { text: "Do you wish to be the administrator for your organisation?", classes: "govuk-fieldset__legend--m" } },
+      items: [{ id: "isOrganisationAdmin-yes", value: "yes", text: "Yes" }, { id: "isOrganisationAdmin-no", value: "no", text: "No" }],
+      value: data.isOrganisationAdmin,
+      errorMessage: errors.isOrganisationAdmin
+    }) }}
   </div>
   {{ govukButton({ text: "Continue" }) }}
 </form>

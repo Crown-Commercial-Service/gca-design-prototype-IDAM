@@ -14,8 +14,8 @@
 
 <h2 class="govuk-heading-m">Your details</h2>
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "firstName", name: "firstName", label: { text: "First name" }, value: data.firstName, autocomplete: "given-name" }) }}
-  {{ govukInput({ id: "lastName", name: "lastName", label: { text: "Last name" }, value: data.lastName, autocomplete: "family-name" }) }}
+  {{ govukInput({ id: "firstName", name: "firstName", label: { text: "First name" }, value: data.firstName, autocomplete: "given-name", errorMessage: errors.firstName }) }}
+  {{ govukInput({ id: "lastName", name: "lastName", label: { text: "Last name" }, value: data.lastName, autocomplete: "family-name", errorMessage: errors.lastName }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>
 {% endblock %}
