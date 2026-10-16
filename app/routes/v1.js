@@ -1,4 +1,5 @@
 const path = require('path')
+const { randomInt } = require('crypto')
 
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') })
 
@@ -141,6 +142,7 @@ module.exports = router => {
 	router.get('/v1/registration', (req, res) => {
 		const data = getData(req)
 		data.entryPoint = 'idam'
+		delete data.candidateServiceName
 		if (!data.previousPage) {
 			data.previousPage = 'home'
 		}
@@ -150,9 +152,19 @@ module.exports = router => {
 	router.get('/v1/home', (req, res) => res.redirect('/v1/registration'))
 	router.get('/v1/registration/home', (req, res) => res.redirect('/v1/registration'))
 
-	router.get('/v1/registration/candidate-start', (req, res) => {
+	router.get('/v1/candidates/fleet-portal/sign-out', (req, res) => {
+		delete getData(req).fleetPortalSignedIn
+		res.redirect('/v1/candidates/fleet-portal')
+	})
+
+	router.get([
+		'/v1/candidates/fleet-portal/login',
+		'/v1/candidates/fleet-portal/register',
+		'/v1/registration/candidate-start'
+	], (req, res) => {
 		const data = getData(req)
 		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'Fleet Portal'
 		data.previousPage = 'home'
 		res.redirect('/v1/registration/one-login/sign-up-start')
 	})
@@ -161,6 +173,12 @@ module.exports = router => {
 	router.post('/v1/registration/one-login/sign-up-start', (req, res) => {
 		const data = getData(req)
 		const accountAction = (req.body || {}).accountAction
+		const retainedFields = ['theme', 'entryPoint', 'candidateServiceName']
+		for (const field of Object.keys(data)) {
+			if (!retainedFields.includes(field)) {
+				delete data[field]
+			}
+		}
 		data.accountAction = accountAction
 		redirectAfterPost(req, res, 'sign-up-start', accountAction === 'sign-in' ? 'login-email' : 'create-email', true)
 	})
@@ -641,7 +659,10 @@ module.exports = router => {
 
 	router.get('/v1/registration/invite-sent', (req, res) => renderPage(req, res, 'v1/registration/invite-sent', 'invite-sent'))
 	router.post('/v1/registration/invite-sent', (req, res) => {
-		redirectAfterPost(req, res, 'invite-sent', getData(req).entryPoint === 'candidate' ? 'candidate-service' : 'home')
+		if (getData(req).entryPoint === 'candidate') {
+			return res.redirect('/v1/candidates/fleet-portal')
+		}
+		redirectAfterPost(req, res, 'invite-sent', 'home')
 	})
 
 	router.get('/v1/registration/cannot-continue', (req, res) => renderPage(req, res, 'v1/registration/cannot-continue', 'cannot-continue'))
@@ -736,9 +757,21 @@ module.exports = router => {
 	router.post('/v1/registration/check-answers', (req, res) => {
 		const value = (req.body || {}).privacyNotice
 		getData(req).privacyNotice = value === undefined ? [] : Array.isArray(value) ? value : [value]
-		redirectAfterPost(req, res, 'check-answers', getData(req).entryPoint === 'candidate' ? 'candidate-service' : 'home')
+		redirectAfterPost(req, res, 'check-answers', 'account-created')
 	})
 
-	router.get('/v1/registration/candidate-service', (req, res) => renderPage(req, res, 'v1/registration/candidate-service', 'candidate-service'))
-	router.post('/v1/registration/candidate-service', (req, res) => redirectAfterPost(req, res, 'candidate-service', 'home'))
+	router.get('/v1/registration/account-created', (req, res) => {
+		const data = getData(req)
+		if (!data.organisationId) {
+			data.organisationId = `ORG-${randomInt(10000000, 100000000)}`
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') {
+			data.fleetPortalSignedIn = true
+		}
+		renderPage(req, res, 'v1/registration/account-created', 'account-created')
+	})
+	router.get('/v1/registration/organisation-home', (req, res) => renderPage(req, res, 'v1/registration/organisation-home', 'organisation-home'))
+
+	router.get('/v1/registration/candidate-service', (req, res) => res.redirect('/v1/registration/account-created'))
+	router.post('/v1/registration/candidate-service', (req, res) => res.redirect('/v1/registration/account-created'))
 }

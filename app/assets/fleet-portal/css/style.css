@@ -1,0 +1,962 @@
+/* Source Sans Pro - self-hosted */
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-300.woff2') format('woff2'), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-300.woff') format('woff');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-regular.woff2') format('woff2'), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-regular.woff') format('woff');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: italic;
+    font-weight: 400;
+    src: local(''), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-italic.woff2') format('woff2'), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-italic.woff') format('woff');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-600.woff2') format('woff2'), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-600.woff') format('woff');
+}
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-700.woff2') format('woff2'), url('../css/fonts/source-sans-pro/source-sans-pro-v21-latin-700.woff') format('woff');
+}
+
+html {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*, :after, :before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+blockquote {
+    padding-left: 20px;
+    padding-right: 8px;
+    border-left-width: 5px;
+}
+
+    blockquote p {
+        font-style: italic;
+        padding: 5px 10px;
+        border-left: 5px solid #a6b808;
+    }
+
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+    table th, table td {
+        font-size: 16px;
+        line-height: 1.25;
+        font-weight: 400;
+        text-transform: none;
+        padding: 5px 20px 5px 0;
+        text-align: left;
+        color: #0b0c0c;
+        border-bottom: 1px solid #bfc1c3;
+    }
+
+    table td {
+        font-weight: 400;
+        vertical-align: top;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+        table td.title {
+            font-size: 17px;
+        }
+
+        table td span.descriptor {
+            font-size: 14px;
+            display: block;
+            clear: both;
+        }
+
+a, .govuk-table__cell a {
+    color: #1d70b8;
+}
+
+td.govuk-table__cell.supplier-options a {
+    font-size: 1.25em;
+}
+
+
+thead {
+    border-bottom: 3px solid #000;
+}
+
+table th {
+    font-weight: 400;
+    font-weight: 600;
+    font-size: 19px;
+    min-width: 100px;
+    padding-bottom: 13px;
+}
+
+th.narrow {
+    min-width: 100px;
+}
+
+.quote-table th{
+    min-width: 10px;
+}
+
+table tr {
+}
+
+table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+table .numeric {
+    text-align: right;
+    padding-right: 0;
+}
+
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+h3 {
+    font-size: 1.4em;
+    color: #323e48;
+    line-height: 1.1;
+    font-weight: 700
+}
+
+.center-blk {
+    position: relative;
+    clear: both;
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 90%;
+    z-index: 5;
+}
+
+header#global-header {
+    position: relative;
+    z-index: 10;
+    height: 90px;
+    width: 100%;
+    padding: 25px 0;
+    background: #a6b808;
+}
+
+@media screen and (min-width: 1290px) {
+    header#global-header {
+        height: 90px;
+    }
+}
+
+#global-nav {
+    background-color: #323e48
+}
+
+    #global-nav ul, #global-nav-sub ul {
+        list-style: none;
+        margin: 0px;
+        margin-left: 30px;
+    }
+
+    #global-nav li, #global-nav-sub li {
+        float: left;
+    }
+
+        #global-nav li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            font-size: 1.2em;
+        }
+
+            #global-nav li a:hover {
+                background-color: #323e48;
+                outline: none;
+            }
+
+    #global-nav .current {
+        background-color: #323e48;
+        outline: none;
+    }
+
+#global-nav-sub {
+    background-color: #323e48;
+}
+    #global-nav-sub .current {
+        background-color: #525252;
+        outline: none;
+    }
+
+    #global-nav-sub li {
+        background-color: #323e48; 
+    }
+
+        #global-nav-sub li a:link, #global-nav-sub li a:visited {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            font-size: 1em;
+            opacity: 1;
+        }
+
+        #global-nav-sub li a:hover {
+            background-color: #3E4E5B; 
+            outline: none;
+            opacity: 1;
+        }
+
+        #global-nav-sub li a:link.disabled {
+            opacity: 0.3;
+        }
+        
+
+.collapsible-item.filter-form {
+    max-width: none
+}
+
+.collapsible-item .collapsible-heading {
+    margin-bottom: 0px;
+    font-size: 1.4em;
+    color: #323e48;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.collapsible-heading-primary i {
+    margin-right: 0.25em
+}
+
+.tabs-nav .tabs-list {
+    list-style: none;
+    border-bottom: 2px solid #dee0e2;
+}
+
+    .tabs-nav .tabs-list li {
+        float: left;
+        margin-bottom: -2px
+    }
+
+        .tabs-nav .tabs-list li a {
+            display: block;
+            text-align: center;
+            font-size: 2rem;
+            text-decoration: none;
+            background-color: #f0f0f0;
+            border: 0 none;
+            margin: 0.45em 0.45em 0.45em 0;
+            padding: 0.5em 1em;
+            text-align: center;
+            border: 2px solid #fff;
+            border-bottom: 0;
+        }
+
+            .tabs-nav .tabs-list li a.active {
+                background-color: #fff;
+                border-color: #dee0e2;
+                margin-bottom: 0;
+                padding-bottom: 0.95em;
+            }
+
+.initial-search button[type="submit"],
+.initial-search button[type="reset"] {
+    float: right;
+    margin-top: 0.75em
+}
+
+.initial-search button[type="reset"] {
+    margin-right: 0.5em;
+    background-color: #424242
+}
+
+.body-selector-item {
+    position: relative;
+    width: 48%;
+    float: left;
+    margin-bottom: 0.5em
+}
+
+    .body-selector-item:nth-of-type(even) {
+        float: right
+    }
+
+    .body-selector-item label {
+        border: 2px solid rgba(0, 0, 0, 0.05)
+    }
+
+.body-selector input[type="checkbox"] {
+    opacity: 0;
+    position: absolute
+}
+
+.body-selector-item span {
+    text-align: center;
+    display: block
+}
+
+.body-style-icon {
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 110px;
+    display: block;
+    height: 50px;
+    width: 100%
+}
+
+.body-selector input[type="checkbox"]:checked + label {
+    background-color: #a6b808;
+}
+
+.body-selector input[type="checkbox"]:focus + label {
+    outline: none;
+    outline-offset: 0;
+    -webkit-box-shadow: 0px 0px 0px 3px #ffc9dc;
+    box-shadow: 0px 0px 0px 3px #ffc9dc;
+}
+
+.compared-vehicles-toggle {
+    position: fixed;
+    bottom: 0;
+    font: inherit;
+    border: 0;
+    margin: 0;
+    z-index: 1001;
+    padding: 0.5em 1.5em;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    background-color: #00823b;
+    right: 50%;
+    -webkit-transform: translate(50%);
+    -ms-transform: translate(50%);
+    transform: translate(50%);
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.25)
+}
+
+.compare-result-item:nth-of-type(2) {
+    border-left: 2px solid #f2f2f2;
+    border-right: 2px solid #f2f2f2
+}
+
+.compare-result-item h3 {
+    text-align: center;
+    margin-bottom: 1em
+}
+
+.compare-result-item img {
+    margin: 0 auto;
+    max-width: 100%;
+    display: block
+}
+
+.compare-result-item .spec-item {
+    border-bottom: 1px solid #dee0e2;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 1.1em;
+    line-height: 1.1
+}
+
+    .compare-result-item .spec-item span {
+        width: 50%;
+        display: block;
+        float: left;
+        text-align: right;
+    }
+
+.compare-result-item span.spec-item-title {
+    font-weight: 700;
+    text-align: left
+}
+
+.site-footer {
+    background-color: #424242;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+    .site-footer p {
+        margin: 0;
+        color: #fff
+    }
+
+.search-result-item .emissions{
+    text-align: center;
+    margin-top: 5px;
+    display:inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+@media (min-width: 1280px) {
+
+    .body-selector-item:nth-of-type(even) {
+        float: left
+    }
+
+    .body-selector-item {
+        width: 31%
+    }
+
+        .body-selector-item:nth-of-type(3n+1) {
+            margin-right: 2.33%;
+        }
+
+        .body-selector-item:nth-of-type(3n+2) {
+            margin: 0 1%;
+        }
+
+        .body-selector-item:nth-of-type(3n+3) {
+            margin-left: 2.33%;
+        }
+
+    .jplist-grid-view .search-result-item .action-button,
+    .jplist-grid-view .search-result-item .action-button:last-of-type {
+        width: 33.33%;
+        border: 0
+    }
+
+        .jplist-grid-view .search-result-item .action-button:nth-of-type(2) {
+            border-right: 2px solid #fff;
+            border-left: 2px solid #fff
+        }
+}
+
+#supplierlist_table i, #supplierdocumentlist_table i{
+    padding-left:2px;
+    padding-right:2px;
+}
+
+#activesupplierusers_list_wrapper, #pendingsupplierusers_list_wrapper {
+    margin-bottom: 2em;
+}
+
+/* Override default DataTable styling of buttons */
+.dataTables_wrapper .dataTables_paginate .pagination
+{
+    margin:0px;
+    padding:0px;
+    margin-bottom:10px;
+}
+
+    .dataTables_wrapper .dataTables_paginate .pagination a, .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        color: #333333 !important;
+    }
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.active {
+    background-color: #dcdcdc;
+    visibility: visible;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    visibility:hidden;
+}
+
+
+.buttons-excel, .custom-dt-button {
+    float: right;
+    padding: 0 25px 5px 0;
+
+}
+
+.adblue {
+    display: inline-block;
+    color: white;
+    background-color: #0089c3;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.addinfo {
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+    .addinfo .desc {
+        background-color: #ffc300;
+        padding: 5px;
+        /*padding-right: 0px;*/
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        color: #000000;
+        margin-bottom: 5px;
+        display: inline;
+    }
+
+    .addinfo .val {
+        background-color: #ffc300;
+        color: #000000;
+        padding: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+        display: inline;
+    }
+
+
+@media screen and (max-width: 1024px){
+    .carsearchheader{
+        background-position-x:80%;
+    }
+
+    .lcvsearchheader {
+        background-position-x: 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        float: none;
+        text-align: center
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        margin-top: 0.5em
+    }
+
+}
+
+@media screen and (max-width: 640px) {
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        float: none;
+        text-align: center
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        margin-top: 0.5em
+    }
+}
+
+.table-option {
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+    .table-option:first-of-type {
+        padding-right: 3px;
+    }
+
+    .table-option:last-of-type {
+        padding-left: 3px;
+    } 
+
+	#global-cookie-message {
+    width: 100%;
+    background-color: #d5e8f3;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+	#global-cookie-message p {
+    font-weight: 400;
+    text-transform: none;
+    font-size: 14px;
+    line-height: 1.14286;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+@media screen and (min-width: 1020px) {
+	#global-cookie-message p {
+		margin: 0 auto;
+		max-width: 1280px;
+		padding-left: 30px;
+	}
+}
+
+/****************************
+*   Style CMS Content
+****************************/
+.cms-content .govuk-body a {
+    color: #1d70b8;
+    font-weight: 700;
+}
+
+.cms-content h1 {
+    margin-bottom: 0;
+    color: #323e48;
+    font-size: 1.6em;
+    line-height: 1.25;
+    padding-top: 10px;
+}
+
+.cms-content h2 {
+    margin-bottom: 0;
+    color: #323e48;
+    font-size: 1.4em;
+    line-height: 1.25;
+    padding-top: 10px;
+}
+
+.cms-content h3 {
+    margin-bottom: 0;
+    color: #323e48;
+    font-size: 1.2em;
+    line-height: 1.25;
+    padding-top: 10px;
+}
+
+/*Maintains aspect ratio of cms video for it to be responsive */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/*end*/
+
+.quotemessage, .mysavedquotemessage, .mysavedsearchmessage {
+    color: white;
+    background-color: green;
+    text-align: center;
+    opacity: 0;
+}
+
+.getquote-button {
+    clear: right;
+    width: 100%;
+    margin-bottom: 10px !important;
+    margin-right: 0 !important;
+}
+
+#fileErrorMessage {
+    color: red;
+    font-weight: bold;
+}
+
+.hide {
+    display: none;
+}
+
+
+.visuallyHidden {
+    visibility: hidden;
+}
+
+/* vehicle 360 viewer*/
+#imagesContainer {
+    position: relative;
+    text-align: center;
+}
+
+img.image {
+    position: absolute;
+    visibility: hidden;
+    max-width: 800px;
+    left: 350px;
+}
+
+    .image.current, a.current{
+        visibility: visible;
+    }
+
+.hero360Container {
+    height: 275px;
+    text-align: center;
+}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none; /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+    /* Mouse-over effects */
+    .slider:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Override default look */
+        appearance: none;
+        width: 25px; /* Set a specific slider handle width */
+        height: 25px; /* Slider handle height */
+        background: #a6b808; /* purple background */
+        cursor: pointer; /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px; /* Set a specific slider handle width */
+        height: 25px; /* Slider handle height */
+        background: #a6b808; /* purple background */
+        cursor: pointer; /* Cursor on hover */
+    }
+
+/* vehicle gallery viewer*/
+
+#gallery {
+    display: flex;
+    margin: 0 auto;
+    background-color: #f3f2f1;
+    padding: 0.5em;
+}
+
+#thumbnail-container {
+    width: 150px;
+    overflow-y: auto;
+    max-height: 578px; /* Maximum height for vertical scrolling */
+    padding: 0 7px 0 0;
+}
+
+    #thumbnail-container img.selected {
+        background-color: white;
+    }
+
+
+    #thumbnail-container img {
+        width: 100%;
+        cursor: pointer;
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+
+#hero-image, #gallery-processing-message {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+    #hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down; /* Maintain aspect ratio and cover the container, but shrink when the device size is smaller */
+        border-radius: 5px;
+        background-color: white;
+        opacity: 0;
+        -webkit-transition: all 0.25s ease;
+        -moz-transition: all 0.25s ease;
+        -ms-transition: all 0.25s ease;
+        -o-transition: all 0.25s ease;
+        animation: fade infinite;
+    }
+
+#gallery-processing-message {
+    width: 800px;
+    height: 500px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+    border-radius: 5px;
+    background-color: white;
+}
+
+#overlay_text {
+    position: absolute;
+    top: 10px;
+    right: 520px;
+    text-align: right;
+    -webkit-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -ms-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    animation: fade infinite;
+    width: 200px;
+}
+.image-loading {
+    margin: 5em !important;
+    border: 5px solid #EAF0F6;
+    border-radius: 50%;
+    border-top: 5px solid #a6b808;
+    width: 50px !important;
+    height: 50px !important;
+    animation: spinner 2s linear infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#DataPager table td.selectpagesizetoolbarelement, .DataPager table th.selectpagesizetoolbarelement,
+#DataPager table td.selectpagetoolbarelement, .DataPager table th.selectpagetoolbarelement {
+    padding-top: 10pt;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+    #DataPager table td.selectpagesizetoolbarelement select, #DataPager table td.selectpagetoolbarelement select {
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 1em;
+    }
+
+#DataPager table th.resultsummarytoolbarelement, .DataPager table th.resultsummarytoolbarelement {
+    font-size: 1.5em;
+}
+
+.datapagertoolbartable th, .datapagertoolbartable td {
+    border: none;
+}
+
+#DataPager button.govuk-button {
+    margin-bottom: 0px;
+}
+
+button.sort_column_button {
+    border: none;
+    background-color: transparent;
+}
+
+.toolbar_container .pagelist_control button,
+.toolbar_container .pagesize_control button,
+.toolbar_container .columnselection_control button.input_button {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+    background-color: transparent;
+    color: #1d70b8;
+    font-weight: bold;
+    min-width: 30px;
+    border-color: #1d70b8;
+    background-image: none;
+}
+
+.toolbar_container .pageposition_control p {
+    font-weight: bold;
+}
+
+.toolbar_container .dropdown_container {
+    background-color: #c8c8c8;
+    color: black;
+}
+
+.toolbar_container .columnselection_control button.govuk-button {
+    margin-bottom: 0px;
+}
+
+button.govuk-link--no-visited-state {
+    color: #1d70b8;
+}
+
+.datepicker_control, .datepicker_links, .datepicker_header, .datepicker_time {
+    color: #000000;
+}
+
+#datepicker_div, .datepicker_inline, .datepicker_control, .datepicker_control A, .datepicker_links, .datepicker_links A, 
+.datepicker_header, .datepicker_time, .datepicker_titleRow, .datepicker_titleRow .datepicker_weekEndCell, .datepicker_daysCell {
+    background-color: #ffffff;
+}
+
+.datepicker_titleRow .datepicker_weekEndCell, .datepicker_titleRow td {
+    border: 1px solid #c8c8c8;
+}
+
+.datepicker_control A, .datepicker_links A {
+    color: #699aff;
+}
+
+#datepicker_div {
+    padding-top: 2px;
+    margin-top: 1px;
+}
+
+#datepicker_div .datepicker td {
+    padding: 3px;
+}
+
+#datepicker_div .datepicker td.datepicker_currentDay {
+    background-color: #e9edc1;
+    font-weight: bold;
+}
+
+#datepicker_div .datepicker td.datepicker_today {
+    font-weight: bold;
+}
+
+.datepicker_today A {
+    color: #000000;
+}
+
+#datepicker_div .datepicker thead {
+    border-bottom: 1px solid #c8c8c8;
+}
+
+#datepicker_div .datepicker_header select {
+    border: 1px solid #c8c8c8;
+}
+
+.selectpagesizetoolbarelement, .selectpagetoolbarelement {
+    margin-left: 30pt;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.selectpagesizetoolbarelement select, .selectpagetoolbarelement select {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 19px;
+}
+
+.resultsummarytoolbarelement {
+    font-size: 19px;
+    font-weight: bold;
+}

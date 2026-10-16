@@ -1,0 +1,143 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="robots" content="noindex, nofollow">
+    <title>GCA Fleet Portal</title>
+    <link rel="stylesheet" href="/public/fleet-portal/css/govuk-frontend-3.0.0.min.css" type="text/css">
+    <link rel="stylesheet" href="/public/fleet-portal/css/reset.css" type="text/css">
+    <link rel="stylesheet" href="/public/fleet-portal/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/public/fleet-portal/css/pdms-govuk-overrides.css" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/fleet-portal/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/fleet-portal/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/fleet-portal/images/favicon-16x16.png">
+    <link rel="mask-icon" href="/public/fleet-portal/images/safari-pinned-tab.svg" color="#000000">
+    <script src="/public/fleet-portal/fleet-portal.js" defer></script>
+  </head>
+  <body class="js-enabled">
+    <div id="global-cookie-message" style="display:none">
+      <p>We use cookies to give you the best experience on this site. By continuing use of this site you consent to accept our <a href="https://www.crowncommercial.gov.uk/cookie-policy/">cookie policy</a></p>
+    </div>
+    <header class="ccs-header clearfix" role="banner">
+      <div id="skip-main" tabindex="-1"><a class="skip-main" href="#pagebody">Skip to main content</a></div>
+      <div class="govuk-width-container">
+        <a href="https://fleetportal.gca.gov.uk/" title="Go to the GCA homepage" class="ccs-logo"><img src="/public/fleet-portal/images/gca_logo.png" alt="Government Commercial Agency Logo"><span>Government Commercial Agency</span></a>
+        <div class="ccs-header-links">
+          {% if data.fleetPortalSignedIn %}
+            <a href="/v1/candidates/fleet-portal/sign-out">Sign out</a>
+          {% else %}
+            <a href="/v1/registration/candidate-start">Login/Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <nav class="ccs-navbar" role="navigation" aria-label="Top Level Navigation">
+      <div class="govuk-width-container">
+        <ul class="clearfix" id="navigation">
+          <li class="current"><a href="https://fleetportal.gca.gov.uk/home.mth" class="selected">Home</a></li>
+          <li><a href="https://fleetportal.gca.gov.uk/Supplier/listsuppliers.mth">Suppliers</a></li>
+          <li><a href="https://fleetportal.gca.gov.uk/totalfleetsolutions.mth">Total Fleet Solutions</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="govuk-width-container">
+      <main class="govuk-main-wrapper " id="main-content" role="main">
+        <div id="pagebody">
+          <div class="landing-page-banner">
+            <img src="/public/fleet-portal/images/banner.jpg" alt="Banner Image">
+            <h1 class="govuk-heading-xl">
+              <p>Welcome to the</p>
+              <p>Government Commercial Agency</p>
+              <p>Fleet Portal</p>
+            </h1>
+          </div>
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <h2 class="govuk-heading-m">Vehicle Lease and Purchase</h2>
+              <p class="govuk-body"><p class="govuk-body"><strong>We are here to help you find your fleet of the future&nbsp;</strong></p>
+
+<p class="govuk-body">Our new and improved fleet portal is here to help you find the right vehicle solution for your organisation. The portal gives you an easy way to obtain quotations to purchase or lease standard-build cars and light commercial vehicles (LCVs). Register and you can:&nbsp;</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>
+  <p class="govuk-body">generate and compare real-time quotes quickly and easily</p>
+  </li>
+  <li>
+  <p class="govuk-body">compare a huge choice of vehicles side by side, including environmentally sustainable options&nbsp;</p>
+  </li>
+  <li>
+  <p class="govuk-body">review a full breakdown of costs&nbsp;</p>
+  </li>
+  <li>
+  <p class="govuk-body">compare manufacturers, purchase vs lease prices and whole life costs.</p>
+  </li>
+</ul>
+
+<p class="govuk-body">Want to get started? <a href="/v1/candidates/fleet-portal/register" target="_blank">Register today</a> for our easy-to-use portal to find the right vehicle solution for your organisation.</p>
+
+<p class="govuk-body">You can also download our handy Fleet Portal User Guide <a href="https://fleetportal.gca.gov.uk/Administration/ViewDocument.mth?documentid=138">here</a>&nbsp;or watch our Portal Webinar&nbsp;<a href="https://youtu.be/szdAU9uq8Js">here</a></p>
+
+<p class="govuk-body"><strong>..................................................................................................................</strong></p>
+
+<p class="govuk-body"><strong>Download our fleet guides&nbsp;</strong></p>
+
+<p class="govuk-body"><a href="https://fleetportal.gca.gov.uk/Documents/ViewDocument.mth?documentid=128">Total Fleet Solution leaflet</a></p>
+
+<p class="govuk-body"><a href="https://fleetportal.gca.gov.uk/Administration/ViewDocument.mth?documentid=138">Fleet Portal User guide</a></p>
+
+<p class="govuk-body"><a href="https://fleetportal.gca.gov.uk/Administration/ViewDocument.mth?documentid=142">Fleet Portal FAQ</a></p></p>
+            </div>
+            <div class="govuk-grid-column-one-half cms-content">
+              <div class="video-container">
+                <iframe class="youtube-player video-iframe" type="text/html" frameborder="0" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/-nJq5g_jw9s?autoplay=0" title="YouTube video player" aria-label="YouTube video player"></iframe>
+              </div>
+            </div>
+          </div>
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/FRlRf8OpT7o?si=eiOzfAh18AqVOoUE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"></iframe>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="govuk-footer " role="contentinfo">
+      <div class="govuk-width-container ">
+        <div class="govuk-footer__meta">
+          <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+            <h2 class="govuk-visually-hidden">Support links</h2>
+            <ul class="govuk-footer__inline-list">
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://fleetportal.gca.gov.uk/Documents/ViewDocument.mth?documentid=138">
+                  User Guide
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.crowncommercial.gov.uk/cookie-policy/" target="_blank">
+                  Cookies
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://fleetportal.gca.gov.uk/ContactUs.mth">
+                  Contact
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://fleetportal.gca.gov.uk/TermsAndConditions.mth">
+                  Terms and Conditions
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice" target="_blank">
+                  Privacy Policy
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://fleetportal.gca.gov.uk/AccessibilityStatement.mth">
+                  Accessibility Statement
+                </a></li>
+              <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://fleetportal.gca.gov.uk/Sitemap.mth">
+                  Sitemap
+                </a></li>
+            </ul>
+          </div>
+          <div class="govuk-footer__meta-item"><a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/" target="_blank">&copy; Crown copyright</a></div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

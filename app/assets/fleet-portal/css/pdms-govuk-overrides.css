@@ -1,0 +1,1000 @@
+/*************************************
+* General Styles
+*************************************/
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+img {
+    max-width: 100%;
+}
+
+.govuk-button {
+    background-color: #BCCA46;
+    color: #000;
+    margin-right: 20px;
+}
+
+    .govuk-button:hover, .govuk-button:focus {
+        background-color: #A6B808;
+    }
+
+    .govuk-button.button-grey {
+        background-color: #323e48;
+        color: #fff;
+    }
+
+    .govuk-button.button-grey:hover, .govuk-button.button-grey:focus {
+        background-color: #000000;
+    }
+
+    .govuk-button.search-button {
+        margin-top: 20px;
+    }
+
+.pull-left {
+    float: left
+}
+.pull-right {
+    float: right
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #0b0c0c;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 2px solid #0b0c0c;
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.select2-selection.select2-selection--multiple {
+    padding: 0.4em;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    padding: 8px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    margin-right: 6px;
+}
+
+/*************************************
+* Container
+*************************************/
+
+.govuk-width-container {
+    max-width: 1280px;
+}
+
+/*************************************
+* Header
+*************************************/
+
+.ccs-header {
+    background-color: #8fb3ff;
+    color: #000000;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.govuk-table__caption {
+    text-decoration: underline;
+}
+
+.ccs-logo {
+    display: block;
+    float: left;
+    padding-top: 0.5em;
+    text-decoration: inherit;
+    font-size: 1.5rem;
+}
+
+.ccs-logo img {
+    height: 24px;
+    vertical-align: middle;
+}
+
+.ccs-logo span {
+    display: inline-block;
+    vertical-align: middle;
+    color: #000000;
+}
+
+span.seperator {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.ccs-header-links {
+    float: right;
+    padding-top: 1.5em
+}
+.ccs-logo:focus,
+.ccs-header-links a:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+    .ccs-header-links.logged-in {
+        color: #000000;
+        text-decoration: none;
+        font-size: 1.1rem;
+        margin-right: 0.25em;
+        margin-top: 0.5em;
+        padding: 0.75em;
+        border-radius: 5px;
+        background-color: #B4CDFF;
+    }
+.ccs-header-links.logged-in a {
+    background: transparent;
+    margin-right: 0em;
+    padding-left: 0em;
+    padding-right: 0em;
+    color: #000000;
+}
+.ccs-header-links a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-right: 0.25em;
+    padding: 0.75em;
+    border-radius: 5px;
+    background-color: #B4CDFF
+}
+.ccs-header-links a:hover {
+    background-color: #699AFF;
+    color: #000000;
+}
+.ccs-header-links a:last-of-type {
+    margin-right: 0
+}
+
+/*************************************
+* Navbar
+*************************************/
+
+.ccs-navbar {
+    background-color: #8fb3ff;
+    line-height: 0;
+}
+
+.ccs-navbar ul li {
+    float: left;
+    margin-right: 0.75em;
+}
+
+.ccs-navbar ul li:hover {
+    background-color: #699AFF;
+}
+
+.ccs-navbar ul li:last-of-type {
+    margin-right: 0;
+}
+
+.ccs-navbar ul li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 1em 0.3em;
+}
+
+.ccs-navbar ul li a:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.nav-link-tabs {
+    border-bottom: 1px solid #bfc1c3;
+    margin-bottom: 35px;
+    margin-top: 30px;
+}
+
+.nav-link-tabs li {
+    display: inline-block;
+    margin-bottom: -2px;
+}
+
+.nav-link-tabs .nav-link-right {
+    float: right;
+}
+
+.nav-link-tabs li a {
+    margin-right: 5px;
+    padding: 10px 20px;
+    float: left;
+    color: #0b0c0c;
+    background-color: #f8f8f8;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+}
+
+.nav-link-tabs li a:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.nav-link-tabs li.current a {
+    margin-top: -5px;
+    margin-bottom: -1px;
+    padding-top: 14px;
+    padding-right: 19px;
+    padding-bottom: 16px;
+    padding-left: 19px;
+    border: 1px solid #bfc1c3;
+    border-bottom: 0;
+    color: #0b0c0c;
+    background-color: #fff;
+}
+
+/*************************************
+* Collapsible Items
+*************************************/
+
+.collapsible-item button {
+    background-color: transparent;
+    border: 0 none;
+    cursor: pointer;
+    display: block;
+    font-size: 19px;
+    margin: 0;
+    padding: 1em;
+    text-align: left;
+    width: 100%;
+    font-weight: 600;
+    position: relative;
+}
+
+.collapsible-item button:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.collapsible-item {
+    display: block;
+    padding: 0;
+    margin: 0 0 20px;
+    color: #000;
+}
+
+.collapsible-content {
+    padding: 15px 20px 15px;
+}
+
+.collapsible-heading .fa-chevron-down {
+    float: right;
+}
+
+.collapsible-item button[aria-expanded="true"] .fa-chevron-down {
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.save-reset-actions {
+    margin-bottom: 1em;
+}
+
+.save-reset-actions button {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #323e48;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 2px solid #323e48;
+    outline: 3px solid #323e48;
+    outline-offset: 0;
+}
+
+.select2-selection.select2-selection--multiple {
+    padding: 0.4em;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    padding: 8px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    margin-right: 6px;
+}
+/*************************************
+* cardlistgrid 
+*************************************/
+
+.cardlistgrid-panel {
+    margin-bottom: 1em;
+}
+
+.cardlistgrid-list-view .search-result-item .item-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+}
+
+.cardlistgrid-grid-view .search-result-item:nth-of-type(2n+3) {
+    clear: left;
+}
+
+
+.search-result-item .price-detail {
+    margin: 0;
+    font-size: 16px;
+    /*display: inline-block;
+    float: left;*/
+    line-height: 1;
+    padding: 0.5em 0.75em;
+    margin-right: 0.5em;
+    margin-left:10px;
+    /*width: 45%;*/
+    text-align: center;
+}
+
+.search-result-item .price-detail span {
+    font-size: 24px;
+    display: block;
+    font-weight: 700;
+}
+
+.search-result-item .action-button {
+    text-decoration: none;
+    color: inherit;
+    font: inherit;
+    background: #F6F6F6;
+    border: 0;
+    padding: 1em;
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 33.3333%;
+    cursor: pointer;
+    background-color: #BCCA46;
+    color: white;
+}
+
+.search-result-item .action-button:hover {
+    background-color: #a6b808;
+}
+
+.search-result-item .action-button:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.search-result-item .action-button svg {
+    font-size: 1.4em;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.search-result-item .item-image {
+    max-width: 100%;
+}
+
+.search-result-item .action-button span {
+    display: block;
+    text-align: center;
+}
+
+.search-result-item .action-button-compare.compare-selected {
+    background-color: #a6b808;
+    color: #fff;
+}
+
+.cardlistgrid-list-view .search-result-item .action-button:nth-of-type(2) {
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.cardlistgrid-list-view .search-result-item {
+    background-color: #fff;
+    position: relative;
+    min-height: 120px;
+    border: 1px solid #dee0e2;
+    border-right: 0;
+    margin-bottom: 1em;
+}
+
+    .cardlistgrid-list-view .search-result-item .item-image {
+        max-width: 260px;
+        position: absolute;
+        padding: 0.5em;
+        left: 0;
+    }
+
+    .cardlistgrid-list-view .search-result-item .vehheader .item-specs-text {
+        margin: 0 120px 0 260px;
+        padding: 1em;
+    }
+
+    .cardlistgrid-list-view .search-result-item .item-specs {
+        margin: 0 145px 0 20px;
+        padding: 1em;
+    }
+
+.cardlistgrid-list-view .ncap-info {
+    margin-top: 1em;
+}
+
+.cardlistgrid-list-view .ncap-item {
+    margin-bottom: 0.25em;
+}
+
+    .cardlistgrid-list-view .ncap-item img {
+        display: inline-block;
+        max-width: 20px;
+        margin-right: 0.25em;
+        vertical-align: middle;
+    }
+
+.cardlistgrid-grid-view .ncap-info {
+    display: none;
+}
+
+.safetyheader {
+    background-color: #ffc300;
+    color: #000000;
+    font-size: 90%;
+    padding: 3px;
+    margin:0px 0px 10px 0px;
+    text-align: center;
+}
+
+.cardlistgrid-grid-view .search-result-item {
+    width: 49.5%;
+    float: left;
+    border: 1px solid #dee0e2;
+    margin-bottom: 1em;
+}
+
+    .cardlistgrid-grid-view .search-result-item:nth-of-type(even) {
+        margin-left: 1%;
+    }
+
+    .cardlistgrid-grid-view .search-result-item .item-image {
+        margin: 0 auto;
+        display: block;
+        max-width: 24rem;
+        width: 100%;
+    }
+
+.cardlistgrid-grid-view .item-specs-text {
+    padding: 0 1em;
+    min-height: 200px;
+    text-align: center;
+}
+
+.cardlistgrid-grid-view .search-result-item .action-button {
+    width: 50%;
+    float: left;
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+}
+
+    .cardlistgrid-grid-view .search-result-item .action-button:first-of-type {
+        border-left: 0;
+    }
+
+    .cardlistgrid-grid-view .search-result-item .action-button:nth-of-type(2) {
+        border-right: 0;
+    }
+
+    .cardlistgrid-grid-view .search-result-item .action-button:last-of-type {
+        width: 100%;
+        border: 0;
+        border-top: 2px solid #fff;
+    }
+
+.govuk-form-group.inline-button .govuk-input {
+    width: 73% !important;
+}
+
+.govuk-form-group.inline-button button {
+    float: right;
+}
+
+/*************************************
+* Modal 
+*************************************/
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-dialog {
+    margin: 2em 0;
+    position: absolute;
+    right: 50%;
+    -webkit-transform: translate(50%);
+    -ms-transform: translate(50%);
+    transform: translate(50%);
+    background-color: #fff;
+    z-index: 99999;
+    max-width: 70em;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    padding: 1em;
+    background-color: #f6f6f6;
+}
+
+.modal-header h2 {
+    float: left;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+.modal-content {
+    padding: 1em
+}
+
+.close-modal {
+    float: right;
+    border: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    font-size: 1.6em;
+}
+
+.close-modal:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+.technical-detail-image {
+    display: block;
+    margin: 0 auto 1em auto;
+}
+
+/*************************************
+* Body Selector 
+*************************************/
+
+.body-selector-item {
+    position: relative;
+    width: 48%;
+    float: left;
+    margin-bottom: 0.5em;
+}
+
+.body-selector-item:nth-of-type(even) {
+    float: right;
+}
+
+.body-selector-item label {
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    display: block;
+    padding: 10px 4px;
+    cursor: pointer;
+}
+
+.body-selector input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+.body-selector-item .body-style-title {
+    text-align: center;
+    display: block;
+}
+
+.body-style-icon {
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 110px;
+    display: block;
+    height: 50px;
+    width: 100%;
+}
+
+.body-selector input[type="checkbox"]:checked + label {
+    background-color: #a6b808;
+}
+
+.body-selector input[type="checkbox"]:focus + label {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+/*************************************
+* Back to Top
+*************************************/
+
+#back-to-top {
+    float: right;
+}
+
+/*************************************
+* Compared Vechicles Link
+*************************************/
+
+/*.compared-vehicles-link {
+    display: none;
+    position: fixed;
+    background-color: #00823b;
+    z-index: 9;
+    bottom: 0;
+    margin-bottom: 0;
+    color: #fff;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    font-size: 1.1rem;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.quote-compared-vehicles-link {
+    display: none;
+    position: fixed;
+    background-color: #00823b;
+    z-index: 9;
+    bottom: 0;
+    margin-bottom: 0;
+    color: #fff;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    font-size: 1.1rem;
+    right: 50%;
+    transform: translateX(50%);
+}*/
+.comparelink {
+    display: none;
+    position: fixed;
+    background-color: #BCCA46;
+    z-index: 9;
+    bottom: 0;
+    margin-bottom: 0;
+    color: #fff;
+    padding-bottom: 1em;
+    text-decoration: none;
+    font-size: 1.5rem;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.quote-compared-vehicles-link, .compared-vehicles-link {
+    background-color: #BCCA46;
+    color: #fff;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+    .compared-vehicles-link:hover, .compared-vehicles-link:focus, .quote-compared-vehicles-link:hover, .quote-compared-vehicles-link:focus {
+        background-color: #a6b808;
+    }
+
+
+.compared-vehicles-link:focus, .quote-compared-vehicles-link:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0;
+}
+
+/*************************************
+* Compare Table
+*************************************/
+
+.ccs-compare-table img {
+    display: block;
+    max-width: 100%;
+}
+/*************************************
+* Landing Page
+*************************************/
+.landing-page-banner {
+    position: relative;
+    margin-bottom: 30px
+}
+
+    .landing-page-banner img {
+        display: block
+    }
+
+    .landing-page-banner h1 {
+        position: absolute;
+        top: 50%;
+        left: 1em;
+        color: #fff;
+        z-index: 99999;
+        transform: translateY(-50%);
+        max-width: 42%;
+        text-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 3.5rem;
+    }
+
+.supplier-news-offers li {
+    margin-bottom: 0.8em;
+    border-bottom: 2px solid #f2f2f2;
+    padding-bottom: 0.8em
+}
+
+    .supplier-news-offers li:last-of-type {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0
+    }
+
+    .supplier-news-offers li a {
+        text-decoration: none;
+        border-bottom: 0;
+        display: block
+    }
+
+    .supplier-news-offers li h3 {
+        margin-bottom: 0;
+    }
+
+.jumbo-button {
+    width: 100%;
+    display: block;
+    padding: 1.5em 0.5em;
+    font-size: 1.5rem;
+    font-weight: 700
+}
+
+    .jumbo-button svg {
+        font-size: 2.75rem;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.4em
+    }
+
+.options-checkboxes .govuk-checkboxes__item {
+    margin-bottom: 1em
+}
+
+/*************************************
+* Select Options
+*************************************/
+.options-selected-indicator {
+    color: #06bc59
+}
+.continue-to-quote-button {
+    margin-top: 1em
+}
+
+.accordion-toggle .govuk-fieldset__legend {
+    margin-bottom: 0
+}
+
+.accordion-toggle button {
+    background: #f4f4f4;
+    border: 0;
+    padding: 1em;
+    margin: 0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    line-height: 1.1
+}
+
+.accordion-toggle button:focus {
+    outline: 3px solid #ffbf47;
+    outline-offset: 0
+}
+
+.accordion-content {
+    margin-top: 1.5em
+}
+
+.accordion-toggle button svg {
+    float: right
+}
+
+.accordion-toggle h3 {
+	color: black;
+}
+
+
+.govuk-table__body .govuk-table__header {
+    width: 25%;
+}
+
+.quotevehdetails .govuk-table__header, .quoteprofdetails .govuk-table__header {
+    width: 50%;
+}
+
+#techcontainer .govuk-table__body .govuk-table__header {
+    width: 45%;
+}
+
+.govuk-table a {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.govuk-table .fa-stack {
+    height: 0.5em;
+}
+
+    .govuk-table .fa-stack svg {
+        height: 1.7em;
+    }
+
+#documentlist_table th {
+    width: 100%;
+}
+
+
+.quote-terms-actions{
+    margin-left:14px;
+}
+/*************************************
+* Limit TypeAhead results size and add scoll
+*************************************/
+.typeahead__list {
+    max-height: 250px;
+    overflow: auto;
+}
+
+
+/*************************************
+* Responsive Settings
+*************************************/
+@media screen and (max-width: 1040px) {
+    .landing-page-banner h1 {
+        font-size: 2rem;
+    }
+
+    .quote-compared-vehicles-link, .compared-vehicles-link {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .carsearchheader {
+        background-position-x: 89%;
+    }
+
+    .lcvsearchheader {
+        background-position-x: 89%;
+    }
+
+    .cardlistgrid-list-view .search-result-item .item-image {
+        max-width: 260px;
+        position: relative;
+        padding: 0.5em;
+        left: 0;
+    }
+
+    .cardlistgrid-list-view .search-result-item .vehheader .item-specs-text {
+        margin: 0 90px 0 0px;
+        padding: 1em;
+    }
+
+    .quote-compared-vehicles-link, .compared-vehicles-link {
+        font-size: .9rem;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .quote-compared-vehicles-link, .compared-vehicles-link {
+        font-size: .5rem;
+    }
+}
+
+@media (min-width: 1020px) {
+    .govuk-width-container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media (min-width: 1280px) {
+
+    .body-selector-item:nth-of-type(even) {
+        float: left;
+    }
+
+    .body-selector-item {
+        width: 31%;
+    }
+
+        .body-selector-item:nth-of-type(3n+1) {
+            margin-right: 2.33%;
+        }
+
+        .body-selector-item:nth-of-type(3n+2) {
+            margin: 0 1%;
+        }
+
+        .body-selector-item:nth-of-type(3n+3) {
+            margin-left: 2.33%;
+        }
+
+    .cardlistgrid-grid-view .search-result-item .action-button,
+    .cardlistgrid-grid-view .search-result-item .action-button:last-of-type {
+        width: 33.33%;
+        border: 0;
+    }
+
+        .cardlistgrid-grid-view .search-result-item .action-button:nth-of-type(2) {
+            border-right: 2px solid #fff;
+            border-left: 2px solid #fff;
+        }
+}
+
+a.skip-main {
+    color: #fff;
+    background-color: #000;
+    left: -999px;
+    position: absolute;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: -999;
+}
+
+a.skip-main:focus, a.skip-main:active {
+    left: auto;
+    top: auto;
+    width: 30%;
+    height: auto;
+    overflow: auto;
+    margin: 10px 35%;
+    padding: 5px;
+    border-radius: 15px;
+    border: 4px solid #ffbf47;
+    text-align: center;
+    font-size: 1.2em;
+    z-index: 999;
+}
+
+.dataTables_wrapper {
+    overflow: auto;
+}
+
+.govuk-table__head .govuk-table__header {
+    background-color: #e9edc1;
+}

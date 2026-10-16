@@ -1,0 +1,34 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% set pageName = "Organisation account created" %}
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block pageContent %}
+{% set organisationIdHtml %}
+  Your organisation ID<br><strong>{{ data.organisationId }}</strong>
+{% endset %}
+{{ govukPanel({
+  titleText: "Organisation account created",
+  html: organisationIdHtml
+}) }}
+<p class="govuk-body">You have created a <strong>{% if data.organisationActivities == "buyer" %}buyer{% elif data.organisationActivities == "supplier" %}supplier{% elif data.organisationActivities == "both" %}buyer and supplier{% endif %}</strong> organisation account for <strong>{{ organisationDisplay.name }}</strong>.</p>
+<h2 class="govuk-heading-m">What happens next</h2>
+{% if data.isOrganisationAdmin == "yes" %}
+  <p class="govuk-body">You are the administrator for {{ organisationDisplay.name }}. You are responsible for managing who can access the service and act on your organisation's behalf.</p>
+{% endif %}
+<p class="govuk-body">Use your GOV.UK One Login to sign in to your organisation account. You do not need to create another One Login.</p>
+{% if data.entryPoint == "candidate" %}
+  <p class="govuk-body">You can now return to {{ data.candidateServiceName }} to continue.</p>
+  {{ govukButton({
+    text: "Return to " ~ data.candidateServiceName,
+    href: "/v1/candidates/fleet-portal"
+  }) }}
+{% else %}
+  <p class="govuk-body">You can now continue to your organisation home page.</p>
+  {{ govukButton({
+    text: "Continue to your GCA account home",
+    href: "/v1/registration/organisation-home"
+  }) }}
+{% endif %}
+{% endblock %}

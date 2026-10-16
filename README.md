@@ -9,7 +9,45 @@ No forwarding stylesheet or changes to installed packages are needed.
 These commands use shell environment-variable syntax supported on macOS and
 Linux, including Railway. On Windows, use WSL or a compatible shell.
 
+## Candidate service entry pages
+
+The [Fleet Portal homepage](app/views/v1/candidates/fleet-portal.html) is available
+at `/v1/candidates/fleet-portal`. It reproduces the public
+[Fleet Portal](https://fleetportal.gca.gov.uk/) homepage for prototype route testing,
+with permission confirmed for this use. Original styles, fonts, images and icons
+are stored in [app/assets/fleet-portal](app/assets/fleet-portal) and are isolated
+from the prototype's newer GOV.UK/CCS styles.
+
+The combined Login/Register header button and Register today link enter the simulated One Login start page
+at `/v1/registration/one-login/sign-up-start`, setting the candidate entry point.
+Other links retain
+their live destinations, and the original YouTube embeds require internet access.
+Production analytics, unrelated production scripts and Font Awesome Pro are not
+included. Cookie-banner behaviour uses a separate prototype-only cookie. The
+original Crown copyright attribution is retained and the page is marked noindex.
+
+Completed registrations go to `/v1/registration/account-created`, using the
+GOV.UK confirmation panel and next steps pattern. Candidate entry routes retain
+the service name and show a **Return to Fleet Portal** button linking to the local
+Fleet Portal homepage. Normal registration shows **Continue to [organisation name]
+home**, linking to the placeholder at `/v1/registration/organisation-home`.
+Starting from the normal registration route clears the candidate service context.
+The confirmation page shows a generated prototype organisation ID, retained in the
+session so it stays the same on refresh. It confirms the selected buyer or supplier
+role and administrator responsibilities. No organisation account or email is
+created outside the prototype. Requests to join an existing organisation do not
+show the organisation-account-created confirmation.
+Reaching the organisation-account-created confirmation from Fleet Portal marks
+the prototype session as signed in to Fleet Portal. Its header then shows
+**Sign out** instead of **Login/Register**. Signing out clears this simulated
+Fleet Portal sign-in state and returns to the local homepage; registration
+answers remain available for prototype testing.
+
 ## Input validation
+
+Selecting Sign in or Create your GOV.UK One Login on the One Login start page
+clears previous form answers, generated organisation IDs and simulated sign-in
+state. The selected CCS/GOV.UK theme and entry-service context are retained.
 
 Organisation registration input pages validate submissions on the
 server. Errors use the GOV.UK error summary and inline error message components,
