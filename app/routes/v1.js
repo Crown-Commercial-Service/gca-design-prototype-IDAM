@@ -143,6 +143,7 @@ module.exports = router => {
 		const data = getData(req)
 		data.entryPoint = 'idam'
 		delete data.candidateServiceName
+		delete data.candidateServicePath
 		if (!data.previousPage) {
 			data.previousPage = 'home'
 		}
@@ -157,6 +158,22 @@ module.exports = router => {
 		res.redirect('/v1/candidates/fleet-portal')
 	})
 
+	router.get('/v1/candidates/gca', (req, res) => renderPage(req, res, 'v1/candidates/gca', 'gca'))
+
+	router.get('/v1/candidates/gca/start', (req, res) => {
+		const data = getData(req)
+		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'GCA'
+		data.candidateServicePath = '/v1/candidates/gca'
+		data.previousPage = 'home'
+		res.redirect('/v1/registration/one-login/sign-up-start')
+	})
+
+	router.get('/v1/candidates/gca/sign-out', (req, res) => {
+		delete getData(req).gcaSignedIn
+		res.redirect('/v1/candidates/gca')
+	})
+
 	router.get([
 		'/v1/candidates/fleet-portal/login',
 		'/v1/candidates/fleet-portal/register',
@@ -165,6 +182,7 @@ module.exports = router => {
 		const data = getData(req)
 		data.entryPoint = 'candidate'
 		data.candidateServiceName = 'Fleet Portal'
+		data.candidateServicePath = '/v1/candidates/fleet-portal'
 		data.previousPage = 'home'
 		res.redirect('/v1/registration/one-login/sign-up-start')
 	})
@@ -173,7 +191,7 @@ module.exports = router => {
 	router.post('/v1/registration/one-login/sign-up-start', (req, res) => {
 		const data = getData(req)
 		const accountAction = (req.body || {}).accountAction
-		const retainedFields = ['theme', 'entryPoint', 'candidateServiceName']
+		const retainedFields = ['theme', 'entryPoint', 'candidateServiceName', 'candidateServicePath']
 		for (const field of Object.keys(data)) {
 			if (!retainedFields.includes(field)) {
 				delete data[field]
@@ -660,7 +678,7 @@ module.exports = router => {
 	router.get('/v1/registration/invite-sent', (req, res) => renderPage(req, res, 'v1/registration/invite-sent', 'invite-sent'))
 	router.post('/v1/registration/invite-sent', (req, res) => {
 		if (getData(req).entryPoint === 'candidate') {
-			return res.redirect('/v1/candidates/fleet-portal')
+			return res.redirect(getData(req).candidateServicePath || '/v1/candidates/fleet-portal')
 		}
 		redirectAfterPost(req, res, 'invite-sent', 'home')
 	})
@@ -767,6 +785,9 @@ module.exports = router => {
 		}
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') {
 			data.fleetPortalSignedIn = true
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'GCA') {
+			data.gcaSignedIn = true
 		}
 		renderPage(req, res, 'v1/registration/account-created', 'account-created')
 	})

@@ -22,7 +22,7 @@
   <p class="govuk-body">You can now return to {{ data.candidateServiceName }} to continue.</p>
   {{ govukButton({
     text: "Return to " ~ data.candidateServiceName,
-    href: "/v1/candidates/fleet-portal"
+    href: data.candidateServicePath or "/v1/candidates/fleet-portal"
   }) }}
 {% else %}
   <p class="govuk-body">You can now continue to your organisation home page.</p>

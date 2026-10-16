@@ -11,6 +11,22 @@ Linux, including Railway. On Windows, use WSL or a compatible shell.
 
 ## Candidate service entry pages
 
+The [GCA homepage](app/views/v1/candidates/gca.html) is available at
+`/v1/candidates/gca` and linked from the prototype index. It reproduces
+[www.gca.gov.uk](https://www.gca.gov.uk/) for prototype route testing, with
+permission confirmed for the branding and images. Visual assets are stored
+locally in `app/assets/gca`. The unavailable legacy CCS print-logo asset is
+replaced with the GCA logo. Production analytics, surveys and tracking scripts
+are excluded; a local script handles the cookie banner and mobile navigation.
+Only a prototype cookie is set by Accept all cookies.
+
+The header and mobile navigation **Create account** and **Sign in** links lead
+to the shared One Login start page and retain GCA as the candidate service.
+The confirmation page returns to the local GCA homepage, where **Sign out**
+replaces these account links. Signing out resets that simulated GCA sign-in
+state. Links to other services, search forms and other content retain their
+live destinations.
+
 The [Fleet Portal homepage](app/views/v1/candidates/fleet-portal.html) is available
 at `/v1/candidates/fleet-portal`. It reproduces the public
 [Fleet Portal](https://fleetportal.gca.gov.uk/) homepage for prototype route testing,

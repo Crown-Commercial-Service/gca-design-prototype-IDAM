@@ -1,0 +1,951 @@
+<!doctype html>
+<html class="js is-home" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+
+    <meta name="title" content="Government Commercial Agency | GCA (formerly CCS)">
+    <meta name="description"
+        content="The UK's Government Commercial Agency (GCA). We achieve value for the nation through public procurement.">
+    <meta name="thumbnail-preview" content='https://assets.gca.gov.uk/wp-content/uploads/thumbnail-preview.png' />
+    <meta property="og:image" content='https://assets.gca.gov.uk/wp-content/uploads/thumbnail-preview.png' />
+    <meta property="twitter:image" content='https://assets.gca.gov.uk/wp-content/uploads/thumbnail-prevew.png' />
+
+    <title>Government Commercial Agency - GCA</title>
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style>
+        :root {
+            --govuk-frontend-version: "5.4.0";
+            --govuk-frontend-breakpoint-mobile: 20rem;
+            --govuk-frontend-breakpoint-tablet: 40.0625rem;
+            --govuk-frontend-breakpoint-desktop: 48.0625rem;
+        }
+    </style>
+
+    <link rel="stylesheet" href="/public/gca/styles/styles.min.css">
+
+    <link rel="icon" href="/public/gca/images/favicon.ico" />
+
+</head>
+
+<body class="govuk-template__body js-enabled govuk-frontend-supported pillar--none">
+
+    <div id="app-env" style="display: none" data-env="prod"></div>
+
+
+    <header class="            header-global header-global--home
+        ">
+        <div class="ccs-width-container">
+
+            <div class="govuk-phase-banner">
+                <section aria-label="Phase banner">
+                    <div class="govuk-phase-banner-help-us">
+                        <p class="govuk-phase-banner__content" aria-label="Beta banner">
+                            <strong class="govuk-tag govuk-phase-banner__content__tag ">
+                                beta
+                            </strong>
+                            <span class="govuk-phase-banner__text">
+                                Help us make this service better for you.
+                                <a href=https://surveys.gca.gov.uk/jfe/form/SV_b2hqVz3TYDCxN2u> Give feedback on how we
+                                    can improve this service</a>.
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="govuk-phase-banner-gca">
+                        <div class="govuk-phase-banner__content" aria-label="Beta banner" style="margin-top: 10px">
+                            <p class="govuk-phase-banner__text">
+                                Crown Commercial Service became Government Commercial Agency on 1 April 2026.
+                                <a href="https://www.gca.gov.uk/government-commercial-agency-what-you-need-to-know">
+                                    Find out what you need to know
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="ppg-login">
+                <ul class="ppg-login-links">
+                    {% if data.gcaSignedIn %}
+                    <li class="ppg-login-link">
+                        <p class="ppg-login-text">{{ organisationDisplay.name }}:</p>
+                    </li>
+                    <li class="ppg-login-link">
+                        <p class="ppg-login-text">
+                            <a class="govuk-!-margin-right-2" href="/v1/registration/organisation-home">My account</a> 
+                            <a href="/v1/candidates/gca/sign-out">Sign out</a>
+                        </p>
+                    </li>
+
+                    {% else %}
+                    <li class="ppg-login-link">
+                        <p class="ppg-login-text">Your GCA Account:</p>
+                    </li>
+
+                    <li class="ppg-login-link">
+                        <p class="ppg-login-text">
+                            <a href="/v1/candidates/gca/start">Create account</a> or
+                            <a href="/v1/candidates/gca/start">Sign in</a>
+                        </p>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+            <div class="nav-wrapper">
+                <div class="nav-wrapper-logo">
+                    <a href="/v1/candidates/gca" class="logo mobile-nav-logo">
+                        <img class="navLogo" src="/public/gca/images/GCA_stacked_black.svg" alt="Go to GCA Homepage"
+                            width="140" height="117" />
+                    </a>
+                    <a href="/v1/candidates/gca" class="logo desktop-nav-logo">
+                        <img class="navLogo" src="/public/gca/images/GCA_linear_black.png" alt="Go to GCA Homepage"
+                            width="140" height="117" />
+                    </a>
+                </div>
+
+                <button class="global-navigation__toggler" data-toggler="nav">
+                    <span>Menu</span> <span class="icon-menu-closed"><svg xmlns="http://www.w3.org/2000/svg" width="15"
+                            height="12" viewBox="0 0 15 12" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M14.9561 3.59459L13.3615 2L7.47022 7.89124L1.59508 2.01609L0.000483532 3.61069L7.47187 11.0821L9.06646 9.48748L9.06482 9.48583L14.9561 3.59459Z"
+                                fill="black" />
+                        </svg></span>
+                    <span class="icon-menu-open" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" width="15"
+                            height="12" viewBox="0 0 15 12" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0.0439452 8.40541L1.63854 10L7.52978 4.10876L13.4049 9.98391L14.9995 8.38931L7.52813 0.917931L5.93354 2.51252L5.93518 2.51417L0.0439452 8.40541Z"
+                                fill="black" />
+                        </svg></span>
+                </button>
+
+                <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.gca.gov.uk/"
+                    data-app-pathinfo="/">
+                    <ul class="nav-list nav-list--primary">
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                Products and suppliers
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/agreements">Search agreements</a></li>
+                                    <li><a href="https://www.gca.gov.uk/agreements/upcoming">Search upcoming
+                                            agreements</a></li>
+                                    <li><a href="https://www.gca.gov.uk/suppliers">Search suppliers</a></li>
+                                    <li><a href="https://www.gca.gov.uk/products-and-services/">Products and
+                                            services</a></li>
+                                    <li><a href="https://www.gca.gov.uk/sectors/">Sectors we support</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                For buyers
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/how-to-buy/">How to buy</a></li>
+                                    <li><a href="https://www.gca.gov.uk/news/?&amp;categories=168">Procurement
+                                            Essentials articles</a></li>
+                                    <li><a href="https://www.gca.gov.uk/how-to-buy/assisted-procurement-service/">Buy
+                                            through the assisted procurement service</a></li>
+                                    <li><a href="https://www.gca.gov.uk/social-value">Social value</a></li>
+                                    <li><a href="https://www.gca.gov.uk/newsletter">Subscribe to newsletter</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                For suppliers
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/how-to-supply/">How to supply</a></li>
+                                    <li><a href="https://www.gca.gov.uk/news/?&amp;categories=194">Supplier Specifics
+                                            articles</a></li>
+                                    <li><a href="https://www.gca.gov.uk/how-to-supply/find-tender-opportunities/">Find
+                                            tender opportunities</a></li>
+                                    <li><a
+                                            href="https://www.gca.gov.uk/social-value/carbon-net-zero/how-to-create-a-carbon-reduction-plan-crp/">Create
+                                            a carbon reduction plan</a></li>
+                                    <li><a href="https://www.reportmi.gca.gov.uk/">Submit MI returns</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                About
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/about-gca">About GCA</a></li>
+                                    <li><a href="https://www.gca.gov.uk/about-gca/transforming-public-procurement">Procurement
+                                            Act 2023</a></li>
+                                    <li><a
+                                            href="https://www.gov.uk/government/organisations/government-commercial-agency">GOV.UK
+                                            GCA</a></li>
+                                    <li><a href="https://www.gca.gov.uk/careers-with-gca/">Careers with GCA</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                News
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/news">News and guides</a></li>
+                                    <li><a href="https://www.gca.gov.uk/events">Events</a></li>
+                                    <li><a href="https://www.gca.gov.uk/about-gca/press-office">Contact press office</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                Help and support
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gca.gov.uk/contact">Contact GCA</a></li>
+                                    <li><a href="https://www.gca.gov.uk/glossary">Glossary</a></li>
+                                    <li><a href="https://www.gca.gov.uk/complaint">Make a complaint</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-list__item dropdown">
+                            <button class="nav-list__link dropbtn" data-evt-placement="header">
+                                Digital platforms
+                                <i class="arrow down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul class="nav-list">
+                                    <li><a href="https://www.gov.uk/contracts-finder">Contracts Finder</a></li>
+                                    <li><a href="https://www.gov.uk/find-tender">Find a Tender</a></li>
+                                    <li><a href="https://purchasingplatform.gca.gov.uk/">Sign in to Purchasing
+                                            Platform</a></li>
+                                    <li><a
+                                            href="https://www.applytosupply.digitalmarketplace.service.gov.uk/user/login?_gl=1*akkae5*_ga*MjAyMDM1NjQ3Mi4xNzU4NjM0MjE1*_ga_SK4BZ95L7T*czE3NjE4MzE4NTEkbzY0JGcxJHQxNzYxODMzNjY3JGo1OSRsMCRoMA..">Sign
+                                            in to Digital Marketplace</a></li>
+                                    <li><a
+                                            href="https://fleetportal.gca.gov.uk/login.mth?_gl=1*akkae5*_ga*MjAyMDM1NjQ3Mi4xNzU4NjM0MjE1*_ga_SK4BZ95L7T*czE3NjE4MzE4NTEkbzY0JGcxJHQxNzYxODMzNjY3JGo1OSRsMCRoMA..">Sign
+                                            in to Fleet Portal</a></li>
+                                    <li><a href="https://www.gca.gov.uk/emarketplace-registration-form/">Register for
+                                            eMarketplace</a></li>
+                                    <li><a href="https://buyers.mpuk.basware.com/">Sign in to eMarketplace</a></li>
+                                    <li><a href="https://crowncommercialservice.bravosolution.co.uk/web/login.html">Sign
+                                            in to eSourcing</a></li>
+                                    <li><a href="https://www.gca.gov.uk/esourcing-training">eSourcing training</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <ul class="nav-list nav-list-ppg">
+                        <li class="nav-list__item">
+                            <p class="nav-list__link" data-evt-placement="header">Public Procurement Gateway</p>
+                        </li>
+                        {% if data.gcaSignedIn %}
+                        <li class="nav-list__item"><a class="nav-list__link" href="/v1/candidates/gca/sign-out">Sign
+                                out</a></li>
+                        {% else %}
+                        <li class="nav-list__item"><a class="nav-list__link" href="/v1/candidates/gca/start">Sign In</a>
+                        </li>
+                        <li class="nav-list__item"><a class="nav-list__link" href="/v1/candidates/gca/start">Create
+                                account</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="homepage-hero govuk-homepage-hero-full-width">
+                <div class="govuk-hero-homepage-caption-container govuk-hero-margin">
+                    <div class="govuk-hero-caption">
+                        <h1 class="govuk-caption-heading">Supporting better public <br /> procurement</h1>
+                        <p class="govuk-caption-link" style="color:white; margin-bottom: 0"><a
+                                href="https://www.gca.gov.uk/about-gca">Find out how we help the UK public sector
+                                achieve value for the nation.</a></p>
+                    </div>
+                </div>
+
+                <div class="homepage-hero-capsule">
+                    <div class="govuk-homepage-search-forms">
+                        <div class="govuk-grid-column-one-half homepage-agreement-search">
+
+                            <form action="https://www.gca.gov.uk/agreements" method="GET">
+
+                                <div
+                                    class="govuk-form-group govuk-form-group--enclosure govuk-form-group--enclosure--homepage govuk-bg-mobile-color">
+                                    <div class="govuk-form-group homepage-hero__search-group">
+                                        <label class="govuk-label" for="framework_q"><a
+                                                href="https://www.gca.gov.uk/agreements">Search
+                                                agreements</a></label>
+                                        <input class="govuk-input" id="framework_q" name="keyword" type="text">
+
+                                        <button class="homepage-hero__search-button">
+                                            <span class="visuallyhidden">Search agreements</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div class="govuk-grid-column-one-half">
+
+                            <form action="https://www.gca.gov.uk/suppliers/search" method="GET">
+
+                                <div
+                                    class="govuk-form-group govuk-form-group--enclosure govuk-form-group--enclosure--homepage govuk-bg-mobile-color search-supp">
+                                    <div class="govuk-form-group homepage-hero__search-group">
+                                        <label class="govuk-label" for="supplier_q"><a
+                                                href="https://www.gca.gov.uk/suppliers">Search
+                                                suppliers</a></label>
+                                        <input class="govuk-input" id="supplier_q" name="q" type="text">
+                                        <button class="homepage-hero__search-button">
+                                            <span class="visuallyhidden">Search suppliers</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="--govuk-width-container">
+        <main id="main-content" class="govuk-main-wrapper govuk-home-main-wrapper ccs-width-container">
+            <div class="apollo-island homepage-apollo-island">
+                <div class="govuk-grid-column-full homepage-card-container">
+
+                    <div class="homepage-card-wrapper">
+                        <div class="govuk-grid-column-one-third card-list__item__wrapper homepage-card-component">
+                            <h2 class="govuk-heading-m">
+                                How to buy
+                            </h2>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                With over 100 commercial agreements, we can help you get better value from products and
+                                services. Learn about our buying routes and what you can buy.
+
+                            </p>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                <a href="https://www.gca.gov.uk/how-to-buy">
+                                    Learn how to buy.
+                                    <span class="visuallyhidden">about How to buy</span>
+                                </a>
+                            </p>
+
+                        </div>
+                        <div
+                            class="govuk-grid-column-one-third card-list__item__wrapper homepage-card-component homepage-card-2">
+
+                            <h2 class="govuk-heading-m">
+                                How to supply
+                            </h2>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                The UK public sector spends billions every year on products and services. Learn how your
+                                organisation can benefit from becoming a supplier.
+                            </p>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                <a href="https://www.gca.gov.uk/how-to-supply">
+                                    Learn how to supply.
+                                    <span class="visuallyhidden">about Agreements</span>
+                                </a>
+                            </p>
+
+                        </div>
+                        <div class="govuk-grid-column-one-third card-list__item__wrapper homepage-card-component ">
+                            <h2 class="govuk-heading-m">
+                                Crown Commercial Service
+                            </h2>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                On 1 April 2026, Crown Commercial Service and several Cabinet Office Central Commercial
+                                teams (operating under the Government Commercial Function) joined to form the Government
+                                Commercial Agency.
+                            </p>
+                            <p class="govuk-body govuk-!-font-size-17featured">
+                                <a href="https://www.gca.gov.uk/government-commercial-agency-what-you-need-to-know">
+                                    Learn about the change to GCA.
+                                    <span class="visuallyhidden">about Upcoming deals</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="homepage-lower-components-container">
+                <div class="homepage-news-list">
+
+                    <h2 class="govuk-heading-m">Latest news</h2>
+
+                    <ol class="featured-news news-listing">
+                        <li class="feature-news__item news-listing__item">
+                            <picture>
+                                <a href="https://www.gca.gov.uk/news/changes-to-our-agreements-in-september-2026"
+                                    aria-hidden="true" class="news-listing__item__image-link" tabindex="-1">
+
+                                    <source media="(max-width: 320px)"
+                                        srcset="/public/gca/news/Studio-Session-409-56-320x213.jpg"
+                                        data-srcset="/public/gca/news/Studio-Session-409-56-320x213.jpg">
+
+                                    <source media="(max-width: 768px)"
+                                        srcset="/public/gca/news/Studio-Session-409-56-640x427.jpg"
+                                        data-srcset="/public/gca/news/Studio-Session-409-56-640x427.jpg">
+
+                                    <img src="/public/gca/news/Studio-Session-409-56-640x427.jpg" alt=''
+                                        role='presentation' aria-hidden="true" tabindex="-1">
+
+                                </a>
+                            </picture>
+
+                            <div class="feature-news__item__details news-listing__item__caption">
+                                <div class="news-listing-meta">
+                                    News and blogs | 12 October 2026
+                                </div>
+                                <h2 class="news-listing-title">
+                                    <a href="https://www.gca.gov.uk/news/changes-to-our-agreements-in-september-2026"
+                                        title="Changes to our agreements in September 2026">Changes to our agreements in
+                                        September 2026</a>
+                                </h2>
+
+                                <p class="news-listing-summary">
+                                    A brief summary of the agreements that expired, were extended, or were awarded in
+                                    September 2026.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="feature-news__item news-listing__item">
+                            <picture>
+                                <a href="https://www.gca.gov.uk/news/helping-life-saving-technology-reach-soldiers-on-the-battlefield-faster"
+                                    aria-hidden="true" class="news-listing__item__image-link" tabindex="-1">
+
+                                    <source media="(max-width: 320px)"
+                                        srcset="/public/gca/news/british-soldiers-tactical-communications-equipment-gca-mod-320x213.png"
+                                        data-srcset="/public/gca/news/british-soldiers-tactical-communications-equipment-gca-mod-320x213.png">
+
+                                    <img src="/public/gca/news/british-soldiers-tactical-communications-equipment-gca-mod.png"
+                                        alt=Three British soldiers in camouflage gear using tactical communications
+                                        equipment, including a hand-held radio transceiver and pack antenna, while
+                                        kneeling in a wooded training area during an exercise. aria-hidden="true"
+                                        tabindex="-1">
+
+                                </a>
+                            </picture>
+
+                            <div class="feature-news__item__details news-listing__item__caption">
+                                <div class="news-listing-meta">
+                                    Case study | 8 October 2026
+                                </div>
+                                <h2 class="news-listing-title">
+                                    <a href="https://www.gca.gov.uk/news/helping-life-saving-technology-reach-soldiers-on-the-battlefield-faster"
+                                        title="GCA and MOD help life-saving technology reach soldiers on the battlefield faster">GCA
+                                        and MOD help life-saving technology reach soldiers on the battlefield faster</a>
+                                </h2>
+
+                                <p class="news-listing-summary">
+                                    Cutting-edge tactical communications equipment. This is how Government Commercial
+                                    Agency (GCA) and the Ministry of Defence (MOD) are partnering to keep British
+                                    soldiers safe.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="feature-news__item news-listing__item">
+                            <picture>
+                                <a href="https://www.gca.gov.uk/news/how-does-the-public-sector-contract-support-smes-in-public-procurement-supplier-specifics"
+                                    aria-hidden="true" class="news-listing__item__image-link" tabindex="-1">
+
+                                    <source media="(max-width: 320px)"
+                                        srcset="/public/gca/news/7645-24-Procurement-Essentials-Supplier-series-600x400_2-1-320x213.jpg"
+                                        data-srcset="/public/gca/news/7645-24-Procurement-Essentials-Supplier-series-600x400_2-1-320x213.jpg">
+
+                                    <img src="/public/gca/news/7645-24-Procurement-Essentials-Supplier-series-600x400_2-1.jpg"
+                                        alt=Guidance for suppliers on how to prepare for financial risk assessment and
+                                        achieve financial readiness . aria-hidden="true" tabindex="-1">
+
+                                </a>
+                            </picture>
+
+                            <div class="feature-news__item__details news-listing__item__caption">
+                                <div class="news-listing-meta">
+                                    Supplier Specifics | 9 September 2026
+                                </div>
+                                <h2 class="news-listing-title">
+                                    <a href="https://www.gca.gov.uk/news/how-does-the-public-sector-contract-support-smes-in-public-procurement-supplier-specifics"
+                                        title="What is the Public Sector Contract and how does it support SMEs?">What is
+                                        the Public Sector Contract and how does it support SMEs?</a>
+                                </h2>
+
+                                <p class="news-listing-summary">
+                                    Find out how our Public Sector Contract supports small and medium-sized enterprises
+                                    in public procurement.
+                                </p>
+                            </div>
+                        </li>
+                    </ol>
+
+                </div>
+
+            </div>
+
+            <p class="homepage-browse-all"><a href="https://www.gca.gov.uk/news">Browse all news articles</a></p>
+
+            <div class="glossary-box-container">
+                <div class="glossary-box-background"></div>
+                <div class="glossary-box">
+                    <h3 class="govuk-heading-m">Glossary</h3>
+                    <p>We understand procurement can be confusing. Use our glossary to learn about common public
+                        procurement terms and abbreviations.</p>
+                    <p><a href="https://www.gca.gov.uk/glossary">Read the glossary</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="govuk-footer footer-global">
+
+        <a id="BackToTopButton" class="back-to-top-button" tabindex=0>Back to top
+            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow_upward">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+            </svg>
+        </a>
+
+        <div class="govuk-width-container ">
+
+            <div class="govuk-footer__navigation">
+
+                <div class="govuk-footer__section govuk-footer-remove-flex-grow">
+
+                    <h2 class="govuk-footer__heading govuk-!-font-size-18">Products and support</h2>
+
+                    <ul class="govuk-list govuk-!-font-size-16">
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/agreements"
+                                data-evt-placement="footer">Search agreements</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/agreements/upcoming"
+                                data-evt-placement="footer">Search upcoming agreements</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/suppliers"
+                                data-evt-placement="footer">Search suppliers</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/products-and-services/"
+                                data-evt-placement="footer">Products and services</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/sectors/"
+                                data-evt-placement="footer">Sectors we support</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/glossary"
+                                data-evt-placement="footer">Glossary</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/government-commercial-agency-style-guide/"
+                                data-evt-placement="footer">Style guide</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/contact"
+                                data-evt-placement="footer">Contact us</a>
+
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="govuk-footer__section">
+
+                    <h2 class="govuk-footer__heading govuk-!-font-size-18">For buyers and suppliers</h2>
+
+                    <ul class="govuk-list govuk-!-font-size-16">
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/how-to-buy/"
+                                data-evt-placement="footer">How to buy</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/news/?&amp;categories=168"
+                                data-evt-placement="footer">Procurement Essentials articles</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/how-to-buy/assisted-procurement-service/"
+                                data-evt-placement="footer">Buy through the assisted procurement service</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/newsletter"
+                                data-evt-placement="footer">Subscribe to newsletter</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/how-to-supply/"
+                                data-evt-placement="footer">How to supply</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/news/?&amp;categories=194&amp;page=1"
+                                data-evt-placement="footer">Supplier specific articles</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/how-to-supply/find-tender-opportunities/"
+                                data-evt-placement="footer">Find tender opportunities</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gov.uk/government/publications/smes-a-guide-to-working-with-government"
+                                data-evt-placement="footer">Information for SMEs</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/social-value/carbon-net-zero/how-to-create-a-carbon-reduction-plan-crp/"
+                                data-evt-placement="footer">Create a carbon reduction plan</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/how-to-supply/supplier-marketing-toolkit/"
+                                data-evt-placement="footer">Supplier marketing toolkit</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.reportmi.gca.gov.uk/"
+                                data-evt-placement="footer">Submit MI returns</a>
+
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="govuk-footer__section">
+
+                    <h2 class="govuk-footer__heading govuk-!-font-size-18">Corporate information</h2>
+
+                    <ul class="govuk-list govuk-!-font-size-16">
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gov.uk/government/organisations/government-commercial-agency"
+                                data-evt-placement="footer">GOV.UK GCA</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/about-gca/"
+                                data-evt-placement="footer">About GCA</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/about-gca/press-office/"
+                                data-evt-placement="footer">Press Office</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.crowncommercial.gov.uk/fraud-bribery-and-corruption-statement-2"
+                                data-evt-placement="footer">Fraud bribery and corruption statement</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/public-sector-equality-duty-psed/"
+                                data-evt-placement="footer">Public sector equality</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gca.gov.uk/about-gca/vulnerability-disclosure-policy/"
+                                data-evt-placement="footer">Vulnerability disclosure policy</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.crowncommercial.gov.uk/social-value"
+                                data-evt-placement="footer">Social value</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gov.uk/government/publications/carbon-reduction-policy/carbon-reduction-policy"
+                                data-evt-placement="footer">Carbon reduction plan</a>
+
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="govuk-footer__section">
+
+                    <h2 class="govuk-footer__heading govuk-!-font-size-18">Digital platforms</h2>
+
+                    <ul class="govuk-list govuk-!-font-size-16">
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gov.uk/contracts-finder"
+                                data-evt-placement="footer">Contracts Finder</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gov.uk/find-tender"
+                                data-evt-placement="footer">Find a Tender</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/emarketplace-registration-form/"
+                                data-evt-placement="footer">Register for eMarketplace</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/esourcing-training"
+                                data-evt-placement="footer">Register for eSourcing training</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.applytosupply.digitalmarketplace.service.gov.uk/user/login?_gl=1*b379f8*_ga*MzQyNTU3MTIwLjE3NTg1NTM1NzA.*_ga_SK4BZ95L7T*czE3NjM1NDU4NzgkbzEkZzEkdDE3NjM1NDc2MDEkajYwJGwwJGgw"
+                                data-evt-placement="footer">Sign in to Digital Marketplace</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/esourcing-register"
+                                data-evt-placement="footer">Register for eSourcing tool</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://fleetportal.gca.gov.uk/login.mth?_gl=1*b379f8*_ga*MzQyNTU3MTIwLjE3NTg1NTM1NzA.*_ga_SK4BZ95L7T*czE3NjM1NDU4NzgkbzEkZzEkdDE3NjM1NDc2MDEkajYwJGwwJGgw"
+                                data-evt-placement="footer">Sign in to Fleet Portal</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link"
+                                href="https://crowncommercialservice.bravosolution.co.uk/web/login.html"
+                                data-evt-placement="footer">Sign in to eSourcing portal</a>
+
+                        </li>
+                        <li class="govuk-!-margin-bottom-4">
+
+                            <a class="govuk-footer__link" href="http://purchasingplatform.gca.gov.uk"
+                                data-evt-placement="footer">Sign in to Purchasing Platform</a>
+
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <hr class="govuk-footer__section-break govuk-footer__heading ">
+            <div class="govuk-footer__meta">
+                <div class="govuk-footer__section govuk-footer-width-45">
+
+                    <ul class="govuk-footer__inline-list govuk-!-display-none-print govuk-list govuk-!-font-size-16">
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/accessibility-statement"
+                                data-evt-placement="footer">Accessibility statement</a>
+
+                        </li>
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/cookie-policy"
+                                data-evt-placement="footer">Cookie policy</a>
+
+                        </li>
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/cookie-settings"
+                                data-evt-placement="footer">Cookie settings</a>
+
+                        </li>
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gov.uk/government/organisations/crown-commercial-service/about/modern-slavery-statement"
+                                data-evt-placement="footer">Modern slavery</a>
+
+                        </li>
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link"
+                                href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice"
+                                data-evt-placement="footer">Privacy notice</a>
+
+                        </li>
+                        <li class="govuk-footer__inline-list-item">
+
+                            <a class="govuk-footer__link" href="https://www.gca.gov.uk/terms-and-conditions"
+                                data-evt-placement="footer">Terms and conditions</a>
+
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="govuk-footer__section govuk-footer-logo-align-right govuk-footer-web-logo-view">
+                    <div class="govuk-footer__meta-item">
+                        <a class="govuk-footer__link govuk-footer__copyright-logo govuk-footer__copyright-display-block "
+                            href="/v1/candidates/gca" alt="Go to Homepage" aria-label="Go to Homepage"></a>
+                        <a class="govuk-footer__link"
+                            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">©
+                            Crown copyright</a>
+                    </div>
+
+                    <ul class="list list--inline social-links">
+                        <li>
+                            <a href="https://x.com/gov_procurement" class="govuk-footer__link">
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                                        <path fill="currentColor"
+                                            d="M26.37,26l-8.795,-12.822l0.015,0.012l7.93,-9.19h-2.65l-6.46,7.48l-5.13,-7.48h-6.95l8.211,11.971l-0.001,-0.001l-8.66,10.03h2.65l7.182,-8.322l5.708,8.322zM10.23,6l12.34,18h-2.1l-12.35,-18z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Follow us on X</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/government-procurement-service/"
+                                class="govuk-footer__link">
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Connect with us on LinkedIn</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/@GovernmentCommercialAgency/featured"
+                                class="govuk-footer__link">
+                                <span class="icon" style="top: 4px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-youtube"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Follow us on YouTube</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="govuk-footer__section govuk-footer-logo-align-right govuk-footer-mobile-logo-view">
+                    <div class="govuk-footer__meta-item govuk-footer-logo-margin-left-10">
+                        <a href="/v1/candidates/gca" class="logo footer-logo-margin-bottom-20"><img
+                                srcset="/public/gca/images/GCA_stacked_black.svg"
+                                src="/public/gca/images/GCA_stacked_black.svg" alt="Go to the GCA homepage" width="140"
+                                height="117"></a>
+                    </div>
+
+                    <ul class="list list--inline social-links">
+                        <li>
+                            <a href="https://x.com/gov_procurement" class="govuk-footer__link">
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                                        <path fill="currentColor"
+                                            d="M26.37,26l-8.795,-12.822l0.015,0.012l7.93,-9.19h-2.65l-6.46,7.48l-5.13,-7.48h-6.95l8.211,11.971l-0.001,-0.001l-8.66,10.03h2.65l7.182,-8.322l5.708,8.322zM10.23,6l12.34,18h-2.1l-12.35,-18z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Follow us on X</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/government-procurement-service/"
+                                class="govuk-footer__link">
+                                <span class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Connect with us on LinkedIn</span></a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/@GovernmentCommercialAgency/featured"
+                                class="govuk-footer__link">
+                                <span class="icon" style="top: 4px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-youtube"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />
+                                    </svg>
+                                </span> <span class="visuallyhidden">Follow us on YouTube</span></a>
+                        </li>
+                    </ul>
+                    <a class="govuk-footer__link"
+                        href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">©Crown
+                        copyright</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/public/gca/gca.js" defer></script>
+</body>
+
+</html>
