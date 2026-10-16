@@ -1,6 +1,14 @@
 # gca-design-prototype-IDAM
 gca-design-prototype-IDAM
 
+## Deployment stylesheets
+
+The `dev`, `serve` and `start` npm scripts set `SASS_PATH=node_modules` so Sass
+can resolve CCS Frontend's GOV.UK Frontend imports from the installed packages.
+No forwarding stylesheet or changes to installed packages are needed.
+These commands use shell environment-variable syntax supported on macOS and
+Linux, including Railway. On Windows, use WSL or a compatible shell.
+
 ## Input validation
 
 Organisation registration input pages validate submissions on the

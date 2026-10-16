@@ -1,9 +1,9 @@
 {
   "scripts": {
     "assets:ccs": "node scripts/copy-ccs-assets.mjs",
-    "dev": "govuk-prototype-kit dev",
-    "serve": "govuk-prototype-kit serve",
-    "start": "govuk-prototype-kit start"
+    "dev": "SASS_PATH=node_modules govuk-prototype-kit dev",
+    "serve": "SASS_PATH=node_modules govuk-prototype-kit serve",
+    "start": "SASS_PATH=node_modules govuk-prototype-kit start"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "3.0.0",
