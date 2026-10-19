@@ -37,6 +37,10 @@
   </div>
 {% endblock %}
 
+{% block footer %}
+  {{ govukFooter({ meta: { items: [{ href: "/v1/setup", text: "Setup" }] } }) }}
+{% endblock %}
+
 {% block bodyEnd %}
   {{ super() }}
   <script src="/public/javascripts/jquery.min.js"></script>

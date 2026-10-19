@@ -1,0 +1,12 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageContent %}
+{% block authHeading %}<h1 class="govuk-heading-l">{{ pageName }}</h1>{% endblock %}
+<form method="post" action="/v1/registration/auth0/{{ pageId }}" novalidate>
+  {% block authContent %}{% endblock %}
+  {% block authButton %}{{ govukButton({ text: "Continue" }) }}{% endblock %}
+</form>
+{% endblock %}

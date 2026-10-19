@@ -1,0 +1,28 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Check your phone" %}
+
+{% block authContent %}
+<div class="govuk-inset-text">
+  We have sent a code to your phone{% if phoneEnding %} number ending with <strong>{{ phoneEnding }}</strong>{% endif %}.
+</div>
+<p class="govuk-body">It might take a few minutes to arrive. The code will expire after 15 minutes.</p>
+{{ govukInput({
+  id: "code", name: "code", inputmode: "numeric", autocomplete: "one-time-code",
+  classes: "govuk-input--width-10", label: { text: "Enter the 6 digit code" },
+  spellcheck: false
+}) }}
+{% endblock %}
+{% block authButton %}
+{{ super() }}
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">Problems with the code?</span>
+  </summary>
+  <div class="govuk-details__text">
+    <p class="govuk-body">We can <a class="govuk-link" href="/v1/registration/auth0/{{ pageId }}">send the code again</a>{% if pageId == "phone-code" %} or you can <a class="govuk-link" href="/v1/registration/auth0/phone-number">use a different phone number</a>{% endif %}.</p>
+    {% if pageId == "phone-code" %}
+      <p class="govuk-body"><a class="govuk-link" href="/v1/registration/auth0/select-2fa">Choose another way to get security codes</a>.</p>
+    {% endif %}
+  </div>
+</details>
+{% endblock %}

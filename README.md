@@ -21,7 +21,7 @@ are excluded; a local script handles the cookie banner and mobile navigation.
 Only a prototype cookie is set by Accept all cookies.
 
 The header and mobile navigation **Create account** and **Sign in** links lead
-to the shared One Login start page and retain GCA as the candidate service.
+to the selected login provider's start page and retain GCA as the candidate service.
 The confirmation page returns to the local GCA homepage, where **Sign out**
 replaces these account links. Signing out resets that simulated GCA sign-in
 state. Links to other services, search forms and other content retain their
@@ -34,8 +34,8 @@ with permission confirmed for this use. Original styles, fonts, images and icons
 are stored in [app/assets/fleet-portal](app/assets/fleet-portal) and are isolated
 from the prototype's newer GOV.UK/CCS styles.
 
-The combined Login/Register header button and Register today link enter the simulated One Login start page
-at `/v1/registration/one-login/sign-up-start`, setting the candidate entry point.
+The combined Login/Register header button and Register today link enter the selected
+login flow via `/v1/registration/sign-up-start`, setting the candidate entry point.
 Other links retain
 their live destinations, and the original YouTube embeds require internet access.
 Production analytics, unrelated production scripts and Font Awesome Pro are not
@@ -59,11 +59,48 @@ the prototype session as signed in to Fleet Portal. Its header then shows
 Fleet Portal sign-in state and returns to the local homepage; registration
 answers remain available for prototype testing.
 
+## Login setup
+
+Use **Setup** in the footer to open `/v1/setup`, outside the registration journey.
+Select OneLogin (the default) or Auth0. Saving clears registration data, candidate
+context and signed-in status while retaining the CCS/GOV.UK theme and login settings.
+Normal registration, GCA and Fleet Portal entry routes use the selected provider.
+The `/v1/registration` landing page is shown for both providers. When Auth0 is
+selected, its Continue button starts a fresh registration at the Auth0 email-entry
+page, skipping the Auth0 account-choice page.
+
+Auth0 has separate page templates in [app/views/v1/registration/auth0](app/views/v1/registration/auth0),
+alongside the existing One Login folder, and uses [layouts/auth0.html](app/views/layouts/auth0.html).
+Its routes live under `/v1/registration/auth0/`. Account creation includes email
+entry, a simulated verification-link page, password creation and a choice of text
+message, authenticator app or no two-factor authentication. Choosing none asks for
+confirmation; choosing No returns to the method selection. All completed branches
+show a basic next-steps page explaining that users can create an organisation
+account or access GCA services on behalf of an organisation they are already part
+of. Continue then opens the first name and last name page.
+
+Auth0 sign-in collects email and password on one page, then always shows the
+text-message code page before continuing to the organisation journey.
+Auth0 validates email presence and format, mobile phone presence and format, and required
+two-factor choices. Errors use the shared GOV.UK summary, inline messages and
+Error-prefixed page title. Validation stays in each page's POST handler.
+Non-sensitive answers are retained; passwords and codes are not.
+Passwords are not validated during creation or sign-in. Blank, weak or mismatched
+passwords are accepted; the displayed requirements are guidance only.
+There is no real authentication, email delivery or security-code verification.
+All security-code pages accept blank or arbitrary codes, including authenticator
+setup. One Login remains unvalidated.
+The Check your email page links to an example in
+[auth0/emails/confirm-email.html](app/views/v1/registration/auth0/emails/confirm-email.html).
+Its confirmation link opens Create your password. Email content is a visual
+example only: no notifications are sent, and expiry or single-use limits are
+not enforced.
+
 ## Input validation
 
-Selecting Sign in or Create your GOV.UK One Login on the One Login start page
+Selecting Sign in or Create account on either provider's start page
 clears previous form answers, generated organisation IDs and simulated sign-in
-state. The selected CCS/GOV.UK theme and entry-service context are retained.
+state. The selected CCS/GOV.UK theme, login settings and entry-service context are retained.
 
 Organisation registration input pages validate submissions on the
 server. Errors use the GOV.UK error summary and inline error message components,

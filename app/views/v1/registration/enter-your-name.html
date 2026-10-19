@@ -1,9 +1,12 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% set pageName = "Create your GCA account" %}
+{% set pageName = "Enter your name" if data.loginMethod == "auth0" else "Create your GCA account" %}
 
 {% block pageContent %}
+{% if data.loginMethod == "auth0" %}
+<h1 class="govuk-heading-l">Enter your name</h1>
+{% else %}
 <h1 class="govuk-heading-xl">Create your GCA account</h1>
 <p class="govuk-body">Before your GCA Login account can be created we need to gather some additional information.</p>
 <p class="govuk-body">Once your account has been created you will be able to: </p>
@@ -13,6 +16,7 @@
 </ul>
 
 <h2 class="govuk-heading-m">Your details</h2>
+{% endif %}
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
   {{ govukInput({ id: "firstName", name: "firstName", label: { text: "First name" }, value: data.firstName, autocomplete: "given-name", errorMessage: errors.firstName }) }}
   {{ govukInput({ id: "lastName", name: "lastName", label: { text: "Last name" }, value: data.lastName, autocomplete: "family-name", errorMessage: errors.lastName }) }}

@@ -1,0 +1,47 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Set up an authenticator app" %}
+
+{% block authContent %}
+<ol class="govuk-list govuk-list--number">
+  <li>
+    <p class="govuk-body">Open your authenticator app on your smartphone, tablet or computer.</p>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">I do not have an authenticator app</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">You can download an authenticator app for your smartphone or tablet from your app store.</p>
+        <p class="govuk-body">If you do not have a smartphone or tablet, search online for an authenticator app for your computer.</p>
+        <p class="govuk-body">You can use any authenticator app.</p>
+      </div>
+    </details>
+  </li>
+  <li>
+    <p class="govuk-body">Use your authenticator app to scan the QR code.</p>
+    <p class="govuk-body">
+      <img src="/public/images/authenticator-app-qr.png" alt="Scan this QR code with your authenticator app" width="244" height="244">
+    </p>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">I cannot scan the QR code</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">You can enter the secret key into your authenticator app instead.</p>
+        <p class="govuk-body">Secret key: <strong>522J JV7K GZSG KXST HFTI Y367 34IT JAQW</strong></p>
+        <p class="govuk-body">Some authenticator apps call the secret key a code.</p>
+      </div>
+    </details>
+  </li>
+  <li><p class="govuk-body">The authenticator app will show a security code.</p></li>
+</ol>
+{{ govukInput({
+  id: "code", name: "code", inputmode: "numeric", autocomplete: "one-time-code",
+  classes: "govuk-input--width-10", label: { text: "Enter the code" },
+  hint: { text: "This is the 6-digit number shown in your authenticator app" },
+  spellcheck: false
+}) }}
+{% endblock %}
+{% block authButton %}
+{{ super() }}
+<p class="govuk-body"><a class="govuk-link" href="/v1/registration/auth0/select-2fa">Choose another way to get security codes</a></p>
+{% endblock %}

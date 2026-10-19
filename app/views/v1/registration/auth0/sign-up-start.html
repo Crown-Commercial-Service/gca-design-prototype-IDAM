@@ -1,0 +1,10 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Sign in or create an account" %}
+
+{% block authContent %}
+<p class="govuk-body">Use your GCA account to access the service.</p>
+{% endblock %}
+{% block authButton %}
+{{ govukButton({ text: "Create account", name: "accountAction", value: "create-account" }) }}
+{{ govukButton({ text: "Sign in", name: "accountAction", value: "sign-in", classes: "govuk-button--secondary" }) }}
+{% endblock %}

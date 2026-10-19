@@ -1,0 +1,14 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Enter your email address" %}
+
+{% block authHeading %}{% endblock %}
+
+{% block authContent %}
+{{ govukInput({
+  id: "email", name: "email", type: "email", autocomplete: "email",
+  spellcheck: false,
+  label: { text: pageName, classes: "govuk-label--l", isPageHeading: true },
+  value: data.email,
+  errorMessage: errors.email
+}) }}
+{% endblock %}

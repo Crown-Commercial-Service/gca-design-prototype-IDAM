@@ -1,0 +1,13 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Are you sure you want to turn off two-factor authentication?" %}
+
+{% block authContent %}
+<p class="govuk-body">Two-factor authentication helps protect your account if someone else knows your password.</p>
+{{ govukRadios({
+  name: "disable2fa",
+  errorMessage: errors.disable2fa,
+  fieldset: { legend: { text: "Do you want to continue without two-factor authentication?", classes: "govuk-fieldset__legend--m" } },
+  items: [{ value: "yes", text: "Yes, continue without two-factor authentication" }, { value: "no", text: "No, set up two-factor authentication" }],
+  value: data.disable2fa
+}) }}
+{% endblock %}

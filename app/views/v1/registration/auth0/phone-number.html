@@ -1,0 +1,19 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Enter your mobile phone number" %}
+
+{% block authContent %}
+<p class="govuk-body">We will send a 6 digit security code to the number you give us.</p>
+{{ govukInput({
+  id: "phoneNumber", name: "phoneNumber", type: "tel", autocomplete: "tel",
+  label: { text: "Mobile phone number" }, value: data.phoneNumber,
+  errorMessage: errors.phoneNumber
+}) }}
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">I do not have a mobile phone number</span>
+  </summary>
+  <div class="govuk-details__text">
+    <p class="govuk-body">You need to <a class="govuk-link" href="/v1/registration/auth0/select-2fa">choose another way to get security codes</a>.</p>
+  </div>
+</details>
+{% endblock %}

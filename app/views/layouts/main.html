@@ -52,6 +52,7 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% block footer %}
   {% if GOVUKPrototypeKit.isDevelopment %}
     {% set footerItems = [
+      { href: "/v1/setup", text: "Setup" },
       {
         href: "/manage-prototype",
         text: "Manage your prototype"
@@ -67,6 +68,7 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
     ] %}
   {% else %}
     {% set footerItems = [
+      { href: "/v1/setup", text: "Setup" },
       {
         href: "/manage-prototype/clear-data",
         text: "Clear data"

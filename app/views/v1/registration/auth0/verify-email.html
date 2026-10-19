@@ -1,0 +1,9 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Check your email" %}
+
+{% block authContent %}
+<p class="govuk-body">We have sent a verification link to <strong>{{ data.email }}</strong>.</p>
+<p class="govuk-body">Follow the link in the email to verify your email address.</p>
+<p class="govuk-body-s"><a class="govuk-link" href="/v1/registration/auth0/emails/confirm-email">View example email</a></p>
+{% endblock %}
+{% block authButton %}{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Enter the code from your authenticator app" %}
+
+{% block authContent %}
+<p class="govuk-body">Open your authenticator app to get your security code.</p>
+{{ govukInput({
+  id: "code", name: "code", inputmode: "numeric", autocomplete: "one-time-code",
+  classes: "govuk-input--width-10", label: { text: "Enter the code" },
+  hint: { text: "This is the 6-digit number shown in your authenticator app" },
+  spellcheck: false
+}) }}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Sign in" %}
+
+{% block authContent %}
+{{ govukInput({
+  id: "email", name: "email", type: "email", autocomplete: "email",
+  spellcheck: false, label: { text: "Email address" }, value: data.email,
+  errorMessage: errors.email
+}) }}
+{{ govukInput({
+  id: "password", name: "password", type: "password", autocomplete: "current-password",
+  label: { text: "Password" }
+}) }}
+{% endblock %}

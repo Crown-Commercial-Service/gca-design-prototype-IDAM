@@ -24,6 +24,14 @@ const getData = req => {
 	return req.session.data
 }
 
+const resetRegistration = (data, keepEntry = true) => {
+	const retainedFields = ['theme', 'loginMethod']
+	if (keepEntry) retainedFields.push('entryPoint', 'candidateServiceName', 'candidateServicePath')
+	for (const field of Object.keys(data)) {
+		if (!retainedFields.includes(field)) delete data[field]
+	}
+}
+
 const getOrganisationDisplay = data => {
 	if (data.organisationDetailsRoute === 'companies-house' &&
 		data.organisationIsCorrect === 'yes' &&
@@ -120,13 +128,13 @@ const renderValidationErrors = (req, res, pageId, messages, inputIds = {}) => {
 		errors[field] = { text: message }
 		errorList.push({ text: message, href: `#${inputIds[field] || field}` })
 	}
-	return renderPage(req, res, `v1/registration/${pageId}`, pageId, { errors, errorList })
+	return renderPage(req, res, `v1/registration/${pageId}`, pageId.split('/').pop(), { errors, errorList })
 }
 
 module.exports = router => {
 	router.use((req, res, next) => {
 		if (req.method !== 'POST') return next()
-		const match = req.path.match(/^\/v1\/registration\/((?:one-login\/)?[^/]+)\/?$/)
+		const match = req.path.match(/^\/v1\/registration\/((?:(?:one-login|auth0)\/)?[^/]+)\/?$/)
 		if (!match) return next()
 		const data = getData(req)
 		// The Prototype Kit stores POST bodies before these routes run.
@@ -138,6 +146,37 @@ module.exports = router => {
 	})
 
 	router.get('/v1', (req, res) => res.redirect('/v1/registration'))
+
+	router.get('/v1/setup', (req, res) => renderPage(req, res, 'v1/setup', 'setup'))
+	router.post('/v1/setup', (req, res) => {
+		const data = getData(req)
+		const loginMethod = text((req.body || {}).loginMethod)
+		const errors = {}
+		if (!['one-login', 'auth0'].includes(loginMethod)) {
+			errors.loginMethod = { text: 'Select a login method' }
+		}
+		if (Object.keys(errors).length) {
+			return renderPage(req, res, 'v1/setup', 'setup', {
+				errors,
+				errorList: Object.entries(errors).map(([field, error]) => ({ text: error.text, href: `#${field}` }))
+			})
+		}
+		data.loginMethod = loginMethod
+		resetRegistration(data, false)
+		res.redirect('/v1/registration')
+	})
+
+	router.get('/v1/registration/sign-up-start', (req, res) => {
+		const data = getData(req)
+		const provider = data.loginMethod === 'auth0' ? 'auth0' : 'one-login'
+		if (provider === 'auth0' && data.entryPoint === 'idam') {
+			resetRegistration(data)
+			data.accountAction = 'create-account'
+			data.previousPage = 'home'
+			return res.redirect('/v1/registration/auth0/create-email')
+		}
+		res.redirect(`/v1/registration/${provider}/sign-up-start`)
+	})
 
 	router.get('/v1/registration', (req, res) => {
 		const data = getData(req)
@@ -166,7 +205,7 @@ module.exports = router => {
 		data.candidateServiceName = 'GCA'
 		data.candidateServicePath = '/v1/candidates/gca'
 		data.previousPage = 'home'
-		res.redirect('/v1/registration/one-login/sign-up-start')
+		res.redirect('/v1/registration/sign-up-start')
 	})
 
 	router.get('/v1/candidates/gca/sign-out', (req, res) => {
@@ -184,21 +223,113 @@ module.exports = router => {
 		data.candidateServiceName = 'Fleet Portal'
 		data.candidateServicePath = '/v1/candidates/fleet-portal'
 		data.previousPage = 'home'
-		res.redirect('/v1/registration/one-login/sign-up-start')
+		res.redirect('/v1/registration/sign-up-start')
 	})
 
-	router.get('/v1/registration/one-login/sign-up-start', (req, res) => renderPage(req, res, 'v1/registration/one-login/sign-up-start', 'sign-up-start'))
+	router.get('/v1/registration/one-login/sign-up-start', (req, res) => {
+		if (getData(req).loginMethod === 'auth0') return res.redirect('/v1/registration/auth0/sign-up-start')
+		renderPage(req, res, 'v1/registration/one-login/sign-up-start', 'sign-up-start')
+	})
 	router.post('/v1/registration/one-login/sign-up-start', (req, res) => {
 		const data = getData(req)
 		const accountAction = (req.body || {}).accountAction
-		const retainedFields = ['theme', 'entryPoint', 'candidateServiceName', 'candidateServicePath']
-		for (const field of Object.keys(data)) {
-			if (!retainedFields.includes(field)) {
-				delete data[field]
-			}
-		}
+		resetRegistration(data)
 		data.accountAction = accountAction
 		redirectAfterPost(req, res, 'sign-up-start', accountAction === 'sign-in' ? 'login-email' : 'create-email', true)
+	})
+
+	router.get('/v1/registration/auth0/:page', (req, res, next) => {
+		const pages = ['sign-up-start', 'create-email', 'verify-email', 'create-password',
+			'select-2fa', 'phone-number', 'phone-code', 'authenticator-app',
+			'disable-2fa', 'account-created', 'sign-in', 'login-phone-code', 'login-app-code']
+		if (!pages.includes(req.params.page)) return next()
+		renderPage(req, res, `v1/registration/auth0/${req.params.page}`, req.params.page)
+	})
+	router.post('/v1/registration/auth0/sign-up-start', (req, res) => {
+		const data = getData(req)
+		const action = (req.body || {}).accountAction
+		resetRegistration(data)
+		data.accountAction = action
+		res.redirect(`/v1/registration/auth0/${action === 'sign-in' ? 'sign-in' : 'create-email'}`)
+	})
+	router.post('/v1/registration/auth0/create-email', (req, res) => {
+		const data = getData(req)
+		data.email = text((req.body || {}).email)
+		if (!data.email) {
+			return renderValidationErrors(req, res, 'auth0/create-email', { email: 'Enter your email address' })
+		}
+		if (data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+			return renderValidationErrors(req, res, 'auth0/create-email', { email: 'Enter an email address in the correct format, like name@example.com' })
+		}
+		res.redirect('/v1/registration/auth0/verify-email')
+	})
+	router.post('/v1/registration/auth0/verify-email', (req, res) => {
+		res.redirect('/v1/registration/auth0/create-password')
+	})
+	router.post('/v1/registration/auth0/create-password', (req, res) => {
+		res.redirect('/v1/registration/auth0/select-2fa')
+	})
+	router.post('/v1/registration/auth0/select-2fa', (req, res) => {
+		const data = getData(req)
+		data.auth0Mfa = text((req.body || {}).auth0Mfa)
+		if (!['text', 'app', 'none'].includes(data.auth0Mfa)) {
+			return renderValidationErrors(req, res, 'auth0/select-2fa', {
+				auth0Mfa: 'Select how you want to get security codes, or select none'
+			})
+		}
+		const nextPage = data.auth0Mfa === 'text' ? 'phone-number' : data.auth0Mfa === 'app' ? 'authenticator-app' : 'disable-2fa'
+		res.redirect(`/v1/registration/auth0/${nextPage}`)
+	})
+	router.post('/v1/registration/auth0/phone-number', (req, res) => {
+		const data = getData(req)
+		data.phoneNumber = text((req.body || {}).phoneNumber)
+		if (!data.phoneNumber) {
+			return renderValidationErrors(req, res, 'auth0/phone-number', { phoneNumber: 'Enter your mobile phone number' })
+		}
+		const phoneDigits = data.phoneNumber.replace(/[\s().-]/g, '')
+		if (!/^\+?\d{7,15}$/.test(phoneDigits)) {
+			return renderValidationErrors(req, res, 'auth0/phone-number', { phoneNumber: 'Enter a mobile phone number in the correct format' })
+		}
+		res.redirect('/v1/registration/auth0/phone-code')
+	})
+	router.post('/v1/registration/auth0/phone-code', (req, res) => {
+		res.redirect('/v1/registration/auth0/account-created')
+	})
+	router.post('/v1/registration/auth0/authenticator-app', (req, res) => {
+		res.redirect('/v1/registration/auth0/account-created')
+	})
+	router.post('/v1/registration/auth0/disable-2fa', (req, res) => {
+		const data = getData(req)
+		data.disable2fa = text((req.body || {}).disable2fa)
+		if (!['yes', 'no'].includes(data.disable2fa)) {
+			return renderValidationErrors(req, res, 'auth0/disable-2fa', {
+				disable2fa: 'Select yes if you want to continue without two-factor authentication'
+			})
+		}
+		res.redirect(`/v1/registration/auth0/${data.disable2fa === 'yes' ? 'account-created' : 'select-2fa'}`)
+	})
+	router.post('/v1/registration/auth0/account-created', (req, res) => {
+		redirectAfterPost(req, res, 'account-created', 'enter-your-name')
+	})
+	router.post('/v1/registration/auth0/sign-in', (req, res) => {
+		const data = getData(req)
+		data.email = text((req.body || {}).email)
+		const errors = {}
+		if (!data.email) {
+			errors.email = 'Enter your email address'
+		} else if (data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+			errors.email = 'Enter an email address in the correct format, like name@example.com'
+		}
+		if (Object.keys(errors).length) {
+			return renderValidationErrors(req, res, 'auth0/sign-in', errors)
+		}
+		res.redirect('/v1/registration/auth0/login-phone-code')
+	})
+	router.post('/v1/registration/auth0/login-phone-code', (req, res) => {
+		redirectAfterPost(req, res, 'login-phone-code', 'enter-your-name')
+	})
+	router.post('/v1/registration/auth0/login-app-code', (req, res) => {
+		redirectAfterPost(req, res, 'login-app-code', 'enter-your-name')
 	})
 
 	router.get('/v1/registration/one-login/create-email', (req, res) => renderPage(req, res, 'v1/registration/one-login/create-email', 'create-email'))

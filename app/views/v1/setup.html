@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Setup" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">Setup</h1>
+<p class="govuk-body">These settings are for prototype testing and are not part of the registration journey.</p>
+<form method="post" action="/v1/setup" novalidate>
+  {{ govukRadios({
+    name: "loginMethod",
+    idPrefix: "loginMethod",
+    fieldset: { legend: { text: "Select login method", classes: "govuk-fieldset__legend--m" } },
+    items: [{ value: "one-login", text: "OneLogin" }, { value: "auth0", text: "Auth0" }],
+    value: data.loginMethod or "one-login",
+    errorMessage: errors.loginMethod
+  }) }}
+  <p class="govuk-body">Saving clears current registration answers and signed-in status. Your CCS or GOV.UK theme selection will be kept.</p>
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "layouts/auth0.html" %}
+{% set pageName = "Set up two-factor authentication" %}
+
+{% block authContent %}
+<p class="govuk-body">Two-factor authentication adds an extra layer of security to your account. When you sign in, you enter a security code as well as your password.</p>
+{{ govukRadios({
+  name: "auth0Mfa",
+  errorMessage: errors.auth0Mfa,
+  fieldset: { legend: { text: "How do you want to secure your account?", classes: "govuk-fieldset__legend--m" } },
+  items: [
+    {
+      value: "text",
+      text: "Text message",
+      hint: { text: "We will send a security code to your mobile phone by text message each time you sign in. You need a phone that can receive text messages." }
+    },
+    {
+      value: "app",
+      text: "Authenticator app",
+      hint: { text: "Use an authenticator app on your phone or another device to generate a security code when you sign in. Once set up, the app can generate codes without a mobile signal or internet connection." }
+    },
+    { divider: "or" },
+    {
+      value: "none",
+      text: "None",
+      hint: { text: "Only select this if you cannot use either method, for example if you do not have access to a phone or another device that can run an authenticator app. Your account will be less secure without two-factor authentication." }
+    }
+  ],
+  value: data.auth0Mfa
+}) }}
+{% endblock %}
