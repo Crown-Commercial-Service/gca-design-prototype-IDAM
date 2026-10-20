@@ -21,7 +21,10 @@ are excluded; a local script handles the cookie banner and mobile navigation.
 Only a prototype cookie is set by Accept all cookies.
 
 The header and mobile navigation **Create account** and **Sign in** links lead
-to the selected login provider's start page and retain GCA as the candidate service.
+retain GCA as the candidate service. With Auth0 selected, Create account goes
+directly to email entry and Sign in goes directly to the sign-in form, clearing
+previous registration answers while retaining theme, provider and GCA context.
+With One Login selected, both links go to its shared start page.
 The confirmation page returns to the local GCA homepage, where **Sign out**
 replaces these account links. Signing out resets that simulated GCA sign-in
 state. Links to other services, search forms and other content retain their

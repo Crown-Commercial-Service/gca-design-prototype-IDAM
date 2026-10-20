@@ -7,8 +7,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Sign in or create an account</h1>
-    <p class="govuk-body">{% if data.loginMethod == "auth0" %}Use your GCA account to access the service.{% else %}Use GOV.UK One Login to access the GCA service.{% endif %}</p>
-    <a class="govuk-button" href="/{{ version }}/registration/sign-up-start">Continue</a>
+    <div class="govuk-inset-text">
+      {% if data.loginMethod == "auth0" %}
+        You'll need a GCA account to sign in to this service. You can create one if you do not already have one.
+      {% else %}
+        You'll need a GOV.UK One Login to sign in to this service. You can create one if you do not already have one.
+      {% endif %}
+    </div>
+    <p class="govuk-body">When you have an account you can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>register a buyer or supplier organisation</li>
+      <li>save search criteria</li>
+      <li>sign up for notifications via email</li>
+    </ul>
+    <a class="govuk-button" href="/{{ version }}/registration/sign-up-start">Sign in or create an account</a>
 
   </div>
 </div>

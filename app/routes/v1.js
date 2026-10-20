@@ -163,7 +163,7 @@ module.exports = router => {
 		}
 		data.loginMethod = loginMethod
 		resetRegistration(data, false)
-		res.redirect('/v1/registration')
+		res.redirect('/')
 	})
 
 	router.get('/v1/registration/sign-up-start', (req, res) => {
@@ -199,12 +199,19 @@ module.exports = router => {
 
 	router.get('/v1/candidates/gca', (req, res) => renderPage(req, res, 'v1/candidates/gca', 'gca'))
 
-	router.get('/v1/candidates/gca/start', (req, res) => {
+	router.get(['/v1/candidates/gca/start', '/v1/candidates/gca/login', '/v1/candidates/gca/register'], (req, res) => {
 		const data = getData(req)
 		data.entryPoint = 'candidate'
 		data.candidateServiceName = 'GCA'
 		data.candidateServicePath = '/v1/candidates/gca'
 		data.previousPage = 'home'
+		if (data.loginMethod === 'auth0' && req.path !== '/v1/candidates/gca/start') {
+			resetRegistration(data)
+			const isLogin = req.path === '/v1/candidates/gca/login'
+			data.accountAction = isLogin ? 'sign-in' : 'create-account'
+			data.previousPage = 'home'
+			return res.redirect(`/v1/registration/auth0/${isLogin ? 'sign-in' : 'create-email'}`)
+		}
 		res.redirect('/v1/registration/sign-up-start')
 	})
 
