@@ -1,1 +1,27 @@
 @import "node_modules/ccs-frontend/dist/ccs/index";
+
+.organisation-account-confirmation {
+  color: #0b0c0c;
+  background: #bbc946;
+}
+
+.organisation-home__banner {
+  color: #0b0c0c;
+  background: #8fb3ff;
+}
+
+.organisation-home__banner {
+  .govuk-caption-m,
+  .govuk-heading-l,
+  .govuk-body {
+    color: #0b0c0c;
+  }
+
+  .govuk-link--inverse:not(:focus) {
+    color: #0b0c0c;
+
+    &:hover {
+      color: #003078;
+    }
+  }
+}

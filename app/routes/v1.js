@@ -12,11 +12,13 @@ const sensitiveFields = [
 	'authenticatorCode', 'loginTextCode', 'loginAuthenticatorCode'
 ]
 const text = value => typeof value === 'string' ? value.trim() : ''
+const hasExistingOrganisations = data => text(data.email).toLowerCase() === 'test@test.com'
 const selections = value => (value === undefined ? [] : Array.isArray(value) ? value : [value])
 	.filter(item => item !== '_unchecked')
 const isUKPostcode = value => /^(GIR0AA|[A-Z][A-HJ-Y]?\d[A-Z\d]?\d[ABD-HJLNP-UW-Z]{2})$/i.test(value.replace(/\s+/g, ''))
 
 const getData = req => {
+	if (req.organisationEditData) return req.organisationEditData
 	if (!req.session.data) {
 		req.session.data = {}
 	}
@@ -90,6 +92,22 @@ const getOrganisationDisplay = data => {
 	}
 }
 
+const editableOrganisationPages = ['organisation-name', 'organisation-address',
+	'international-organisation-address', 'registry-number', 'organisation-description',
+	'organisation-type', 'devolved-regulations']
+const editableOrganisationFields = [
+	'organisationName', 'registryNumber', 'organisationDescription', 'organisationType',
+	'devolvedRegulations', 'organisationAddressRoute', 'selectedOrganisationAddress',
+	'addressLine1', 'addressLine2', 'addressTown', 'addressPostcode',
+	'internationalAddressLine1', 'internationalAddressLine2', 'internationalTown',
+	'internationalPostcode', 'internationalCountry'
+]
+const organisationEditValues = data => Object.fromEntries(editableOrganisationFields
+	.filter(field => Object.hasOwn(data, field))
+	.map(field => [field, structuredClone(data[field])]))
+const isOrganisationEdit = req => req.query.editOrganisation === 'true' &&
+	editableOrganisationPages.includes(req.path.split('/').pop())
+
 const renderPage = (req, res, view, pageId, additionalData = {}) => {
 	const data = additionalData.data || getData(req)
 	const phoneEnding = data.phoneNumber
@@ -99,6 +117,7 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 	res.render(view, {
 		version: 'v1',
 		pageId,
+		editingOrganisation: isOrganisationEdit(req),
 		data,
 		summaryData: data,
 		organisationDisplay: getOrganisationDisplay(data),
@@ -117,6 +136,15 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 }
 
 const redirectAfterPost = (req, res, pageId, nextPage, oneLoginPage = false) => {
+	if (hasExistingOrganisations(getData(req)) &&
+		(['enter-your-name', 'continue-service'].includes(nextPage) ||
+			(oneLoginPage && nextPage === 'account-created'))) {
+		return res.redirect('/v1/registration/select-your-organisation')
+	}
+	if (isOrganisationEdit(req)) {
+		req.session.organisationEditDraft = organisationEditValues(getData(req))
+		return res.redirect('/v1/edit-organisation-details')
+	}
 	getData(req).previousPage = pageId
 	res.redirect(nextPage === 'home' ? '/v1/registration' : `/v1/registration/${oneLoginPage ? 'one-login/' : ''}${nextPage}`)
 }
@@ -132,6 +160,26 @@ const renderValidationErrors = (req, res, pageId, messages, inputIds = {}) => {
 }
 
 module.exports = router => {
+	router.use((req, res, next) => {
+		const editPage = isOrganisationEdit(req)
+		const editSummary = req.path === '/v1/edit-organisation-details'
+		if (!editPage && !editSummary) {
+			delete req.session.organisationEditDraft
+			return next()
+		}
+		const data = getData(req)
+		if (!req.session.organisationEditDraft) {
+			if (req.method === 'POST') return res.redirect('/v1/organisation-home')
+			req.session.organisationEditDraft = organisationEditValues(data)
+		}
+		req.organisationEditData = { ...data }
+		for (const field of editableOrganisationFields) delete req.organisationEditData[field]
+		Object.assign(req.organisationEditData, structuredClone(req.session.organisationEditDraft))
+		// Underscore-prefixed form names bypass the Kit's automatic session storage.
+		if (editPage && req.method === 'POST') req.body = (req.body || {})._organisationEdit || {}
+		next()
+	})
+
 	router.use((req, res, next) => {
 		if (req.method !== 'POST') return next()
 		const match = req.path.match(/^\/v1\/registration\/((?:(?:one-login|auth0)\/)?[^/]+)\/?$/)
@@ -192,6 +240,11 @@ module.exports = router => {
 	router.get('/v1/home', (req, res) => res.redirect('/v1/registration'))
 	router.get('/v1/registration/home', (req, res) => res.redirect('/v1/registration'))
 
+	router.get('/v1/candidates/fleet-portal/launch', (req, res) => {
+		getData(req).fleetPortalSignedIn = true
+		res.redirect('/v1/candidates/fleet-portal')
+	})
+
 	router.get('/v1/candidates/fleet-portal/sign-out', (req, res) => {
 		delete getData(req).fleetPortalSignedIn
 		res.redirect('/v1/candidates/fleet-portal')
@@ -250,6 +303,9 @@ module.exports = router => {
 			'select-2fa', 'phone-number', 'phone-code', 'authenticator-app',
 			'disable-2fa', 'account-created', 'sign-in', 'login-phone-code', 'login-app-code']
 		if (!pages.includes(req.params.page)) return next()
+		if (req.params.page === 'account-created' && hasExistingOrganisations(getData(req))) {
+			return res.redirect('/v1/registration/select-your-organisation')
+		}
 		renderPage(req, res, `v1/registration/auth0/${req.params.page}`, req.params.page)
 	})
 	router.post('/v1/registration/auth0/sign-up-start', (req, res) => {
@@ -384,7 +440,10 @@ module.exports = router => {
 		redirectAfterPost(req, res, 'authenticator-app', 'account-created', true)
 	})
 
-	router.get('/v1/registration/one-login/account-created', (req, res) => renderPage(req, res, 'v1/registration/one-login/account-created', 'account-created'))
+	router.get('/v1/registration/one-login/account-created', (req, res) => {
+		if (hasExistingOrganisations(getData(req))) return res.redirect('/v1/registration/select-your-organisation')
+		renderPage(req, res, 'v1/registration/one-login/account-created', 'account-created')
+	})
 	router.post('/v1/registration/one-login/account-created', (req, res) => redirectAfterPost(req, res, 'account-created', 'enter-your-name'))
 
 	router.get('/v1/registration/one-login/login-email', (req, res) => renderPage(req, res, 'v1/registration/one-login/login-email', 'login-email'))
@@ -429,9 +488,55 @@ module.exports = router => {
 	router.get('/v1/registration/continue-service', (req, res) => res.redirect('/v1/registration/enter-your-name'))
 	router.post('/v1/registration/continue-service', (req, res) => redirectAfterPost(req, res, 'continue-service', 'enter-your-name'))
 
-	router.get('/v1/registration/enter-your-name', (req, res) => renderPage(req, res, 'v1/registration/enter-your-name', 'enter-your-name'))
+	router.get('/v1/registration/select-your-organisation', (req, res) => {
+		const data = getData(req)
+		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation) return res.redirect('/v1/registration/enter-your-name')
+		renderPage(req, res, 'v1/registration/select-your-organisation', 'select-your-organisation')
+	})
+	router.post('/v1/registration/select-your-organisation', (req, res) => {
+		const data = getData(req)
+		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation) return res.redirect('/v1/registration/enter-your-name')
+		const organisation = text((req.body || {})._selectedOrganisation)
+		if (!organisation) {
+			return renderPage(req, res, 'v1/registration/select-your-organisation', 'select-your-organisation', {
+				errors: { selectedOrganisation: { text: 'Select an organisation' } },
+				errorList: [{ text: 'Select an organisation', href: '#selectedOrganisation' }]
+			})
+		}
+		const email = data.email
+		if (organisation === 'new') {
+			const firstName = data.firstName || 'Test'
+			const lastName = data.lastName || 'User'
+			resetRegistration(data)
+			Object.assign(data, { email, firstName, lastName, registerAdditionalOrganisation: true })
+			return res.redirect('/v1/registration/register-your-organisation')
+		}
+		resetRegistration(data)
+		Object.assign(data, {
+			email, firstName: 'Test', lastName: 'User',
+			organisationName: organisation,
+			organisationActivities: 'buyer',
+			organisationId: 'ORG-10000001',
+			organisationDetailsRoute: 'manual',
+			organisationAddressRoute: 'manual-uk',
+			addressLine1: '123 Example Street', addressTown: 'London', addressPostcode: 'SW1A 1AA',
+			isOrganisationAdmin: 'yes', selectedOrganisation: organisation
+		})
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'GCA') data.gcaSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') data.fleetPortalSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServicePath) {
+			return res.redirect(data.candidateServicePath)
+		}
+		res.redirect('/v1/organisation-home')
+	})
+
+	router.get('/v1/registration/enter-your-name', (req, res) => {
+		if (hasExistingOrganisations(getData(req))) return res.redirect('/v1/registration/select-your-organisation')
+		renderPage(req, res, 'v1/registration/enter-your-name', 'enter-your-name')
+	})
 	router.post('/v1/registration/enter-your-name', (req, res) => {
 		const data = getData(req)
+		if (hasExistingOrganisations(data)) return res.redirect('/v1/registration/select-your-organisation')
 		data.firstName = text((req.body || {}).firstName)
 		data.lastName = text((req.body || {}).lastName)
 		const errors = {}
@@ -440,7 +545,16 @@ module.exports = router => {
 		if (Object.keys(errors).length) {
 			return renderValidationErrors(req, res, 'enter-your-name', errors)
 		}
-		redirectAfterPost(req, res, 'enter-your-name', 'register-your-organisation')
+		redirectAfterPost(req, res, 'enter-your-name', 'user-account-created')
+	})
+
+	router.get('/v1/registration/user-account-created', (req, res) => {
+		if (hasExistingOrganisations(getData(req))) return res.redirect('/v1/registration/select-your-organisation')
+		renderPage(req, res, 'v1/registration/user-account-created', 'user-account-created')
+	})
+	router.post('/v1/registration/user-account-created', (req, res) => {
+		if (hasExistingOrganisations(getData(req))) return res.redirect('/v1/registration/select-your-organisation')
+		redirectAfterPost(req, res, 'user-account-created', 'register-your-organisation')
 	})
 
 	router.get('/v1/registration/organisation-select', (req, res) => renderPage(req, res, 'v1/registration/organisation-select', 'organisation-select'))
@@ -648,7 +762,7 @@ module.exports = router => {
 				organisationName: "Enter your organisation's name"
 			})
 		}
-		if (data.organisationName.toLowerCase() === 'test limited') {
+		if (!isOrganisationEdit(req) && data.organisationName.toLowerCase() === 'test limited') {
 			data.matchingOrganisationName = 'Test Limited'
 			data.matchingOrganisationSource = 'organisation-name'
 			return redirectAfterPost(req, res, 'organisation-name', 'org-account-already-exists')
@@ -741,7 +855,7 @@ module.exports = router => {
 		delete data.internationalPostcode
 		delete data.internationalCountry
 		delete data.selectedOrganisationAddress
-		if (typeof data.organisationName === 'string' &&
+		if (!isOrganisationEdit(req) && typeof data.organisationName === 'string' &&
 			data.organisationName.trim().toLowerCase() === 'test limited') {
 			data.matchingOrganisationName = 'Test Limited'
 			data.matchingOrganisationSource = 'manual-address'
@@ -773,7 +887,7 @@ module.exports = router => {
 		delete data.addressTown
 		delete data.addressPostcode
 		delete data.selectedOrganisationAddress
-		if (typeof data.organisationName === 'string' &&
+		if (!isOrganisationEdit(req) && typeof data.organisationName === 'string' &&
 			data.organisationName.trim().toLowerCase() === 'test limited') {
 			data.matchingOrganisationName = 'Test Limited'
 			data.matchingOrganisationSource = 'manual-address'
@@ -929,7 +1043,20 @@ module.exports = router => {
 		}
 		renderPage(req, res, 'v1/registration/account-created', 'account-created')
 	})
-	router.get('/v1/registration/organisation-home', (req, res) => renderPage(req, res, 'v1/registration/organisation-home', 'organisation-home'))
+	router.get('/v1/organisation-home', (req, res) => renderPage(req, res, 'v1/organisation-home', 'organisation-home'))
+	router.get('/v1/edit-organisation-details', (req, res) => renderPage(req, res, 'v1/edit-organisation-details', 'edit-organisation-details'))
+	router.post('/v1/edit-organisation-details', (req, res) => {
+		const data = req.session.data
+		for (const field of editableOrganisationFields) delete data[field]
+		Object.assign(data, req.session.organisationEditDraft)
+		delete req.session.organisationEditDraft
+		res.redirect('/v1/organisation-home')
+	})
+	router.get('/v1/registration/organisation-home', (req, res) => res.redirect('/v1/organisation-home'))
+	router.get('/v1/registration/sign-out', (req, res) => {
+		resetRegistration(getData(req), false)
+		res.redirect('/v1/registration')
+	})
 
 	router.get('/v1/registration/candidate-service', (req, res) => res.redirect('/v1/registration/account-created'))
 	router.post('/v1/registration/candidate-service', (req, res) => res.redirect('/v1/registration/account-created'))

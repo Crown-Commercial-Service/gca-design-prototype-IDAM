@@ -4,14 +4,14 @@
 {% set pageName = "Do any of these devolved nation regulations apply to your organisation?" %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/organisation-type">Back</a>
+<a class="govuk-back-link" href="{{ '/v1/edit-organisation-details' if editingOrganisation else '/v1/registration/organisation-type' }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
-<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}{% if editingOrganisation %}?editOrganisation=true{% endif %}" novalidate>
   {{ govukRadios({
     idPrefix: "devolvedRegulations",
-    name: "devolvedRegulations",
+    name: "_organisationEdit[devolvedRegulations]" if editingOrganisation else "devolvedRegulations",
     errorMessage: errors.devolvedRegulations,
     fieldset: { legend: { text: "Do any of these devolved nation regulations apply to your organisation?", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { text: "A contracting authority operating in a devolved nation may be subject to devolved regulations." },

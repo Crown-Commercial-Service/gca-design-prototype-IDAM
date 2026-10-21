@@ -1,0 +1,72 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Edit organisation details" %}
+{% macro change(page, description) %}
+  Change<span class="govuk-visually-hidden"> {{ description }}</span>
+{% endmacro %}
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/organisation-home">Back</a>
+{% endblock %}
+{% block pageContent %}
+<h1 class="govuk-heading-l">{{ pageName }}</h1>
+{% set manual = data.organisationDetailsRoute != "companies-house" %}
+{% set address %}
+  {% for line in organisationDisplay.addressLines %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+{% endset %}
+{% set addressPage = "international-organisation-address" if data.organisationAddressRoute == "manual-international" else "organisation-address" %}
+{{ govukSummaryList({ rows: [
+  {
+    key: { text: "Organisation name" },
+    value: { text: organisationDisplay.name },
+    actions: { items: [{ href: "/v1/registration/organisation-name?editOrganisation=true", html: change("organisation-name", "organisation name") }] } if manual else {}
+  },
+  {
+    key: { text: "Organisation address" },
+    value: { html: address },
+    actions: { items: [{ href: "/v1/registration/" ~ addressPage ~ "?editOrganisation=true", html: change(addressPage, "organisation address") }] } if manual else {}
+  }
+] }) }}
+{% if data.organisationDetailsRoute == "companies-house" %}
+<p class="govuk-body">Your organisation's registered name and address are held by Companies House. You cannot change these details in this service. To update them, you must notify Companies House.</p>
+{% endif %}
+{% if data.selectedRegistry and data.selectedRegistry != "no" %}
+{{ govukSummaryList({ rows: [{
+  key: { text: "Registration number" }, value: { text: data.registryNumber },
+  actions: { items: [{ href: "/v1/registration/registry-number?editOrganisation=true", html: change("registry-number", "registration number") }] }
+}] }) }}
+{% endif %}
+{% if data.organisationDescription %}
+{% set descriptions %}
+  {% if "sme" in data.organisationDescription %}Small or medium-sized enterprise (SME)<br>{% endif %}
+  {% if "vcse" in data.organisationDescription %}Voluntary, community and social enterprise (VCSE)<br>{% endif %}
+  {% if "supported-employment-provider" in data.organisationDescription %}Supported employment provider<br>{% endif %}
+  {% if "public-service-mutual" in data.organisationDescription %}Public service mutual<br>{% endif %}
+  {% if "none" in data.organisationDescription %}None of these{% endif %}
+{% endset %}
+{{ govukSummaryList({ rows: [{
+  key: { text: "Organisation description" }, value: { html: descriptions },
+  actions: { items: [{ href: "/v1/registration/organisation-description?editOrganisation=true", html: change("organisation-description", "organisation description") }] }
+}] }) }}
+{% endif %}
+{% if data.organisationType and data.organisationActivities in ["buyer", "both"] %}
+{% set types = {
+  "central-government": "Central government - UK or devolved administrations",
+  "local-government": "Regional and local public authority (sub-central) - UK or devolved administrations",
+  "public-body": "Public undertaking", "private-sector": "Private utility", "other": "Other"
+} %}
+{{ govukSummaryList({ rows: [{
+  key: { text: "Buyer description" }, value: { text: types[data.organisationType] },
+  actions: { items: [{ href: "/v1/registration/organisation-type?editOrganisation=true", html: change("organisation-type", "buyer description") }] }
+}] }) }}
+{% endif %}
+{% if data.devolvedRegulations %}
+{{ govukSummaryList({ rows: [{
+  key: { text: "Devolved nation regulations" }, value: { text: "None" if data.devolvedRegulations == "none" else data.devolvedRegulations },
+  actions: { items: [{ href: "/v1/registration/devolved-regulations?editOrganisation=true", html: change("devolved-regulations", "devolved nation regulations") }] }
+}] }) }}
+{% endif %}
+<form method="post" action="/v1/edit-organisation-details">
+  {{ govukButton({ text: "Save changes" }) }}
+</form>
+{% endblock %}

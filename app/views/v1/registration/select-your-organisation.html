@@ -1,0 +1,24 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageName = "Select your organisation" %}
+
+{% block pageContent %}
+<form method="post" action="/{{ version }}/registration/select-your-organisation" novalidate>
+  {{ govukRadios({
+    idPrefix: "selectedOrganisation",
+    name: "_selectedOrganisation",
+    fieldset: { legend: { text: pageName, classes: "govuk-fieldset__legend--l", isPageHeading: true } },
+    hint: { text: "Your account is linked to these organisations. Select the organisation you want to use." },
+    errorMessage: errors.selectedOrganisation,
+    items: [
+      { value: "Test Company LTD", text: "Test Company LTD" },
+      { value: "Example Council", text: "Example Council" },
+      { divider: "or" },
+      { value: "new", text: "Register a new organisation" }
+    ],
+    value: data.selectedOrganisation
+  }) }}
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

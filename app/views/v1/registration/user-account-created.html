@@ -1,0 +1,20 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% set pageName = "User account created" %}
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block pageContent %}
+{{ govukPanel({
+  classes: "organisation-account-confirmation",
+  titleText: pageName
+}) }}
+<p class="govuk-body">Your user account has been created for {{ data.firstName }} {{ data.lastName }} <strong>({{ data.email }})</strong>.</p>
+<h2 class="govuk-heading-m">What happens next</h2>
+<p class="govuk-body">If your account has already been invited to an organisation you will now be able to access it.</p>
+
+<p class="govuk-body">If you are not yet part of an organisation, you will need to register it before you can access GCA services on its behalf, or have someone else register it and invite you.</p>
+<form method="post" action="/{{ version }}/registration/user-account-created">
+  {{ govukButton({ text: "Continue" }) }}
+</form>
+{% endblock %}

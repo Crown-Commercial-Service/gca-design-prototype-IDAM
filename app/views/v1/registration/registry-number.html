@@ -5,12 +5,12 @@
 {% set pageName = "Enter your organisation's " ~ registryName ~ " number" %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/registry-check">Back</a>
+<a class="govuk-back-link" href="{{ '/v1/edit-organisation-details' if editingOrganisation else '/v1/registration/registry-check' }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
-<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "registryNumber", name: "registryNumber", label: { text: pageName, classes: "govuk-label--l", isPageHeading: true }, value: data.registryNumber, errorMessage: errors.registryNumber }) }}
+<form method="post" action="/{{ version }}/registration/{{ pageId }}{% if editingOrganisation %}?editOrganisation=true{% endif %}" novalidate>
+  {{ govukInput({ id: "registryNumber", name: "_organisationEdit[registryNumber]" if editingOrganisation else "registryNumber", label: { text: pageName, classes: "govuk-label--l", isPageHeading: true }, value: data.registryNumber, errorMessage: errors.registryNumber }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>
 {% endblock %}

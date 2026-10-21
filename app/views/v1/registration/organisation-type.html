@@ -4,14 +4,14 @@
 {% set pageName = "Select your buyer organisation type" %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/organisation-description">Back</a>
+<a class="govuk-back-link" href="{{ '/v1/edit-organisation-details' if editingOrganisation else '/v1/registration/organisation-description' }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
-<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}{% if editingOrganisation %}?editOrganisation=true{% endif %}" novalidate>
   {{ govukRadios({
     idPrefix: "organisationType",
-    name: "organisationType",
+    name: "_organisationEdit[organisationType]" if editingOrganisation else "organisationType",
     errorMessage: errors.organisationType,
     fieldset: { legend: { text: "Select your buyer organisation type", classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { html: 'Decide on your organisation type, as defined in the <a class="govuk-link" href="https://www.gov.uk/guidance/public-sector-procurement-policy" target="_blank" rel="noreferrer noopener">contracting authority definition guidance (opens in a new tab)</a>.' },

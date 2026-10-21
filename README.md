@@ -49,7 +49,7 @@ Completed registrations go to `/v1/registration/account-created`, using the
 GOV.UK confirmation panel and next steps pattern. Candidate entry routes retain
 the service name and show a **Return to Fleet Portal** button linking to the local
 Fleet Portal homepage. Normal registration shows **Continue to [organisation name]
-home**, linking to the placeholder at `/v1/registration/organisation-home`.
+home**, linking to `/v1/organisation-home`.
 Starting from the normal registration route clears the candidate service context.
 The confirmation page shows a generated prototype organisation ID, retained in the
 session so it stays the same on refresh. It confirms the selected buyer or supplier
@@ -62,7 +62,55 @@ the prototype session as signed in to Fleet Portal. Its header then shows
 Fleet Portal sign-in state and returns to the local homepage; registration
 answers remain available for prototype testing.
 
+The organisation home at `/v1/organisation-home` shows an organisation
+banner, an Edit organisation link to `/v1/edit-organisation-details`, and a service
+list covering 13 procurement and collaboration services,
+including Fleet Portal, Digital Marketplace and RMI. The single-column list uses
+GOV.UK Services and information-style linked headings, descriptions, dividers and
+chevrons. Fleet Portal opens the signed-in local candidate page through
+`/v1/candidates/fleet-portal/launch`, which sets the existing simulated sign-in
+state without restarting registration. The other services use
+placeholder `href="#"` links.
+The list uses the organisation's buyer/supplier registration choice: Digital
+Foundation, Contract Award Service and Kahootz are buyer-only; RMI is supplier-only.
+The other nine services are shown to both buyers and suppliers. Organisations
+registered as both see all 13 services.
+Candidate-service return destinations remain unchanged.
+
+Edit organisation details shows independently editable organisation fields,
+excluding registration-path choices such as buyer/supplier, registry selection
+and administrator status. Change links use the existing validated input pages
+with a request-scoped `editOrganisation=true` query parameter. Their form actions
+and Back links preserve edit mode; successful submissions return to the edit
+summary instead of continuing registration. Edits are held in a separate session
+draft and applied to organisation data only when **Save changes** is selected.
+Leaving the edit journey without saving discards the draft. Validation errors
+retain input on the current page without changing the draft or saved data.
+Companies House name and address
+remain read-only. Address lookup results can be replaced through manual address
+entry. Normal registration routing is unchanged.
+
 ## Login setup
+
+After entering their first and last names, new users see a **User account created**
+confirmation at `/v1/registration/user-account-created`. Continue opens the
+organisation registration introduction. `test@test.com` bypasses both name entry
+and this confirmation and goes to the organisation chooser instead.
+
+Use `test@test.com` with either login provider to simulate an account already
+linked to organisations. After the provider steps, the journey skips name entry
+and organisation registration and opens `/v1/registration/select-your-organisation`.
+Choose Test Company, which always has the buyer role. Continue opens organisation home with the
+selected organisation's name, stable prototype ID and role-based service list.
+If the journey started from a candidate service such as Fleet Portal or GCA,
+Continue returns directly to that service's signed-in page instead.
+Other email addresses keep the existing registration journey.
+
+Selecting **Register a new organisation** in the organisation chooser opens a
+variant of the registration introduction. It acknowledges existing organisation
+links, explains administrator responsibilities and links Back to the chooser.
+Continuing uses the normal organisation registration questions, without asking
+for the user's name again.
 
 Use **Setup** in the footer to open `/v1/setup`, outside the registration journey.
 Select OneLogin (the default) or Auth0. Saving clears registration data, candidate

@@ -4,14 +4,14 @@
 {% set pageName = "Enter your organisation's name" %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/registry-check">Back</a>
+<a class="govuk-back-link" href="{{ '/v1/edit-organisation-details' if editingOrganisation else '/v1/registration/registry-check' }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
-<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}{% if editingOrganisation %}?editOrganisation=true{% endif %}" novalidate>
   {{ govukInput({
     id: "organisationName",
-    name: "organisationName",
+    name: "_organisationEdit[organisationName]" if editingOrganisation else "organisationName",
     errorMessage: errors.organisationName,
     label: { text: "Enter your organisation's name", classes: "govuk-label--l", isPageHeading: true },
     hint: { html: 'If you’re a department, agency or public body on the <a class="govuk-link" href="https://www.gov.uk/government/organisations" target="_blank" rel="noreferrer noopener">GOV.UK organisations list (opens in a new tab)</a>, use the exact name shown. If not, use your full official name. For example, HM Revenue &amp; Customs not HMRC.' },

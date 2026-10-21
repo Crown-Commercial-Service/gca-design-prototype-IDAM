@@ -9,6 +9,7 @@
   Your organisation ID<br><strong>{{ data.organisationId }}</strong>
 {% endset %}
 {{ govukPanel({
+  classes: "organisation-account-confirmation",
   titleText: "Organisation account created",
   html: organisationIdHtml
 }) }}
@@ -32,7 +33,7 @@
   <p class="govuk-body">You can now continue to your organisation home page.</p>
   {{ govukButton({
     text: "Continue to your GCA account home",
-    href: "/v1/registration/organisation-home"
+    href: "/v1/organisation-home"
   }) }}
 {% endif %}
 {% endblock %}

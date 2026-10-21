@@ -1,16 +1,22 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% set pageName = "You are not currently associated with an organisation" %}
+{% set pageName = "Register a new organisation" if data.registerAdditionalOrganisation else "You are not currently associated with an organisation" %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/enter-your-name">Back</a>
+<a class="govuk-back-link" href="{{ '/v1/registration/select-your-organisation' if data.registerAdditionalOrganisation else '/v1/registration/user-account-created' }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
 <h1 class="govuk-heading-xl">{{pageName}}</h1>
+{% if data.registerAdditionalOrganisation %}
+<p class="govuk-body">Your account is already linked to other organisations. You can register a new organisation using the same account.</p>
+<p class="govuk-body">You will need to be an administrator for the new organisation. You will be responsible for managing who can access its account.</p>
+<p class="govuk-body">If you do not want to be an administrator, ask someone else at your organisation to register it. They can then invite you to join.</p>
+{% else %}
 <p class="govuk-body">If you wish to register a new organisation, you will need to provide some additional information.</p>
 <p class="govuk-body">You will be required to be the administrator of the organisation you wish to register.</p>
 <p class="govuk-body">If you do not wish to be an administrator for your organisation, you will need to notify someone at your organisation to register first. They will then be able to invite you to act on your organisations behalf</p>
+{% endif %}
 
 <h2 class="govuk-heading-m">Registering your organisation</h2>
 <p class="govuk-body">The following screens will take you through the process step by step.</p>
