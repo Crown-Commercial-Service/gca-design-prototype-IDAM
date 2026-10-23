@@ -5,19 +5,28 @@
 
 {% block pageContent %}
 <form method="post" action="/{{ version }}/registration/select-your-organisation" novalidate>
+  {% set organisationItems = [] %}
+  {% if data.organisationId %}
+    {% set organisationItems = organisationItems.concat([{ value: "current-organisation", text: organisationDisplay.name }]) %}
+  {% endif %}
+  {% if not data.organisationId or organisationDisplay.name != "Test Company LTD" %}
+    {% set organisationItems = organisationItems.concat([{ value: "Test Company LTD", text: "Test Company LTD" }]) %}
+  {% endif %}
+  {% if not data.organisationId or organisationDisplay.name != "Example Council" %}
+    {% set organisationItems = organisationItems.concat([{ value: "Example Council", text: "Example Council" }]) %}
+  {% endif %}
+  {% set organisationItems = organisationItems.concat([
+    { divider: "or" },
+    { value: "new", text: "Register a new organisation" }
+  ]) %}
   {{ govukRadios({
     idPrefix: "selectedOrganisation",
     name: "_selectedOrganisation",
     fieldset: { legend: { text: pageName, classes: "govuk-fieldset__legend--l", isPageHeading: true } },
     hint: { text: "Your account is linked to these organisations. Select the organisation you want to use." },
     errorMessage: errors.selectedOrganisation,
-    items: [
-      { value: "Test Company LTD", text: "Test Company LTD" },
-      { value: "Example Council", text: "Example Council" },
-      { divider: "or" },
-      { value: "new", text: "Register a new organisation" }
-    ],
-    value: data.selectedOrganisation
+    items: organisationItems,
+    value: "current-organisation" if data.organisationId else data.selectedOrganisation
   }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>

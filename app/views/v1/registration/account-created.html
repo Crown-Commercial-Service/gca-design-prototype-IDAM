@@ -18,11 +18,7 @@
 {% if data.isOrganisationAdmin == "yes" %}
   <p class="govuk-body">You are the administrator for {{ organisationDisplay.name }}. You are responsible for managing who can access the service and act on your organisation's behalf.</p>
 {% endif %}
-{% if data.loginMethod == "auth0" %}
-<p class="govuk-body">Use your GCA account email address and password to sign in to your organisation account.</p>
-{% else %}
-<p class="govuk-body">Use your GOV.UK One Login to sign in to your organisation account. You do not need to create another One Login.</p>
-{% endif %}
+
 {% if data.entryPoint == "candidate" %}
   <p class="govuk-body">You can now return to {{ data.candidateServiceName }} to continue.</p>
   {{ govukButton({

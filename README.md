@@ -39,6 +39,8 @@ from the prototype's newer GOV.UK/CCS styles.
 
 The combined Login/Register header button and Register today link enter the selected
 login flow via `/v1/registration/sign-up-start`, setting the candidate entry point.
+For the One Login provider, this first shows a single-option halt page (`/v1/registration/sign-in-options`)
+explaining that GOV.UK One Login can be used to access the GCA account, before the One Login create/sign-in page.
 Other links retain
 their live destinations, and the original YouTube embeds require internet access.
 Production analytics, unrelated production scripts and Font Awesome Pro are not
@@ -105,6 +107,9 @@ selected organisation's name, stable prototype ID and role-based service list.
 If the journey started from a candidate service such as Fleet Portal or GCA,
 Continue returns directly to that service's signed-in page instead.
 Other email addresses keep the existing registration journey.
+When an organisation is already registered in the session, the chooser also
+shows its name as the selected radio option without duplicating example names.
+Selecting it preserves its saved role, ID, address and registration details.
 
 Selecting **Register a new organisation** in the organisation chooser opens a
 variant of the registration introduction. It acknowledges existing organisation

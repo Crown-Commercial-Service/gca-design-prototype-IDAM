@@ -1,0 +1,13 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageName = "Sign in or create an account" %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-l">{{ pageName }}</h1>
+<p class="govuk-body">You can use GOV.UK One Login to access your GCA account.</p>
+<p class="govuk-body">If you already have a GOV.UK One Login you can use it to sign in. If you do not have one, you can create one on the next page.</p>
+{{ govukButton({
+  text: "Continue with GOV.UK One Login",
+  href: "/" + version + "/registration/one-login/sign-up-start"
+}) }}
+{% endblock %}

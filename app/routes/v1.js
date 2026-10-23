@@ -223,8 +223,11 @@ module.exports = router => {
 			data.previousPage = 'home'
 			return res.redirect('/v1/registration/auth0/create-email')
 		}
+		if (provider === 'one-login') return res.redirect('/v1/registration/sign-in-options')
 		res.redirect(`/v1/registration/${provider}/sign-up-start`)
 	})
+
+	router.get('/v1/registration/sign-in-options', (req, res) => renderPage(req, res, 'v1/registration/sign-in-options', 'sign-in-options'))
 
 	router.get('/v1/registration', (req, res) => {
 		const data = getData(req)
@@ -497,7 +500,7 @@ module.exports = router => {
 		const data = getData(req)
 		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation) return res.redirect('/v1/registration/enter-your-name')
 		const organisation = text((req.body || {})._selectedOrganisation)
-		if (!organisation) {
+		if (!organisation || (organisation === 'current-organisation' && !data.organisationId)) {
 			return renderPage(req, res, 'v1/registration/select-your-organisation', 'select-your-organisation', {
 				errors: { selectedOrganisation: { text: 'Select an organisation' } },
 				errorList: [{ text: 'Select an organisation', href: '#selectedOrganisation' }]
@@ -511,17 +514,19 @@ module.exports = router => {
 			Object.assign(data, { email, firstName, lastName, registerAdditionalOrganisation: true })
 			return res.redirect('/v1/registration/register-your-organisation')
 		}
-		resetRegistration(data)
-		Object.assign(data, {
-			email, firstName: 'Test', lastName: 'User',
-			organisationName: organisation,
-			organisationActivities: 'buyer',
-			organisationId: 'ORG-10000001',
-			organisationDetailsRoute: 'manual',
-			organisationAddressRoute: 'manual-uk',
-			addressLine1: '123 Example Street', addressTown: 'London', addressPostcode: 'SW1A 1AA',
-			isOrganisationAdmin: 'yes', selectedOrganisation: organisation
-		})
+		if (organisation !== 'current-organisation') {
+			resetRegistration(data)
+			Object.assign(data, {
+				email, firstName: 'Test', lastName: 'User',
+				organisationName: organisation,
+				organisationActivities: 'buyer',
+				organisationId: 'ORG-10000001',
+				organisationDetailsRoute: 'manual',
+				organisationAddressRoute: 'manual-uk',
+				addressLine1: '123 Example Street', addressTown: 'London', addressPostcode: 'SW1A 1AA',
+				isOrganisationAdmin: 'yes', selectedOrganisation: organisation
+			})
+		}
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'GCA') data.gcaSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') data.fleetPortalSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServicePath) {
