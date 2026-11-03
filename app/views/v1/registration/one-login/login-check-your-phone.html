@@ -5,13 +5,13 @@
 {% block pageTitle %}Check your phone - GOV.UK One Login{% endblock %}
 
 {% block pageTopSection %}
-<a class="govuk-back-link" href="/v1/registration/one-login/login-password">Back</a>
+<a class="govuk-back-link" href="{{ phoneBackUrl | default('/v1/registration/one-login/login-password') }}">Back</a>
 {% endblock %}
 
 {% block pageContent %}
 <h1 class="govuk-heading-l govuk-!-margin-top-0 govuk-!-margin-bottom-3">Check your phone</h1>
 <div class="govuk-inset-text">
-  We have sent a code to your phone number ending with <span class="govuk-!-font-weight-bold">066</span>
+  We have sent a code to your phone number ending with <span class="govuk-!-font-weight-bold">{{ maskedPhoneNumber | default("066") }}</span>
 </div>
 <p class="govuk-body">It might take a few minutes to arrive. The code will expire after 15 minutes.</p>
 <form method="post" action="/{{ version }}/registration/one-login/{{ pageId }}" novalidate>
@@ -20,7 +20,6 @@
     name: "code",
     type: "text",
     label: { text: "Enter the 6 digit code" },
-    value: data.code,
     autocomplete: "one-time-code",
     inputmode: "numeric",
     classes: "govuk-input--width-10",

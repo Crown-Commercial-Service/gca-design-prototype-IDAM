@@ -94,6 +94,36 @@ entry. Normal registration routing is unchanged.
 
 ## Login setup
 
+For both Auth0 and One Login, completing a password reset that started from
+Fleet Portal returns directly to `/v1/candidates/fleet-portal`, bypassing name
+entry and organisation selection. The session is marked as signed in to Fleet
+Portal, so its header shows **Sign out**. For One Login, the return happens when
+**Continue to service** is selected on its signed-in page.
+
+One Login sign-in (including alternative security-code methods) and password
+reset show **You are signed in** at `/v1/registration/one-login/signed-in`.
+Its **Continue to service** button resumes the existing onward journey:
+organisation selection for existing accounts or completed resets, name entry
+for other normal sign-ins, or signed-in Fleet Portal after a Fleet Portal reset.
+The signed-in page reuses the registration confirmation template and its
+**Continue to service** button, with a sign-in heading and message. Account
+creation retains its original content. Auth0 is unchanged.
+
+One Login password resets start from **I've forgotten my password** on
+**Enter your password**, after the existing email-entry step.
+The journey is **Check your email** → **Check your phone** → **Reset your password**.
+The pages use One Login wording, the entered email address and a masked phone
+number (ending `9066` if no number is stored). Email and phone codes have resend
+links and displayed 15-minute expiry guidance. Password reset reuses the existing
+One Login password controls, guidance and show/hide buttons.
+Except when returning directly to Fleet Portal, Submitting the new password shows **You are signed in**. **Continue to service**
+opens the organisation chooser for any email address,
+without another sign-in or name-entry step. It offers Test Company LTD, Example
+Council and Register a new organisation, plus the saved organisation if present.
+Choosing an organisation and continuing opens organisation home or returns to the
+originating candidate service. Normal sign-in routing is unchanged. Authentication, delivery and
+expiry are simulated; codes and passwords are not validated or stored.
+
 After entering their first and last names, new users see a **User account created**
 confirmation at `/v1/registration/user-account-created`. Continue opens the
 organisation registration introduction. `test@test.com` bypasses both name entry
@@ -137,6 +167,35 @@ of. Continue then opens the first name and last name page.
 
 Auth0 sign-in collects email and password on one page, then always shows the
 text-message code page before continuing to the organisation journey.
+Alternatively, entering `test@test.com` on Auth0's email-entry page opens a
+separate **Enter your password** page, followed by **Check your phone** to enter
+the text-message code. These pages follow the One Login content and input layout
+while retaining the selected GCA theme. Continuing opens the organisation chooser.
+Email matching ignores case and surrounding spaces; other addresses continue to
+email verification and account creation as before.
+
+The **I've forgotten my password** link on Auth0's password-entry and sign-in
+pages opens **Check your email** directly, without asking for the email again.
+It uses the account email already entered; on the combined sign-in form, the
+forgotten-password control submits and validates the current email field.
+The page uses a 6 digit email security-code input, a 15-minute expiry message
+and a **Problems with the code?** section with resend and example-email links.
+Continue opens **Check your phone** at
+`/v1/registration/auth0/reset-password-check-phone`, with a masked phone number,
+a 6 digit code input, a 15-minute expiry message and a resend link.
+The phone number uses the last four digits of the session's phone number, or
+the prototype ending `9066` if no number has been entered.
+Continuing from the phone-code page opens **Enter your new password**, reusing
+the account-creation password fields and guidance.
+Except when returning directly to Fleet Portal, **Reset password** continues through the normal post-login route without asking
+the user to sign in again: `test@test.com` opens the organisation chooser, while
+other addresses follow the existing name-entry journey. Candidate-service context
+is retained so choosing an organisation can return the user to their service.
+This is simulated: no email or SMS is sent, no password is changed or stored, and codes
+are not verified or subject to expiry enforcement. Blank or arbitrary codes are
+accepted and removed from session data. As with account creation, new passwords
+are not validated.
+
 Auth0 validates email presence and format, mobile phone presence and format, and required
 two-factor choices. Errors use the shared GOV.UK summary, inline messages and
 Error-prefixed page title. Validation stays in each page's POST handler.

@@ -1,2 +1,6 @@
 {% extends "v1/registration/auth0/phone-code.html" %}
 {% set phoneEnding = "789" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/auth0/{{ 'login-password' if data.previousPage == 'login-password' else 'sign-in' }}">Back</a>
+{% endblock %}

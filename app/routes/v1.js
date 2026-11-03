@@ -136,6 +136,12 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 }
 
 const redirectAfterPost = (req, res, pageId, nextPage, oneLoginPage = false) => {
+	const data = getData(req)
+	if (pageId === 'reset-password' &&
+		data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') {
+		data.fleetPortalSignedIn = true
+		return res.redirect('/v1/candidates/fleet-portal')
+	}
 	if (hasExistingOrganisations(getData(req)) &&
 		(['enter-your-name', 'continue-service'].includes(nextPage) ||
 			(oneLoginPage && nextPage === 'account-created'))) {
@@ -304,8 +310,15 @@ module.exports = router => {
 	router.get('/v1/registration/auth0/:page', (req, res, next) => {
 		const pages = ['sign-up-start', 'create-email', 'verify-email', 'create-password',
 			'select-2fa', 'phone-number', 'phone-code', 'authenticator-app',
-			'disable-2fa', 'account-created', 'sign-in', 'login-phone-code', 'login-app-code']
+			'disable-2fa', 'account-created', 'sign-in', 'login-password', 'login-phone-code', 'login-app-code',
+			'forgot-password', 'reset-password-check-email', 'reset-password-check-phone', 'reset-password', 'password-reset-success']
 		if (!pages.includes(req.params.page)) return next()
+		if (req.params.page === 'forgot-password') {
+			const data = getData(req)
+			data.resetEmail = data.email
+			data.resetPasswordSource = 'login-password'
+			return res.redirect('/v1/registration/auth0/reset-password-check-email')
+		}
 		if (req.params.page === 'account-created' && hasExistingOrganisations(getData(req))) {
 			return res.redirect('/v1/registration/select-your-organisation')
 		}
@@ -327,7 +340,33 @@ module.exports = router => {
 		if (data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
 			return renderValidationErrors(req, res, 'auth0/create-email', { email: 'Enter an email address in the correct format, like name@example.com' })
 		}
-		res.redirect('/v1/registration/auth0/verify-email')
+		res.redirect(`/v1/registration/auth0/${hasExistingOrganisations(data) ? 'login-password' : 'verify-email'}`)
+	})
+	router.post('/v1/registration/auth0/login-password', (req, res) => {
+		getData(req).previousPage = 'login-password'
+		res.redirect('/v1/registration/auth0/login-phone-code')
+	})
+	router.post('/v1/registration/auth0/forgot-password', (req, res) => {
+		const data = getData(req)
+		data.email = text((req.body || {}).email)
+		if (!data.email) {
+			return renderValidationErrors(req, res, 'auth0/sign-in', { email: 'Enter your email address' })
+		}
+		if (data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+			return renderValidationErrors(req, res, 'auth0/sign-in', { email: 'Enter an email address in the correct format, like name@example.com' })
+		}
+		data.resetEmail = data.email
+		data.resetPasswordSource = 'sign-in'
+		res.redirect('/v1/registration/auth0/reset-password-check-email')
+	})
+	router.post('/v1/registration/auth0/reset-password-check-email', (req, res) => {
+		res.redirect('/v1/registration/auth0/reset-password-check-phone')
+	})
+	router.post('/v1/registration/auth0/reset-password-check-phone', (req, res) => {
+		res.redirect('/v1/registration/auth0/reset-password')
+	})
+	router.post('/v1/registration/auth0/reset-password', (req, res) => {
+		redirectAfterPost(req, res, 'reset-password', 'enter-your-name')
 	})
 	router.post('/v1/registration/auth0/verify-email', (req, res) => {
 		res.redirect('/v1/registration/auth0/create-password')
@@ -389,6 +428,7 @@ module.exports = router => {
 		if (Object.keys(errors).length) {
 			return renderValidationErrors(req, res, 'auth0/sign-in', errors)
 		}
+		data.previousPage = 'sign-in'
 		res.redirect('/v1/registration/auth0/login-phone-code')
 	})
 	router.post('/v1/registration/auth0/login-phone-code', (req, res) => {
@@ -464,10 +504,30 @@ module.exports = router => {
 	router.get('/v1/registration/one-login/login-check-your-phone', (req, res) => renderPage(req, res, 'v1/registration/one-login/login-check-your-phone', 'login-check-your-phone'))
 	router.post('/v1/registration/one-login/login-check-your-phone', (req, res) => {
 		delete getData(req).code
-		redirectAfterPost(req, res, 'login-check-your-phone', 'enter-your-name')
+		redirectAfterPost(req, res, 'login-check-your-phone', 'signed-in', true)
 	})
 
-	router.get('/v1/registration/one-login/reset-password-check-email', (req, res) => res.render('v1/registration/one-login/reset-password-check-email'))
+	router.get('/v1/registration/one-login/signed-in', (req, res) => renderPage(req, res, 'v1/registration/one-login/signed-in', 'signed-in'))
+	router.post('/v1/registration/one-login/signed-in', (req, res) => {
+		if (getData(req).passwordResetComplete) {
+			return redirectAfterPost(req, res, 'reset-password', 'select-your-organisation')
+		}
+		redirectAfterPost(req, res, 'signed-in', 'enter-your-name')
+	})
+
+	router.get('/v1/registration/one-login/reset-password-check-email', (req, res) => renderPage(req, res, 'v1/registration/one-login/reset-password-check-email', 'reset-password-check-email'))
+	router.post('/v1/registration/one-login/reset-password-check-email', (req, res) => {
+		redirectAfterPost(req, res, 'reset-password-check-email', 'reset-password-check-phone', true)
+	})
+	router.get('/v1/registration/one-login/reset-password-check-phone', (req, res) => renderPage(req, res, 'v1/registration/one-login/reset-password-check-phone', 'reset-password-check-phone'))
+	router.post('/v1/registration/one-login/reset-password-check-phone', (req, res) => {
+		redirectAfterPost(req, res, 'reset-password-check-phone', 'reset-password', true)
+	})
+	router.get('/v1/registration/one-login/reset-password', (req, res) => renderPage(req, res, 'v1/registration/one-login/reset-password', 'reset-password'))
+	router.post('/v1/registration/one-login/reset-password', (req, res) => {
+		getData(req).passwordResetComplete = true
+		res.redirect('/v1/registration/one-login/signed-in')
+	})
 
 	router.get('/v1/registration/one-login/login-second-factor', (req, res) => renderPage(req, res, 'v1/registration/one-login/login-second-factor', 'login-second-factor'))
 	router.post('/v1/registration/one-login/login-second-factor', (req, res) => {
@@ -479,13 +539,13 @@ module.exports = router => {
 	router.get('/v1/registration/one-login/check-phone', (req, res) => renderPage(req, res, 'v1/registration/one-login/check-phone', 'check-phone'))
 	router.post('/v1/registration/one-login/check-phone', (req, res) => {
 		delete getData(req).loginTextCode
-		redirectAfterPost(req, res, 'check-phone', 'continue-service')
+		redirectAfterPost(req, res, 'check-phone', 'signed-in', true)
 	})
 
 	router.get('/v1/registration/one-login/authenticator-code', (req, res) => renderPage(req, res, 'v1/registration/one-login/authenticator-code', 'authenticator-code'))
 	router.post('/v1/registration/one-login/authenticator-code', (req, res) => {
 		delete getData(req).loginAuthenticatorCode
-		redirectAfterPost(req, res, 'authenticator-code', 'continue-service')
+		redirectAfterPost(req, res, 'authenticator-code', 'signed-in', true)
 	})
 
 	router.get('/v1/registration/continue-service', (req, res) => res.redirect('/v1/registration/enter-your-name'))
@@ -493,12 +553,12 @@ module.exports = router => {
 
 	router.get('/v1/registration/select-your-organisation', (req, res) => {
 		const data = getData(req)
-		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation) return res.redirect('/v1/registration/enter-your-name')
+		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation && !data.passwordResetComplete) return res.redirect('/v1/registration/enter-your-name')
 		renderPage(req, res, 'v1/registration/select-your-organisation', 'select-your-organisation')
 	})
 	router.post('/v1/registration/select-your-organisation', (req, res) => {
 		const data = getData(req)
-		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation) return res.redirect('/v1/registration/enter-your-name')
+		if (!hasExistingOrganisations(data) && !data.organisationId && !data.registerAdditionalOrganisation && !data.passwordResetComplete) return res.redirect('/v1/registration/enter-your-name')
 		const organisation = text((req.body || {})._selectedOrganisation)
 		if (!organisation || (organisation === 'current-organisation' && !data.organisationId)) {
 			return renderPage(req, res, 'v1/registration/select-your-organisation', 'select-your-organisation', {

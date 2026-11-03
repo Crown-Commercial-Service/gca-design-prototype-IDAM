@@ -12,3 +12,8 @@
   label: { text: "Password" }
 }) }}
 {% endblock %}
+
+{% block authButton %}
+{{ super() }}
+<p class="govuk-body"><button class="govuk-link auth0-link-button" type="submit" formaction="/v1/registration/auth0/forgot-password">I've forgotten my password</button></p>
+{% endblock %}
