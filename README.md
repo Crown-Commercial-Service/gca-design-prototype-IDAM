@@ -42,6 +42,20 @@ Guidance and other content links retain their live destinations, including
 references to DfE Sign-in; actual prototype authentication uses the selected
 IDAM provider. All pages are marked noindex and retain Crown copyright.
 
+The [RMI landing page](app/views/v1/candidates/rmi.html) at `/v1/candidates/rmi`
+matches [Report management information to GCA](https://www.reportmi.gca.gov.uk/),
+excluding the cookie banner. Original CSS, logos and footer assets are stored
+locally in `app/assets/rmi`; existing local fonts are reused. Production scripts,
+analytics and CSRF tokens are excluded.
+
+**Sign in** enters the usual One Login/Auth0 journey through
+`/v1/candidates/rmi/login`, retaining RMI as the return destination. Completed
+registration, organisation selection and password resets return to RMI with
+**Sign out** replacing **Sign in**. Signing out clears only the RMI state.
+The prototype index and public services guidance link to the landing page;
+the supplier-only organisation-home link uses `/v1/candidates/rmi/launch`
+to open its signed-in state. Support and policy links retain live destinations.
+
 The [Digital Marketplace homepage](app/views/v1/candidates/digital-marketplace.html)
 is available at `/v1/candidates/digital-marketplace`, linked from the prototype
 index. **Become a supplier** opens the local
@@ -191,6 +205,8 @@ stored as entered (trimmed), without splitting into assumed first/last names,
 and used on confirmation and check-answers pages. Existing session first/last
 names remain readable until the full name is updated. Registering an additional
 organisation retains the full name.
+Changing the full name from check your answers returns directly to that summary,
+including after validation errors, without repeating account creation.
 
 For both Auth0 and One Login, completing a password reset that started from
 Fleet Portal returns directly to `/v1/candidates/fleet-portal`, bypassing name

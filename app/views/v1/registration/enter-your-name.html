@@ -3,10 +3,16 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% set pageName = "Complete your GCA service account" %}
 
+{% block pageTopSection %}
+{% if editingName %}
+<a class="govuk-back-link" href="/{{ version }}/registration/check-answers">Back</a>
+{% endif %}
+{% endblock %}
+
 {% block pageContent %}
 <h1 class="govuk-heading-xl">{{ pageName }}</h1>
 <p class="govuk-body">Enter your name to finish setting up your account.</p>
-<form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
+<form method="post" action="/{{ version }}/registration/{{ pageId }}{% if editingName %}?from=check-answers{% endif %}" novalidate>
   {{ govukInput({ id: "fullName", name: "fullName", label: { text: "Full name" }, value: userFullName, autocomplete: "name", errorMessage: errors.fullName }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>

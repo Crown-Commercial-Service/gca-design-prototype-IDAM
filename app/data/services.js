@@ -47,7 +47,8 @@ module.exports = [
     id: "rmi",
     audience: "supplier",
     name: "Report Management Information (RMI)",
-    description: "Submit and manage commercial sales data and management information across active agreements."
+    description: "Submit and manage commercial sales data and management information across active agreements.",
+    href: "/v1/candidates/rmi/launch"
   },
   {
     id: "contract-award-service",

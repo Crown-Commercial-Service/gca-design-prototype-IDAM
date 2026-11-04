@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="govuk-template" lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>Report management information to GCA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie-edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/x-icon" href="/public/rmi/assets/govuk-frontend/govuk/assets/images/favicon-f54816fc15997bd42cd90e4c50b896a1fc098c0c32957d4e5effbfa9f9b35e53.ico">
+  <link rel="apple-touch-icon" type="image/png" href="/public/rmi/assets/govuk-frontend/govuk/assets/images/govuk-apple-touch-icon-a0a3cc359818efa7776228f878cfca8fa585731a7b495a06615787ed4e9f7ee7.png">
+  <link rel="stylesheet" href="/public/rmi/application.css" media="all">
+</head>
+<body class="govuk-template__body app-body-class">
+  <a class="govuk-skip-link" data-module="govuk-skip-link" href="#main-content">Skip to main content</a>
+  <header class="govuk-header" data-module="govuk-header" role="banner">
+    <div class="govuk-header__container govuk-width-container">
+      <div class="govuk-header__logo">
+        <a class="govuk-header__link govuk-header__link--homepage" href="https://www.gca.gov.uk/">
+          <span class="govuk-header__logotype-text govuk-visually-hidden">
+Government
+<br>
+Commercial
+<br>
+Agency
+</span>
+        </a>
+      </div>
+      <div class="govuk-header__content">
+        <h1 class="govuk-heading-l govuk-header__service-name">Report management information to GCA</h1>
+      </div>
+    </div>
+  </header>
+  <div class="govuk-width-container">
+    <main class="govuk-main-wrapper" id="main-content" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">Report management information to<br>Government Commercial Agency<br></h1>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <p>Use this service to:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>get the template for your agreement(s)</li>
+            <li>report your management information to GCA</li>
+            <li>report no business to GCA</li>
+          </ul>
+          <p>If you didn’t do any business, you still need to sign in and let us know.</p>
+          <p class="govuk-!-margin-top-9"></p>
+          <form class="button_to" method="get" action="/v1/candidates/rmi/{{ 'sign-out' if data.rmiSignedIn else 'login' }}">
+            <button class="govuk-button govuk-button--start" id="{{ 'sign-out' if data.rmiSignedIn else 'sign-in' }}" aria-label="{{ 'Sign out of the service' if data.rmiSignedIn else 'Sign in to the service' }}" type="submit">{{ 'Sign out' if data.rmiSignedIn else 'Sign in' }}</button>
+          </form>
+          <p></p>
+          <h2 class="govuk-heading-m">If you’re having trouble signing in</h2>
+          <p>You’ll need a username and password to sign in to this service. Your username is the email address that gets the notifications.</p>
+          <p>If you are not able to sign in or do not receive a password reset email, contact <a href="mailto:report-mi@gca.gov.uk">report-mi@gca.gov.uk</a> for help.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="govuk-footer" role="contentinfo">
+    <div class="govuk-width-container">
+      <div class="govuk-footer__meta">
+        <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+          <h2 class="govuk-visually-hidden">Support links</h2>
+          <ul class="govuk-footer__inline-list">
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.reportmi.gca.gov.uk/accessibility">Accessibility statement</a></li>
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.reportmi.gca.gov.uk/cookie-settings">Cookie settings</a></li>
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.reportmi.gca.gov.uk/cookie-policy">Cookie policy</a></li>
+          </ul>
+          <span class="govuk-footer__licence-description">Having problems using this service? Email <a class="govuk-footer__link" href="mailto:report-mi@gca.gov.uk">report-mi@gca.gov.uk</a> for support.</span>
+        </div>
+        <div class="govuk-footer__meta-item">
+          <a aria-label="Copyright" class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

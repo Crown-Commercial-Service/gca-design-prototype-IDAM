@@ -120,6 +120,7 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 		version: 'v1',
 		pageId,
 		editingOrganisation: isOrganisationEdit(req),
+		editingName: pageId === 'enter-your-name' && req.query.from === 'check-answers',
 		data,
 		summaryData: data,
 		userFullName: getFullName(data),
@@ -141,6 +142,11 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 
 const redirectAfterPost = (req, res, pageId, nextPage, oneLoginPage = false) => {
 	const data = getData(req)
+	if (pageId === 'reset-password' &&
+		data.entryPoint === 'candidate' && data.candidateServiceName === 'RMI') {
+		data.rmiSignedIn = true
+		return res.redirect('/v1/candidates/rmi')
+	}
 	if (pageId === 'reset-password' &&
 		data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') {
 		data.digitalFoundationSignedIn = true
@@ -280,6 +286,27 @@ module.exports = router => {
 	})
 
 	router.get('/v1/candidates/kahootz', (req, res) => renderPage(req, res, 'v1/candidates/kahootz', 'kahootz'))
+
+	router.get('/v1/candidates/rmi', (req, res) => renderPage(req, res, 'v1/candidates/rmi', 'rmi'))
+
+	router.get('/v1/candidates/rmi/login', (req, res) => {
+		const data = getData(req)
+		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'RMI'
+		data.candidateServicePath = '/v1/candidates/rmi'
+		data.previousPage = 'home'
+		res.redirect('/v1/registration/sign-up-start')
+	})
+
+	router.get('/v1/candidates/rmi/launch', (req, res) => {
+		getData(req).rmiSignedIn = true
+		res.redirect('/v1/candidates/rmi')
+	})
+
+	router.get('/v1/candidates/rmi/sign-out', (req, res) => {
+		delete getData(req).rmiSignedIn
+		res.redirect('/v1/candidates/rmi')
+	})
 
 	router.get('/v1/candidates/digital-foundation', (req, res) => renderPage(req, res, 'v1/candidates/digital-foundation', 'digital-foundation'))
 
@@ -693,6 +720,7 @@ module.exports = router => {
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Kahootz') data.kahootzSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Marketplace') data.digitalMarketplaceSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') data.digitalFoundationSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'RMI') data.rmiSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServicePath) {
 			return res.redirect(data.candidateServicePath)
 		}
@@ -713,6 +741,9 @@ module.exports = router => {
 		if (!data.fullName) errors.fullName = 'Enter your full name'
 		if (Object.keys(errors).length) {
 			return renderValidationErrors(req, res, 'enter-your-name', errors)
+		}
+		if (req.query.from === 'check-answers') {
+			return res.redirect('/v1/registration/check-answers')
 		}
 		redirectAfterPost(req, res, 'enter-your-name', 'user-account-created')
 	})
@@ -1218,6 +1249,9 @@ module.exports = router => {
 		}
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') {
 			data.digitalFoundationSignedIn = true
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'RMI') {
+			data.rmiSignedIn = true
 		}
 		renderPage(req, res, 'v1/registration/account-created', 'account-created')
 	})
