@@ -1,0 +1,18 @@
+{% macro serviceList(services, audience, guidance=false) %}
+<ul class="organisation-home__services" aria-labelledby="{{ 'services-heading' if guidance else 'your-services-heading' }}">
+  {% for service in services %}
+  {% if guidance or not service.audience or audience == "both" or service.audience == audience %}
+  <li class="organisation-home__service">
+    <h3 class="govuk-heading-s">
+      {% if guidance and not service.href %}
+        {{ service.name }}
+      {% else %}
+        <a class="govuk-link govuk-link--no-visited-state organisation-home__service-link" href="{{ (service.href | replace('/launch', '')) if guidance else (service.href or '#') }}">{{ service.name }}</a>
+      {% endif %}
+    </h3>
+    <p class="govuk-body">{{ service.description }}</p>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+{% endmacro %}

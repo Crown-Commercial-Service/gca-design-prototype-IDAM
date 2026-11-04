@@ -1,0 +1,53 @@
+{% extends "layouts/digital-foundation.html" %}
+{% set foundationPageTitle = "Find a facilities management supplier: Government Commercial Agency" %}
+{% set foundationStylesheet = "application.css" %}
+{% set footerPath = "/facilities-management/RM6378" %}
+{% set feedbackUrl = "https://surveys.gca.gov.uk/jfe/form/SV_50aDjt8zNRa47Cm" %}
+{% set contactUrl = "https://www.gca.gov.uk/contact" %}
+
+{% block serviceNavigation %}
+<section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service information"><div class="govuk-width-container"><div class="govuk-service-navigation__container"><span class="govuk-service-navigation__service-name"><span class="govuk-service-navigation__text">Find a facilities management supplier</span></span><nav aria-label="Menu" class="govuk-service-navigation__wrapper"><button name="button" type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" aria-hidden="true" hidden="hidden">Menu</button><ul id="navigation" class="govuk-service-navigation__list">{% if not data.digitalFoundationSignedIn %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/login">Create an account</a></li>{% endif %}{% if data.digitalFoundationSignedIn %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/sign-out">Sign out</a></li>{% else %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/login">Sign in</a></li>{% endif %}</ul></nav></div></div></section>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">
+        Find a facilities management supplier
+      </h1>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">
+        Use this service to:
+      </h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>quickly view suppliers who can provide services to your locations</li>
+        <li>download a shortlist of potential suppliers</li>
+        <li>receive a compliant Lot recommendation</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Before you start
+      </h2>
+
+      <p class="govuk-body">
+        Complete a Customer user agreement (CUA) and return a copy to info@gca.gov.uk. You can download a CUA from <a href='https://www.gca.gov.uk/agreements/RM6378' class='govuk-link'>the GCA website</a>.
+      </p>
+
+      <p class="govuk-!-font-size-19">To receive a shortlist and compliant Lot, you need to know:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>which services you want to have provided</li>
+        <li>where your buildings are located</li>
+        <li>your current or estimated annual cost</li>      </ul>
+
+      <a target="_blank" class="govuk-link--no-visited-state" href="https://www.gca.gov.uk/agreements/rm6378">View further information about the Facilities Management and Security Services framework RM6378</a>
+      <br/>
+      <a aria-label="Start now" class="govuk-button govuk-!-margin-top-6 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button" role="button" draggable="false" href="/v1/candidates/digital-foundation/login">Start now<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" /></svg></a>
+    </div>
+  </div>
+</div>
+{% endblock %}

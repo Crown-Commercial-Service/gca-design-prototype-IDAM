@@ -1,0 +1,54 @@
+{% extends "layouts/digital-foundation.html" %}
+{% set foundationPageTitle = "Find legal services for the public sector: Government Commercial Agency" %}
+{% set foundationStylesheet = "frameworks.css" %}
+{% set footerPath = "/legal-services/RM6374" %}
+{% set feedbackUrl = "https://surveys.gca.gov.uk/jfe/form/SV_cO7ru7EJJ43EvGK" %}
+{% set contactUrl = "https://www.gca.gov.uk/contact?service=Legal+Services" %}
+
+{% block serviceNavigation %}
+<section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service information"><div class="govuk-width-container"><div class="govuk-service-navigation__container"><span class="govuk-service-navigation__service-name"><span class="govuk-service-navigation__text">Find legal services for the wider public sector</span></span><nav aria-label="Menu" class="govuk-service-navigation__wrapper"><button name="button" type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" aria-hidden="true" hidden="hidden">Menu</button><ul id="navigation" class="govuk-service-navigation__list"><li class="govuk-service-navigation__item govuk-service-navigation__item--active"><a aria-current="true" class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/legal-services/RM6374/start"><strong class="govuk-service-navigation__active-fallback">Back to start</strong></a></li>{% if not data.digitalFoundationSignedIn %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/login">Create an account</a></li>{% endif %}{% if data.digitalFoundationSignedIn %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/sign-out">Sign out</a></li>{% else %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/login">Sign in</a></li>{% endif %}</ul></nav></div></div></section>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      Find legal services for the public sector
+    </h1>
+
+    <p class="govuk-body">
+      Use this service to find legal suppliers. Using this tool ensures you follow public sector procurement procedures.
+    </p>
+
+    <p class="govuk-body">
+      The tool will identify the most appropriate lot for your requirements, allow you to download and compare supplier pricing, and support your customer journey to downselect suppliers.
+    </p>
+
+    <p class="govuk-body">
+      If you need legal services for a non-UK jurisdiction, contact <a href="mailto:info@gca.gov.uk">info@gca.gov.uk</a>
+    </p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-2">
+      Before you start
+    </h2>
+
+    <p class="govuk-body">
+      To use this service you need to be a recognised public sector body.
+    </p>
+
+    <a aria-label="Start now" class="govuk-button govuk-!-margin-top-6 govuk-!-margin-bottom-9 govuk-button--start" data-module="govuk-button" role="button" draggable="false" href="/v1/candidates/digital-foundation/login">Start now<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" /></svg></a>
+
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+      Guidance and other useful documents
+    </h3>
+
+    <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-2 govuk-!-margin-bottom-7">
+      <li>
+        <a class="govuk-link" href="https://www.gca.gov.uk/agreements/RM6374">Legal Panel for Public Sector RM6374 webpage</a>
+      </li>
+    </ul>
+
+  </div>
+</div>
+{% endblock %}

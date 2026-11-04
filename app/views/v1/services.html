@@ -1,0 +1,14 @@
+{% extends "layouts/main.html" %}
+{% from "includes/service-list.njk" import serviceList %}
+{% set pageName = "Services you can access with a GCA service account" %}
+
+{% block pageTopSection %}
+<a class="govuk-back-link" href="/v1/registration/sign-in-options">Back</a>
+{% endblock %}
+
+{% block pageContent %}
+<h1 class="govuk-heading-xl">{{ pageName }}</h1>
+<p class="govuk-body">A GCA service account gives buyers and suppliers access to Government Commercial Agency digital platforms and services.</p>
+<h2 class="govuk-heading-l" id="services-heading">Buyer and supplier services</h2>
+{{ serviceList(services, "both", true) }}
+{% endblock %}

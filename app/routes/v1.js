@@ -6,12 +6,14 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') })
 const { findAddressesByPostcode } = require('../services/os-places')
 const { findCompanyByNumber } = require('../services/companies-house')
 const countries = require('../data/countries')
+const services = require('../data/services')
 const fallbackAddressLines = ['123 Example Street', 'London', 'SW1A 1AA', 'United Kingdom']
 const sensitiveFields = [
 	'password', 'confirm-password', 'loginPassword', 'emailCode', 'code',
 	'authenticatorCode', 'loginTextCode', 'loginAuthenticatorCode'
 ]
 const text = value => typeof value === 'string' ? value.trim() : ''
+const getFullName = data => text(data.fullName) || [text(data.firstName), text(data.lastName)].filter(Boolean).join(' ')
 const hasExistingOrganisations = data => text(data.email).toLowerCase() === 'test@test.com'
 const selections = value => (value === undefined ? [] : Array.isArray(value) ? value : [value])
 	.filter(item => item !== '_unchecked')
@@ -120,6 +122,8 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 		editingOrganisation: isOrganisationEdit(req),
 		data,
 		summaryData: data,
+		userFullName: getFullName(data),
+		services,
 		organisationDisplay: getOrganisationDisplay(data),
 		phoneEnding,
 		errors: {},
@@ -137,6 +141,21 @@ const renderPage = (req, res, view, pageId, additionalData = {}) => {
 
 const redirectAfterPost = (req, res, pageId, nextPage, oneLoginPage = false) => {
 	const data = getData(req)
+	if (pageId === 'reset-password' &&
+		data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') {
+		data.digitalFoundationSignedIn = true
+		return res.redirect('/v1/candidates/digital-foundation')
+	}
+	if (pageId === 'reset-password' &&
+		data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Marketplace') {
+		data.digitalMarketplaceSignedIn = true
+		return res.redirect('/v1/candidates/digital-marketplace')
+	}
+	if (pageId === 'reset-password' &&
+		data.entryPoint === 'candidate' && data.candidateServiceName === 'Kahootz') {
+		data.kahootzSignedIn = true
+		return res.redirect('/v1/candidates/kahootz')
+	}
 	if (pageId === 'reset-password' &&
 		data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') {
 		data.fleetPortalSignedIn = true
@@ -234,6 +253,7 @@ module.exports = router => {
 	})
 
 	router.get('/v1/registration/sign-in-options', (req, res) => renderPage(req, res, 'v1/registration/sign-in-options', 'sign-in-options'))
+	router.get('/v1/services', (req, res) => renderPage(req, res, 'v1/services', 'services'))
 
 	router.get('/v1/registration', (req, res) => {
 		const data = getData(req)
@@ -257,6 +277,88 @@ module.exports = router => {
 	router.get('/v1/candidates/fleet-portal/sign-out', (req, res) => {
 		delete getData(req).fleetPortalSignedIn
 		res.redirect('/v1/candidates/fleet-portal')
+	})
+
+	router.get('/v1/candidates/kahootz', (req, res) => renderPage(req, res, 'v1/candidates/kahootz', 'kahootz'))
+
+	router.get('/v1/candidates/digital-foundation', (req, res) => renderPage(req, res, 'v1/candidates/digital-foundation', 'digital-foundation'))
+
+	for (const framework of [
+		'facilities-management/RM6232',
+		'management-consultancy/RM6309',
+		'legal-panel-for-government/RM6360',
+		'supply-teachers/RM6376',
+		'facilities-management/RM6378',
+		'legal-services/RM6374'
+	]) {
+		const frameworkId = framework.split('/')[1].toLowerCase()
+		router.get([
+			`/v1/candidates/digital-foundation/${framework}`,
+			`/v1/candidates/digital-foundation/${framework}/start`
+		], (req, res) => renderPage(req, res, `v1/candidates/digital-foundation/${frameworkId}`, frameworkId))
+	}
+
+	router.get('/v1/candidates/digital-foundation/login', (req, res) => {
+		const data = getData(req)
+		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'Digital Foundation'
+		data.candidateServicePath = '/v1/candidates/digital-foundation'
+		data.previousPage = 'home'
+		res.redirect('/v1/registration/sign-up-start')
+	})
+
+	router.get('/v1/candidates/digital-foundation/launch', (req, res) => {
+		getData(req).digitalFoundationSignedIn = true
+		res.redirect('/v1/candidates/digital-foundation')
+	})
+
+	router.get('/v1/candidates/digital-foundation/sign-out', (req, res) => {
+		delete getData(req).digitalFoundationSignedIn
+		res.redirect('/v1/candidates/digital-foundation')
+	})
+
+	router.get('/v1/candidates/digital-marketplace', (req, res) => renderPage(req, res, 'v1/candidates/digital-marketplace', 'digital-marketplace'))
+	router.get('/v1/candidates/digital-marketplace/suppliers/supply', (req, res) => renderPage(req, res, 'v1/candidates/digital-marketplace/supply', 'digital-marketplace-supply'))
+
+	router.get('/v1/candidates/digital-marketplace/launch', (req, res) => {
+		getData(req).digitalMarketplaceSignedIn = true
+		res.redirect('/v1/candidates/digital-marketplace')
+	})
+
+	router.get('/v1/candidates/digital-marketplace/sign-out', (req, res) => {
+		delete getData(req).digitalMarketplaceSignedIn
+		res.redirect('/v1/candidates/digital-marketplace')
+	})
+
+	router.get([
+		'/v1/candidates/digital-marketplace/login',
+		'/v1/candidates/digital-marketplace/suppliers/create/start'
+	], (req, res) => {
+		const data = getData(req)
+		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'Digital Marketplace'
+		data.candidateServicePath = '/v1/candidates/digital-marketplace'
+		data.previousPage = 'home'
+		res.redirect('/v1/registration/sign-up-start')
+	})
+
+	router.get('/v1/candidates/kahootz/launch', (req, res) => {
+		getData(req).kahootzSignedIn = true
+		res.redirect('/v1/candidates/kahootz')
+	})
+
+	router.get('/v1/candidates/kahootz/sign-out', (req, res) => {
+		delete getData(req).kahootzSignedIn
+		res.redirect('/v1/candidates/kahootz')
+	})
+
+	router.get(['/v1/candidates/kahootz/login', '/v1/candidates/kahootz/register'], (req, res) => {
+		const data = getData(req)
+		data.entryPoint = 'candidate'
+		data.candidateServiceName = 'Kahootz'
+		data.candidateServicePath = '/v1/candidates/kahootz'
+		data.previousPage = 'home'
+		res.redirect('/v1/registration/sign-up-start')
 	})
 
 	router.get('/v1/candidates/gca', (req, res) => renderPage(req, res, 'v1/candidates/gca', 'gca'))
@@ -568,16 +670,15 @@ module.exports = router => {
 		}
 		const email = data.email
 		if (organisation === 'new') {
-			const firstName = data.firstName || 'Test'
-			const lastName = data.lastName || 'User'
+			const fullName = getFullName(data) || 'Test User'
 			resetRegistration(data)
-			Object.assign(data, { email, firstName, lastName, registerAdditionalOrganisation: true })
+			Object.assign(data, { email, fullName, registerAdditionalOrganisation: true })
 			return res.redirect('/v1/registration/register-your-organisation')
 		}
 		if (organisation !== 'current-organisation') {
 			resetRegistration(data)
 			Object.assign(data, {
-				email, firstName: 'Test', lastName: 'User',
+				email, fullName: 'Test User',
 				organisationName: organisation,
 				organisationActivities: 'buyer',
 				organisationId: 'ORG-10000001',
@@ -589,6 +690,9 @@ module.exports = router => {
 		}
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'GCA') data.gcaSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Fleet Portal') data.fleetPortalSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Kahootz') data.kahootzSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Marketplace') data.digitalMarketplaceSignedIn = true
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') data.digitalFoundationSignedIn = true
 		if (data.entryPoint === 'candidate' && data.candidateServicePath) {
 			return res.redirect(data.candidateServicePath)
 		}
@@ -602,11 +706,11 @@ module.exports = router => {
 	router.post('/v1/registration/enter-your-name', (req, res) => {
 		const data = getData(req)
 		if (hasExistingOrganisations(data)) return res.redirect('/v1/registration/select-your-organisation')
-		data.firstName = text((req.body || {}).firstName)
-		data.lastName = text((req.body || {}).lastName)
+		data.fullName = text((req.body || {}).fullName)
+		delete data.firstName
+		delete data.lastName
 		const errors = {}
-		if (!data.firstName) errors.firstName = 'Enter your first name'
-		if (!data.lastName) errors.lastName = 'Enter your last name'
+		if (!data.fullName) errors.fullName = 'Enter your full name'
 		if (Object.keys(errors).length) {
 			return renderValidationErrors(req, res, 'enter-your-name', errors)
 		}
@@ -1105,6 +1209,15 @@ module.exports = router => {
 		}
 		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'GCA') {
 			data.gcaSignedIn = true
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Kahootz') {
+			data.kahootzSignedIn = true
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Marketplace') {
+			data.digitalMarketplaceSignedIn = true
+		}
+		if (data.entryPoint === 'candidate' && data.candidateServiceName === 'Digital Foundation') {
+			data.digitalFoundationSignedIn = true
 		}
 		renderPage(req, res, 'v1/registration/account-created', 'account-created')
 	})

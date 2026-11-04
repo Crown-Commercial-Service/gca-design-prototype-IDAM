@@ -1,13 +1,24 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% set pageName = "Sign in or create an account" %}
+{% set pageName = "Create your GCA service account or sign in" %}
 
 {% block pageContent %}
 <h1 class="govuk-heading-l">{{ pageName }}</h1>
-<p class="govuk-body">You can use GOV.UK One Login to access your GCA account.</p>
-<p class="govuk-body">If you already have a GOV.UK One Login you can use it to sign in. If you do not have one, you can create one on the next page.</p>
+<p class="govuk-body">This is the new way to sign in to all Government Commercial Agency (GCA) digital platforms and services. See which <a class="govuk-link" href="/v1/services">services you can access with a GCA service account</a>.</p>
+<p class="govuk-body">You will access your GCA service account using GOV.UK One Login. If you do not have one, you can create one on the next page.</p>
+<p class="govuk-body">To create an account you will need:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>your organisation email address - do not use a personal email address</li>
+  <li>a way to get security codes, such as a UK mobile phone number or an authenticator app</li>
+</ul>
 {{ govukButton({
-  text: "Continue with GOV.UK One Login",
+  text: "Go to GOV.UK One Login",
   href: "/" + version + "/registration/one-login/sign-up-start"
 }) }}
+<h2 class="govuk-heading-m">Why we use GOV.UK One Login</h2>
+<p class="govuk-body">We use GOV.UK One Login to make accessing our public sector platforms faster and more secure.</p>
+<p class="govuk-body">Signing in this way protects your account with 2-factor authentication. It also means you only need one set of sign-in details across all our digital services.</p>
+<h2 class="govuk-heading-m">If you already have an account for one of our services</h2>
+<p class="govuk-body">The GCA service account will replace the need to sign into different services individually. If you already have an account for one of our individual service platforms, you will need to create a new GCA service account using GOV.UK One Login.</p>
+<p class="govuk-body">We will use the details you provide in the registration process to link your new and old accounts together.</p>
 {% endblock %}

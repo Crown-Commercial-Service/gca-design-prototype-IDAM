@@ -11,6 +11,86 @@ Linux, including Railway. On Windows, use WSL or a compatible shell.
 
 ## Candidate service entry pages
 
+The [Digital Foundation agreement selector](app/views/v1/candidates/digital-foundation.html)
+is available at `/v1/candidates/digital-foundation` and linked from the prototype
+index and buyer-only organisation service list. All six agreements on
+[the live homepage](https://marketplace.service.gca.gov.uk/) have local start
+pages under `/v1/candidates/digital-foundation/<service>/<framework>/start`:
+Facilities Management RM6232 and RM6378, Management Consultancy RM6309,
+Legal Panel for Government RM6360, Supply Teachers RM6376 and Public Sector
+Legal Services RM6374. The corresponding URLs without `/start` also render
+these pages.
+
+The [framework templates](app/views/v1/candidates/digital-foundation) retain
+each agreement's original content, service navigation, survey link and
+framework-specific footer destinations, including the DfE branding and
+additional Supply Teachers guidance. The shared GCA shell and both original
+stylesheet variants are isolated from the main prototype styles. CSS, fonts,
+DfE logo and decorative assets are stored in `app/assets/digital-foundation`;
+font imports and asset paths are localised. The cookie banner, production
+scripts, tracking and CSRF tokens are excluded. The existing locally bundled
+GOV.UK service navigation handles mobile menus.
+
+Every **Start now**, **Create an account** and **Sign in** control enters the
+selected One Login/Auth0 flow via `/v1/candidates/digital-foundation/login`,
+retaining Digital Foundation as the return destination. Completed registrations,
+existing-organisation selection and password resets mark this service as signed
+in. **Sign out** replaces account links, clears only the simulated Digital
+Foundation state and returns to the agreement selector. The organisation-home
+link opens the signed-in selector via `/v1/candidates/digital-foundation/launch`.
+Guidance and other content links retain their live destinations, including
+references to DfE Sign-in; actual prototype authentication uses the selected
+IDAM provider. All pages are marked noindex and retain Crown copyright.
+
+The [Digital Marketplace homepage](app/views/v1/candidates/digital-marketplace.html)
+is available at `/v1/candidates/digital-marketplace`, linked from the prototype
+index. **Become a supplier** opens the local
+[supplier page](app/views/v1/candidates/digital-marketplace/supply.html) at
+`/v1/candidates/digital-marketplace/suppliers/supply`.
+Both pages reproduce the content and layout from
+[the development Marketplace](https://www.development.marketplace.team/),
+including their distinct footer link lists. The cookie banner is deliberately
+omitted. Original CSS, fonts, favicon and copyright crest are stored locally in
+`app/assets/digital-marketplace`; CSS asset paths are rewritten for local use.
+The installed GOV.UK Frontend service-navigation bundle handles the mobile menu.
+Production scripts, analytics and cookies are not included.
+
+**Create a Digital Marketplace supplier account** and header **Log in** enter
+the selected One Login/Auth0 journey through `/v1/registration/sign-up-start`,
+retaining Digital Marketplace as the candidate return destination. Completed
+registrations, existing-organisation selection and password resets mark the
+local service as signed in; **Log out** then replaces **Log in** on both pages.
+Logging out clears only this service's simulated sign-in state. The Digital
+Marketplace link on organisation home opens the signed-in homepage through
+`/v1/candidates/digital-marketplace/launch`.
+Other content links keep their original live destinations. The downloaded
+application deadline and framework availability text are retained verbatim,
+not inferred from the current date. Crown copyright and Open Government Licence
+attributions are retained, and both pages are marked noindex.
+
+The [Kahootz landing page](app/views/v1/candidates/kahootz.html) is available at
+`/v1/candidates/kahootz` and linked from the prototype index. Its standalone
+layout matches the public [Market Strategy Collaboration site](https://categorystrategy.kahootz.com/),
+using its downloaded site stylesheet, combined GCA logo, icon font and favicon,
+stored locally in `app/assets/kahootz`. The original stylesheet is unmodified;
+`kahootz.css` selects local logo/font assets and sizes the account box.
+The header, responsive layout and footer use the live site's markup and classes.
+A single **Log in or register** box replaces the live site's separate login and
+registration forms, using its original panel and button styling.
+Production scripts, analytics and session tokens
+are excluded.
+**Log in** and **Register** use the same selected-provider flow as Fleet Portal,
+retaining Kahootz as the return destination. Simulated authentication remains
+in the existing prototype provider pages.
+The **Log in or register** button opens the selected prototype provider,
+where users can log in, create an account or recover their password.
+No credentials are collected on the landing page.
+Completed registration, existing-organisation selection and password resets
+return to Kahootz with **Log out** replacing the login and registration controls.
+Logging out clears only the simulated Kahootz sign-in state.
+The buyer-only Kahootz link on organisation home opens the signed-in page via
+`/v1/candidates/kahootz/launch`.
+
 The [GCA homepage](app/views/v1/candidates/gca.html) is available at
 `/v1/candidates/gca` and linked from the prototype index. It reproduces
 [www.gca.gov.uk](https://www.gca.gov.uk/) for prototype route testing, with
@@ -71,7 +151,10 @@ including Fleet Portal, Digital Marketplace and RMI. The single-column list uses
 GOV.UK Services and information-style linked headings, descriptions, dividers and
 chevrons. Fleet Portal opens the signed-in local candidate page through
 `/v1/candidates/fleet-portal/launch`, which sets the existing simulated sign-in
-state without restarting registration. The other services use
+state without restarting registration. Kahootz uses the equivalent
+`/v1/candidates/kahootz/launch` route. Digital Marketplace uses
+`/v1/candidates/digital-marketplace/launch`, and Digital Foundation uses
+`/v1/candidates/digital-foundation/launch`. The other services use
 placeholder `href="#"` links.
 The list uses the organisation's buyer/supplier registration choice: Digital
 Foundation, Contract Award Service and Kahootz are buyer-only; RMI is supplier-only.
@@ -93,6 +176,21 @@ remain read-only. Address lookup results can be replaced through manual address
 entry. Normal registration routing is unchanged.
 
 ## Login setup
+
+The One Login introduction at `/v1/registration/sign-in-options` uses the reviewed
+**Create your GCA service account or sign in** content and links to `/v1/services`.
+This public guidance page lists all 13 buyer and supplier services without
+organisation details, role filtering or simulated sign-in. It shares the service
+catalogue and list rendering with organisation home; candidate links open public
+landing pages rather than signed-in launch routes.
+
+The shared name-entry page at `/v1/registration/enter-your-name` now asks for
+**Full name** under **Complete your GCA service account**, for both providers.
+Empty or whitespace-only submissions show **Enter your full name**. Names are
+stored as entered (trimmed), without splitting into assumed first/last names,
+and used on confirmation and check-answers pages. Existing session first/last
+names remain readable until the full name is updated. Registering an additional
+organisation retains the full name.
 
 For both Auth0 and One Login, completing a password reset that started from
 Fleet Portal returns directly to `/v1/candidates/fleet-portal`, bypassing name
@@ -124,7 +222,7 @@ Choosing an organisation and continuing opens organisation home or returns to th
 originating candidate service. Normal sign-in routing is unchanged. Authentication, delivery and
 expiry are simulated; codes and passwords are not validated or stored.
 
-After entering their first and last names, new users see a **User account created**
+After entering their full name, new users see a **User account created**
 confirmation at `/v1/registration/user-account-created`. Continue opens the
 organisation registration introduction. `test@test.com` bypasses both name entry
 and this confirmation and goes to the organisation chooser instead.
@@ -163,7 +261,7 @@ message, authenticator app or no two-factor authentication. Choosing none asks f
 confirmation; choosing No returns to the method selection. All completed branches
 show a basic next-steps page explaining that users can create an organisation
 account or access GCA services on behalf of an organisation they are already part
-of. Continue then opens the first name and last name page.
+of. Continue then opens the full name page.
 
 Auth0 sign-in collects email and password on one page, then always shows the
 text-message code page before continuing to the organisation journey.

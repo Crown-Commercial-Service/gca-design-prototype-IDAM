@@ -1,0 +1,82 @@
+{% extends "layouts/digital-foundation.html" %}
+{% set foundationPageTitle = "Find supply teachers and agency staff: Government Commercial Agency" %}
+{% set foundationStylesheet = "frameworks.css" %}
+{% set footerPath = "/supply-teachers/RM6376" %}
+{% set feedbackUrl = "https://surveys.gca.gov.uk/jfe/form/SV_2lvdOWaM7JKdqJw" %}
+{% set contactUrl = "https://www.gca.gov.uk/contact?service=Supply+Teachers" %}
+
+{% block serviceNavigation %}
+<section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service information"><div class="govuk-width-container"><div class="govuk-service-navigation__container"><span class="govuk-service-navigation__service-name"><span class="govuk-service-navigation__text">Supply Teachers and Education Recruitment</span></span><nav aria-label="Menu" class="govuk-service-navigation__wrapper"><button name="button" type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" aria-hidden="true" hidden="hidden">Menu</button><ul id="navigation" class="govuk-service-navigation__list"><li class="govuk-service-navigation__item govuk-service-navigation__item--active"><a aria-current="true" class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/supply-teachers/RM6376/start"><strong class="govuk-service-navigation__active-fallback">Back to start</strong></a></li>{% if data.digitalFoundationSignedIn %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/sign-out">Sign out</a></li>{% else %}<li class="govuk-service-navigation__item"><a class="govuk-service-navigation__link" href="/v1/candidates/digital-foundation/login">Sign in</a></li>{% endif %}</ul></nav></div></div></section>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Supply Teachers and Education Recruitment</h1>
+
+      <div class="ccs-logo__dfe">
+        <p class="govuk-body-s">Supported by:</p>
+        <img alt="Department for Education" width="145px;" viewBox="0 0 640 480" src="/public/digital-foundation/department-for-education.svg" />
+      </div>
+
+      <p class="govuk-body">Use this service to:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>find and hire a worker using an agency</li>
+        <li>hire a specific person using an agency (a ‘nominated worker’)</li>
+        <li>find a managed service provider, who can take on all your temporary staff needs</li>
+        <li>find a supplier that will provide a digital platform to create a pool of workers</li>
+        <li>view the rates agencies charge</li>
+        <li>create a shortlist of agencies based on your needs and download it</li>
+        <li>calculate the maximum you could be charged to make your agency worker permanent</li>
+        <li>view a list of all the agencies</li>
+      </ul>
+
+
+      <p class="govuk-body">
+        To find permanent teaching staff, use the <a aria-label="Visit the Teaching Vacancies service website" href="https://www.gov.uk/guidance/list-a-teaching-job-at-your-school-on-teaching-vacancies">Teaching Vacancies</a> service.
+      </p>
+
+
+      <p class="govuk-body">You can’t use this service if you’re an independent school, unless you have charitable status.</p>
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+
+      <p class="govuk-body">You will need to have:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>your DfE Sign-in email address and password. If you don’t have an account, you can <a href="https://help.signin.education.gov.uk/contact/service/45df2595-90b2-4662-b1ad-a94afa60615b/create-account">get a DfE Sign-in account</a> if your school is on the <a href="https://get-information-schools.service.gov.uk/">Get Information About Schools (GIAS) register</a></li>
+        <li>your school’s postcode</li>
+        <li>details of how long you will want the worker</li>
+      </ul>
+
+
+
+      <h2 class="govuk-heading-m">Accreditation of agencies</h2>
+
+      <p class="govuk-body">All agencies have undergone background screening and safeguarding to DfE’s Keeping Children Safe in Education standards. They are audited and accredited against best practice standards in education recruitment.</p>
+
+      <a aria-label="Start now" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button" role="button" draggable="false" href="/v1/candidates/digital-foundation/login">Start now<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" /></svg></a>
+
+      <h2 class="govuk-heading-m">Buyers’ obligations for agency data</h2>
+
+      <p class="govuk-body">This service contains pricing information for agencies on the <a href="https://www.gov.uk/guidance/deal-for-schools-hiring-supply-teachers-and-agency-workers" aria-label="Deal for schools hiring supply teachers and education recruitment">supply teachers deal</a>. This is confidential and can be considered commercially sensitive.</p>
+
+      <p class="govuk-body">By using the service, you acknowledge and accept responsibility for keeping this information confidential plus the following requirements, and not sharing it wider than your school.</p>
+
+      <p class="govuk-body">In consideration of being given use of the confidential information included in the service, you and your employees will need to:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>keep the information confidential and not share it in any way unless you have permission from Government Commercial Agency (GCA) in writing</li>
+        <li>only use the information for buying services under the GCA framework agreement for supply teachers and temporary staff</li>
+        <li>make sure the confidential information is stored securely and that only people using the service to buy under the framework have access to it</li>
+        <li>tell GCA if you suspect unauthorised access, copying, use or disclosure of the confidential information</li>
+      </ul>
+
+      <p class="govuk-body">You must tell your employees of the confidential nature of the information and must also agree to the requirements. No agents, sub-contractors, third parties nor other non-employees can have access to the confidential information.</p>
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "layouts/digital-marketplace.html" %}
+
+{% block pageTitle %}Become a supplier – Digital Marketplace{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="govuk-breadcrumbs" aria-label="Breadcrumb">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/v1/candidates/digital-marketplace">Digital Marketplace</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Become a supplier</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Become a supplier</h1>
+        <h2 class="govuk-heading-m">Services you can apply to sell</h2>
+          <h3 class="govuk-heading-s">Digital Outcomes and Specialists</h3>
+<p class="govuk-body">Digital Outcomes and Specialists is open for applications.</p>
+<p class="govuk-body">You can apply to sell:</p>
+<ul class="govuk-list govuk-list--bullet">
+<li>Digital Outcomes</li>
+<li>Digital Capability and Delivery Partners</li>
+<li>Digital Specialists</li>
+<li>User Research Studios and Participants</li>
+</ul>
+        <p class="govuk-body">
+          <a class="govuk-link"
+             href="/v1/candidates/digital-marketplace/suppliers/create/start"
+          >
+            Create a Digital Marketplace supplier account
+          </a>
+        </p>
+          <h2 class="govuk-heading-m">Services you can’t apply to sell at the moment</h2>
+            <h3 class="govuk-heading-s">G-Cloud</h3>
+<p class="govuk-body">G-Cloud is currently closed for applications.</p>
+<p class="govuk-body">However, you will be able to sell:</p>
+<ul class="govuk-list govuk-list--bullet">
+<li>IaaS and PaaS (containing Hyperscalers and major resellers)</li>
+<li>IaaS and PaaS (at above Official)</li>
+<li>Infrastructure and Service Management Software</li>
+<li>Other SaaS</li>
+<li>Cloud Support Services</li>
+</ul>
+        <p class="govuk-body">
+          <a class="govuk-link"
+             href="https://www.development.marketplace.team/suppliers/mailing-list"
+          >
+            Get notifications when applications are opening
+          </a>
+        </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block footerNavigation %}
+<div class="govuk-footer__navigation">
+          <div class="govuk-footer__section govuk-grid-column-one-half">
+            <h2 class="govuk-footer__heading govuk-heading-m">About Digital Marketplace</h2>
+              <ul class="govuk-footer__list">
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gca.gov.uk/contact">
+                        Contact
+                      </a>
+                    </li>
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/crown-commercial-service">
+                        About Government Commercial Agency
+                      </a>
+                    </li>
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/government-digital-service">
+                        About Government Digital Services
+                      </a>
+                    </li>
+              </ul>
+          </div>
+          <div class="govuk-footer__section govuk-grid-column-one-half">
+            <h2 class="govuk-footer__heading govuk-heading-m">Guidance for using Digital Marketplace</h2>
+              <ul class="govuk-footer__list">
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gov.uk/guidance/g-cloud-suppliers-guide">
+                        Applying to sell on the G-Cloud framework
+                      </a>
+                    </li>
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gca.gov.uk/information-for-buyers-and-suppliers/start-supplying">
+                        Applying to sell on the DOS framework
+                      </a>
+                    </li>
+                    <li class="govuk-footer__list-item">
+                      <a class="govuk-footer__link" href="https://www.gov.uk/guidance/how-to-sell-your-digital-outcomes-and-specialists-services">
+                        Responding to buyer requirements on the DOS framework
+                      </a>
+                    </li>
+              </ul>
+          </div>
+      </div>
+{% endblock %}

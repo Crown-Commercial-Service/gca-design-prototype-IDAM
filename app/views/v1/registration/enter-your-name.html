@@ -1,25 +1,13 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% set pageName = "Enter your name" if data.loginMethod == "auth0" else "Create your GCA account" %}
+{% set pageName = "Complete your GCA service account" %}
 
 {% block pageContent %}
-{% if data.loginMethod == "auth0" %}
-<h1 class="govuk-heading-l">Enter your name</h1>
-{% else %}
-<h1 class="govuk-heading-xl">Create your GCA account</h1>
-<p class="govuk-body">Before your GCA Login account can be created we need to gather some additional information.</p>
-<p class="govuk-body">Once your account has been created you will be able to: </p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>access any organisations you are already associated with</li>
-  <li>register a new organisation you wish to be an administrator for</li>
-</ul>
-
-<h2 class="govuk-heading-m">Your details</h2>
-{% endif %}
+<h1 class="govuk-heading-xl">{{ pageName }}</h1>
+<p class="govuk-body">Enter your name to finish setting up your account.</p>
 <form method="post" action="/{{ version }}/registration/{{ pageId }}" novalidate>
-  {{ govukInput({ id: "firstName", name: "firstName", label: { text: "First name" }, value: data.firstName, autocomplete: "given-name", errorMessage: errors.firstName }) }}
-  {{ govukInput({ id: "lastName", name: "lastName", label: { text: "Last name" }, value: data.lastName, autocomplete: "family-name", errorMessage: errors.lastName }) }}
+  {{ govukInput({ id: "fullName", name: "fullName", label: { text: "Full name" }, value: userFullName, autocomplete: "name", errorMessage: errors.fullName }) }}
   {{ govukButton({ text: "Continue" }) }}
 </form>
 {% endblock %}

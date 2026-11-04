@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "fontello";
+  src: url("fonts/fontello.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#ppuLogo {
+  background-image: url("categorystrategy-logo-488x44.png");
+}
+
+.kahootz-account {
+  max-width: 400px;
+  width: 100%;
+}
