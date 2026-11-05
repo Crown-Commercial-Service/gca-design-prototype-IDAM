@@ -1,7 +1,7 @@
 {% extends "layouts/main.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
-{% set pageName = "User account created" %}
+{% set pageName = "GCA service account created" %}
 {% set mainClasses = "govuk-main-wrapper--l" %}
 
 {% block pageContent %}
@@ -9,11 +9,15 @@
   classes: "organisation-account-confirmation",
   titleText: pageName
 }) }}
-<p class="govuk-body">Your user account has been created for {{ userFullName }} <strong>({{ data.email }})</strong>.</p>
+<p class="govuk-body">{{ userFullName or "John Smith" }}, your user account is ready.</p>
 <h2 class="govuk-heading-m">What happens next</h2>
-<p class="govuk-body">If your account has already been invited to an organisation you will now be able to access it.</p>
-
-<p class="govuk-body">If you are not yet part of an organisation, you will need to register it before you can access GCA services on its behalf, or have someone else register it and invite you.</p>
+<p class="govuk-body">To use GCA services, your user account must be linked to a buyer or supplier organisation.</p>
+<p class="govuk-body">What you need to do next depends on whether your organisation is already registered. If your:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>account is already linked to a registered organisation you can select it and access GCA services</li>
+  <li>organisation is not registered, you can register it or ask a colleague to do so</li>
+</ul>
+<p class="govuk-body">Note: The person who registers the organisation will become its admin and will manage user access. If this should not be you, ask the appropriate person to register your organisation and invite you.</p>
 <form method="post" action="/{{ version }}/registration/user-account-created">
   {{ govukButton({ text: "Continue" }) }}
 </form>
