@@ -134,8 +134,10 @@ retain GCA as the candidate service. With Auth0 selected, Create account goes
 directly to email entry and Sign in goes directly to the sign-in form, clearing
 previous registration answers while retaining theme, provider and GCA context.
 With One Login selected, both links go to its shared start page.
-The confirmation page returns to the local GCA homepage, where **Sign out**
-replaces these account links. Signing out resets that simulated GCA sign-in
+The organisation-account confirmation uses the normal **Continue to your GCA
+account home** button and opens `/v1/organisation-home` rather than returning
+to the GCA website. The local GCA homepage shows **Sign out** in place of its
+account links once registration is complete. Signing out resets that simulated GCA sign-in
 state. Links to other services, search forms and other content retain their
 live destinations.
 

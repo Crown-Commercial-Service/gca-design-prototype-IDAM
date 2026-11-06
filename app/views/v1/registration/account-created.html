@@ -19,7 +19,7 @@
   <p class="govuk-body">You are the administrator for {{ organisationDisplay.name }}. You are responsible for managing who can access the service and act on your organisation's behalf.</p>
 {% endif %}
 
-{% if data.entryPoint == "candidate" %}
+{% if data.entryPoint == "candidate" and data.candidateServiceName != "GCA" %}
   <p class="govuk-body">You can now return to {{ data.candidateServiceName }} to continue.</p>
   {{ govukButton({
     text: "Return to " ~ data.candidateServiceName,
