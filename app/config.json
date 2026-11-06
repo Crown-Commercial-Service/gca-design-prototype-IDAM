@@ -1,5 +1,6 @@
 {
   "serviceName": "GCA Service Login",
+  "useAuth": false,
   "useServiceNavigation": false,
   "plugins": {
     "govuk-frontend": {
