@@ -11,6 +11,11 @@ Linux, including Railway. On Windows, use WSL or a compatible shell.
 
 ## Candidate service entry pages
 
+All candidate service pages load the Useberry live-URL integration script once
+within the body, including pages using the shared Digital Foundation and Digital
+Marketplace layouts. References below to excluded production analytics concern
+the original services' scripts, not this prototype research integration.
+
 The [Digital Foundation agreement selector](app/views/v1/candidates/digital-foundation.html)
 is available at `/v1/candidates/digital-foundation` and linked from the prototype
 index and buyer-only organisation service list. All six agreements on
