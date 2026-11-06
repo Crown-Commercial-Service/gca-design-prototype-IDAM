@@ -6,6 +6,15 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
+router.use((req, res, next) => {
+	if (req.secure) {
+		req.session.cookie.sameSite = 'none'
+		req.session.cookie.secure = true
+		req.session.cookie.partitioned = true
+	}
+	next()
+})
+
 // Add your routes here
 require('./routes/v1')(router)
 

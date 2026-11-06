@@ -9,6 +9,16 @@ No forwarding stylesheet or changes to installed packages are needed.
 These commands use shell environment-variable syntax supported on macOS and
 Linux, including Railway. On Windows, use WSL or a compatible shell.
 
+## Embedded research sessions
+
+On HTTPS, session cookies use `SameSite=None`, `Secure` and `Partitioned` so
+answers persist when the prototype is embedded in Useberry. The production
+server's existing trusted-proxy configuration recognises Railway HTTPS requests.
+Local HTTP development retains the Prototype Kit's default cookie behaviour.
+Partitioned sessions are separate for each embedding site and direct visits.
+Browsers that reject all embedded cookies may still require opening the prototype
+directly; this does not change the server-side storage of answers.
+
 ## Candidate service entry pages
 
 All candidate service pages load the Useberry live-URL integration script once
